@@ -211,8 +211,14 @@ addReact <- function(model,
             
             # subsystems
             if (any(is.na(subSystem))) {
-                newsubSys <- rBind(subSys(model),
-                                   rep(FALSE, ncol(subSys(model))))
+            	ss <- subSys(model)
+            	if(ncol(ss)==0){ # if no subSys defined, rbind (see else) failed
+            		dim(ss) <- c(nrow(ss)+1, ncol(ss))
+            		newsubSys <- ss
+            	}
+            	else {
+            		newsubSys <- rBind(ss, rep(FALSE, ncol(subSys(model))))
+            	}
             }
             else {
                 if (is(subSystem, "logical")) {
@@ -230,14 +236,12 @@ addReact <- function(model,
                 newrxnGeneMat   <- rBind(rxnGeneMat(model),
                                          rep(FALSE, ncol(rxnGeneMat(model))))
             }
-            else if (nrow(rxnGeneMat(model)) > 0) {
+            else { #if (nrow(rxnGeneMat(model)) > 0) {
                 newrxnGeneMat <- rxnGeneMat(model)
                 dim(newrxnGeneMat) <- c(nrow(newrxnGeneMat)+1,
                                         ncol(newrxnGeneMat))
             }
-            else {
-                newrxnGeneMat <- rxnGeneMat(model)
-            }
+            # do above else always.
 
             if ( (is.na(gprAssoc)) || (gprAssoc == "") ) {
                 if ((length(gprRules(model)) > 0)) {
@@ -274,14 +278,9 @@ addReact <- function(model,
 	    					newrxnGeneMat <- cBind(newrxnGeneMat,
 		    								   rep(FALSE, nrow(newrxnGeneMat)))
 			    		}
-#                        print("arsch")
 					}
                 }
 
-#                print(newrxnGeneMat)
-#                print(nCols)
-#                print(geneInd)
-            
                 # rxnGeneMat
                 newrxnGeneMat[nCols, geneInd] <- TRUE
  

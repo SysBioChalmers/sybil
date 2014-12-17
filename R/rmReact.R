@@ -148,8 +148,16 @@ rmReact <- function(model, react, rm_met = TRUE) {
       subSys(mod_out)       <- subSys(model)[keepReact, , drop = FALSE]
 
       ag                    <- unique(unlist(genes(mod_out)))
-      ncag                  <- nchar(ag)
-      allGenes(mod_out)     <- ag[which(ncag != 0)]
+      # old code tried to assign NULL to allGenes, if no gene was left.
+      if(length(ag)==0){
+      	allGenes(mod_out)   <- character(0)
+      }
+      else {
+      	ncag                <- nchar(ag)
+     	ag					<- ag[which(ncag != 0)]
+      	allGenes(mod_out)   <- ag
+      }
+      
 
       # reaction to gene mapping
       #SrGMbin     <- rxnGeneMat(mod_out) != 0
