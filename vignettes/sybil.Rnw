@@ -1,0 +1,1494 @@
+\documentclass[a4paper,headings=small,captions=tableheading]{scrartcl}
+\usepackage[english]{babel}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{textcomp,lmodern}
+\typearea[current]{last}
+\usepackage{fixltx2e,mparhack,mathdots}
+
+
+\usepackage{xspace}
+\usepackage{paralist}
+\usepackage{footmisc}
+\usepackage{booktabs}
+\usepackage{natbib}
+\usepackage{hyperref}
+
+\usepackage{microtype}
+
+\newcommand{\Comp}[1]{\texttt{#1}}
+
+\addtolength{\skip\footins}{0.5\baselineskip}
+\usepackage{fnpos}
+
+
+\hypersetup{
+    pdftitle = {sybil -- Efficient Constrained Based Modelling in R},
+    pdfauthor = {Gabriel Gelius-Dietrich},
+    pdfsubject = {constrained based modelling},
+    pdfkeywords = {Optimization, FBA, MOMA, ROOM},
+    pdfborder = {0 0 0},
+    pdfhighlight = {/N}
+}
+
+
+% glyphs in pdf figures
+\pdfinclusioncopyfonts=1
+
+\newcommand{\pkg}[1]{\emph{#1}}
+\newcommand{\pkgname}{\pkg{sybil}\xspace}
+\newcommand{\prgname}[1]{\textsc{#1}}
+
+%\newcommand{\cplex}{IBM\textregistered{} %
+%                    ILOG\textregistered{} CPLEX\textregistered{}%
+%}
+\newcommand{\cplex}{IBM ILOG CPLEX}
+
+\title{sybil -- Efficient Constrained Based Modelling in R}
+%\VignetteIndexEntry{sybil -- Efficient Constrained Based Modelling in R}
+%\VignettePackage{sybil}
+\author{Gabriel Gelius-Dietrich}
+
+
+% ---------------------------------------------------------------------------- %
+% entire document
+% ---------------------------------------------------------------------------- %
+
+\begin{document}
+
+
+\maketitle
+
+\tableofcontents
+
+% ---------------------------------------------------------------------------- %
+
+\section{Introduction}
+
+The R-package \pkgname{} is a Systems Biology Library for R, implementing
+algorithms for constraint based analysis of metabolic networks.
+Among other functions, \pkgname currently provides efficient methods for
+flux-balance analysis (FBA), minimization of metabolic adjustment (MOMA),
+regulatory on/off minimization (ROOM), flux variability Analysis and robustness
+Analysis.
+The package \pkgname{} makes use of the sparse matrix implementation in the
+R-package \pkg{Matrix}.
+
+
+% ---------------------------------------------------------------------------- %
+
+\section{Installation}
+
+The package \pkgname{} itself depends on an existing installation of the
+package \pkg{Matrix}.  In order to run optimizations, at least one of the
+following additional R-packages and the corresponding libraries are required:
+\pkg{glpkAPI}, \pkg{cplexAPI}, \pkg{clpAPI} or \pkg{lpSolveAPI}.
+These packages are available from
+CRAN\footnote{\url{http://cran.r-project.org/}\label{cranfoot}}.
+Additionally, \pkg{sybilGUROBI}---supporting the Gurobi
+optimizer\footnote{\url{http://www.gurobi.com}}---is available on request.
+
+
+% ---------------------------------------------------------------------------- %
+
+\section{Input files}
+\label{inputformats}
+
+Input files for \pkgname are text files containing a description of the
+metabolic model to analyze.  These descriptions are basically lists of
+reactions.
+Two fundamentally different types of text files are supported:
+\begin{inparaenum}[i)]
+\item in tabular form (section~\ref{tabmod}), or
+\item in SBML format (section~\ref{sbmlmod}).
+\end{inparaenum}
+
+
+% ---------------------------------------------------------------------------- %
+
+\subsection{Tabular form} \label{tabmod}
+
+Models in tabular form can be read using the function \Comp{readTSVmod()} and
+written using the function \Comp{modelorg2tsv()}.
+Each metabolic model description consists of three tables:
+\begin{enumerate}
+\item A model description, containing a model name, the compartments of the
+      model and so on (section~\ref{moddesc}).
+\item A list of all metabolites (section~\ref{metlist}).
+\item A list of all reactions (section~\ref{reactlist}).
+\end{enumerate}
+A model must contain at least a list of all reactions.  All other tables are
+optional.  The tables contain columns storing the required data.  Some of these
+columns are optional, but if a certain table exists, there must be a minimal set
+of columns.  The column names (the first line in each file) are used as keywords
+and cannot be changed.
+
+
+% ---------------------------------------------------------------------------- %
+
+\subsubsection{Field and entry delimiter} \label{delim}
+
+There are two important variables in connection with text based tables:  The
+fields (columns) of the tables are separated by the value stored in the variable
+\Comp{fielddelim}.  If a single entry of a field contains a list of entries,
+they are separated by the value of the variable \Comp{entrydelim}.
+The default values are given table~\ref{delimtab}.
+\begin{table}
+\centering
+\caption{Field and entry delimiters and their default values.}
+\label{delimtab}
+\begin{tabular}{cc}
+\toprule
+variable          & default value             \\
+\midrule
+\Comp{fielddelim} & \Comp{\textbackslash t}   \\
+\Comp{entrydelim} & \Comp{,\textvisiblespace} \\
+\bottomrule
+\end{tabular}
+\end{table}
+The default behavior is, that the columns of each table are separated by a
+single \Comp{tab} character. If a column entry holds more than one entry, they
+are separated by a comma followed by a single
+whitespace \Comp{\textvisiblespace} (not a tab!).
+
+
+% ---------------------------------------------------------------------------- %
+
+\subsubsection{Model description} \label{moddesc}
+Every column in this table can have at most one entry, meaning each entry will
+be a single character string.  If a model description file is used, there should
+be at least the two columns \Comp{name} and \Comp{id}.  If they are
+missing---or if no model description file is used---they will be set to the file
+name of the reaction list, which must be there (any file name extension and the
+string \Comp{\_react} at the end of the file name, will be removed). The model
+description file contains the following fields:
+\begin{description}
+
+\item[name]
+A single character string giving the model name.  If this field is empty, the
+filename of the reaction list is used.
+
+\item[id]
+A single character string giving the model id.  If this field is empty, the
+filename of the reaction list is used.
+
+\item[description]
+A single character string giving a model description (optional).
+
+\item[compartment]
+A single character string containing the compartment names.  The names must be
+separated by the value of \Comp{fielddelim} (optional, see section~\ref{delim}).
+
+\item[abbreviation]
+A single character string containing the compartment abbreviations.  The
+abbreviations must be in square brackets and separated by the value of
+\Comp{fielddelim} as mentioned above (optional).
+
+\item[Nmetabolites]
+A single integer value giving the number of metabolites in the model (optional).
+
+\item[Nreactions]
+A single integer value giving the number of reactions in the model (optional).
+
+\item[Ngenes]
+A single integer value giving the number of unique, independent genes in the
+model (optional).
+
+\item[Nnnz]
+A single integer value giving the number of non-zero elements in the
+stoichiometric matrix of the model (optional).
+
+\end{description}
+The file \Comp{Ec\_core\_desc.tsv} (in \Comp{extdata/}) contains an exemplarily
+table for the core energy metabolism of \emph{E.~coli}
+\citep{Palsson:2006fk,Orth:2010fk}.
+
+
+% ---------------------------------------------------------------------------- %
+
+\subsubsection{Metabolite list} \label{metlist}
+
+This table is used in order to match metabolite id's given in the list of
+reactions to long metabolite names.  This table is optional, but if it is used,
+the columns \Comp{abbreviation} and \Comp{name} should not be empty.
+\begin{description}
+
+\item[abbreviation]
+A list of single character strings containing the metabolite abbreviations.
+
+\item[name]
+A list of single character strings containing the metabolite names.
+
+\item[compartment]
+A list of character strings containing the metabolite compartment names. Each
+entry can contain more than one compartment name, separated by \Comp{fielddelim}
+(optional, currently unused).
+
+\end{description}
+The file \Comp{Ec\_core\_met.tsv} (in \Comp{extdata/}) contains an exemplarily
+table for the core energy metabolism of \emph{E.~coli}
+\citep{Palsson:2006fk,Orth:2010fk}.
+
+
+% ---------------------------------------------------------------------------- %
+
+\subsubsection{Reaction list} \label{reactlist}
+
+This table contains the reaction equations used in the metabolic network.
+\begin{description}
+
+\item[abbreviation]
+A list of single character strings containing the reaction abbreviations
+(optional, if empty, a warning will be produced).  Entries in the field
+abbreviation are used as reaction id's, so they must be unique.  If they are
+missing, they will be set to $v_i,\ i \in \{1, \dots, n\}\ \forall i$ with
+$n$ being the total number of reactions.
+
+\item[name]
+A list of single character strings containing the reaction names (optional, if
+empty, the reaction id's (abbreviations) are used as reaction names.
+
+\item[equation]
+A list of single character strings containing the reaction equation. See
+section~\ref{writeEQ} for a description of reaction equation strings.
+
+\item[reversible]
+A list of single character strings indicating if a particular reaction is
+reversible or not. If the entry is set to \Comp{Reversible} or \Comp{TRUE}, the
+reaction is considered as reversible, otherwise not. If this column is not used,
+the arrow symbol of the reaction string is used (optional, see
+section~\ref{writeEQ}).
+
+\item[compartment]
+A list of character strings containing the compartment names in which the
+current reaction takes place. Each entry can contain more than one name,
+separated by \Comp{fielddelim} (optional, currently unused).
+
+\item[lowbnd]
+A list of numeric values containing the lower bounds of the reaction rates.
+If not set, zero is used for an irreversible reaction and the value of
+\Comp{def\_bnd * -1} for a reversible reaction. See documentation of the
+function \Comp{readTSVmod} for the argument \Comp{def\_bnd} (optional).
+
+\item[uppbnd]
+A list of numeric values containing the upper bounds of the reaction rates.
+If not set, the value of \Comp{def\_bnd} is used. See documentation of the
+function \Comp{readTSVmod} for the argument \Comp{def\_bnd} (optional).
+
+\item[obj\_coef]
+A list of numeric values containing objective values for each reaction
+(optional, if missing, zero is used).
+
+\item[rule]
+A list of single character strings containing the gene to reaction associations
+(optional).
+
+\item[subsystem]
+A list of character strings containing the reaction subsystems. Each reaction
+can belong to more than one subsystem. The entries are separated by
+\Comp{fielddelim} (optional).
+
+\end{description}
+The file \Comp{Ec\_core\_react.tsv} (in \Comp{extdata/}) contains an exemplarily
+table for the core energy metabolism of \emph{E.~coli}
+\citep{Palsson:2006fk,Orth:2010fk}.
+
+
+% ---------------------------------------------------------------------------- %
+
+\subsubsection{How to write a reaction equation string} \label{writeEQ}
+
+\begin{figure}[t]
+\centering
+\includegraphics{net-crop}
+\caption{Simple example network.  A) showing a closed network, B) an open
+         network.  Capital letters are used as metabolite id's, lower case
+         letters are used as compartment id's: b: boundary metabolite,
+         c:~cytosol and e: external metabolite.  Internal reactions are named
+         $v_{1:7}$, transport reactions $b_{1:3}$. Reactions $v_3$ and $v_4$ are
+         reversible, all others are irreversible.
+         Metabolites A\textsubscript{b}, C\textsubscript{b} and
+         E\textsubscript{b} are boundary metabolites and will be removed in
+         order to obtain an open network.}
+\label{netex}
+\end{figure}
+
+Any reaction string can be written without space. They are not required
+but showed here, in order to make the string more human readable.
+
+\paragraph{Compartment Flag} Each reaction string may start with a compartment
+flag in square brackets followed by a colon. The compartment flag here gives the
+location of all metabolites appearing in the reaction.
+\begin{verbatim}
+[c] :
+\end{verbatim}
+The compartment flag can consist of more than one letter and---if used---must be
+an element of the field \Comp{abbreviation} in the model description. The letter
+\Comp{b} is reserved for boundary metabolites (argument \Comp{extMetFlag} in
+function \Comp{readTSVmod()}), which can be transported inside the system (those
+metabolites are only used in closed systems and will be removed during file
+parsing).
+
+If the reaction string does not start with a compartment flag, the flag may be
+appended (without whitespace) to each metabolite id (e.\,g. for transport
+reactions):
+\begin{verbatim}
+h2o[e] <==> h2o[c]
+\end{verbatim}
+If no compartment flag is found, it is set to \Comp{[unknown]}.
+
+\paragraph{Reaction Arrow}
+All reactions must be written in the direction educt to product, so that all
+metabolites left of the reaction arrow are considered as educts, all metabolites
+on the right of the reaction arrow are products.
+
+The reaction arrow itself consists of one or more \Comp{=} or \Comp{-} symbols.
+The last symbol must be a \Comp{>}. If a reaction arrow starts with \Comp{<}, it
+is taken as reversible, if the field \Comp{reversible} in the reaction list is
+empty.  If the field \Comp{reversible} is set to \Comp{TRUE} or
+\Comp{Reversible}, the reactions will be treated as a reversible reaction,
+independent of the reaction arrow.  Each reaction must contain exactly one
+reaction arrow.
+
+\paragraph{Stoichiometric Coefficients}
+Stoichiometric coefficients must be in round brackets in front of the
+corresponding metabolite:
+\begin{verbatim}
+(2) h[c] + (0.5) o2[c] + q8h2[c] --> h2o[c] + (2) h[e] + q8[c]
+\end{verbatim}
+Setting the stoichiometric coefficient in brackets makes it possible for the
+metabolite id to start with a number.
+
+\paragraph{Metabolite Id's}
+The abbreviation of a metabolite name (a metabolite id) must be unique for the model and
+must not contain \Comp{+}, \Comp{(} or \Comp{)} characters.
+
+\paragraph{Examples}
+
+A minimal reaction list without compartment flags for figure~\ref{netex}B
+(open network):
+\begin{verbatim}
+equation
+A  --> B
+B <==> D
+D <==> E
+B  --> C
+   --> A
+C  -->
+E  -->
+\end{verbatim}
+The same as above including compartment flags and external metabolites and all
+transport reactions for figure~\ref{netex}A (closed network). The reactions
+which take place in only one compartment (do not include a transport of
+metabolites across membranes) have their compartment flag at the beginning
+of the line (\Comp{[c]} in this example). For transport reactions all
+metabolites have their own compartment flag, e.\,g. in line 5 metabolite
+\Comp{A} is transported from compartment \Comp{[e]} (external) to compartment
+\Comp{[c]} (cytosol):
+\begin{verbatim}
+equation
+[c]: A  --> B
+[c]: B <==> D
+[c]: D <==> E
+[c]: B  --> C
+A[e] --> A[c]
+C[c] --> C[e]
+E[c] --> E[e]
+A[b] --> A[e]
+C[e] --> C[b]
+E[e] --> E[b]
+\end{verbatim}
+The same as above including reaction id's for figure~\ref{netex} (fields are
+separated by tabulators):
+\begin{verbatim}
+abbreviation    equation
+v2    [c]: A  --> B
+v3    [c]: B <==> D
+v4    [c]: D <==> E
+v6    [c]: B  --> C
+v1    A[e] --> A[c]
+v7    C[c] --> C[e]
+v5    E[c] --> E[e]
+b1    A[b] --> A[e]
+b3    C[e] --> C[b]
+b2    E[e] --> E[b]
+\end{verbatim}
+
+% ---------------------------------------------------------------------------- %
+
+\subsection{SBML} \label{sbmlmod}
+
+In order to read model files written in systems biology markup language (SBML),
+the package \pkg{sybilSBML} is required, which is available from
+CRAN\footnote{\url{http://CRAN.R-project.org/package=sybilSBML}\label{sybilhome}}.
+
+
+% ---------------------------------------------------------------------------- %
+
+\section{Usage}
+
+In the following sections, it is assumed, that package \pkg{glpkAPI} is
+installed additionally to \pkgname, thus GLPK is used as optimization software.
+Load \pkgname{} in a running R session:
+<<>>=
+library(sybil)
+@
+
+
+% ---------------------------------------------------------------------------- %
+
+\subsection{Documentation}
+
+Get a list of all functions provided with \pkgname:
+<<>>=
+library(help = "sybil")
+@
+Get details of the usage of a particular function in \pkgname
+(e.\,g. \Comp{doubleGeneDel()}):
+<<>>=
+help(doubleGeneDel)
+@
+Search through help files for a specific topic
+(e.\,g. ``flux variability analysis''):
+<<>>=
+help.search("flux variability analysis")
+@
+Open this vignette:
+<<eval=FALSE>>=
+vignette("sybil")
+@
+% Demo??
+
+
+% ---------------------------------------------------------------------------- %
+
+\subsection{Reading a model in tabular form}
+
+The package \pkgname can read metabolic network models written in tabular form
+as described in section~\ref{tabmod}. A reconstruction of the central metabolism
+of \emph{E. coli} \citep{Orth:2010fk,Palsson:2006fk} is included as an example
+dataset. The example dataset consists of three files:
+\begin{enumerate}
+\item \Comp{Ec\_core\_desc.tsv} containing the model description,
+\item \Comp{Ec\_core\_met.tsv} containing the metabolite list and
+\item \Comp{Ec\_core\_react.tsv} containing the reaction list.
+\end{enumerate}
+These files are located in the directory \Comp{extdata/} in the package
+\pkgname{}. The exact location of the files can be retrieved with the
+\Comp{system.file()} command:
+<<>>=
+mp  <- system.file(package = "sybil", "extdata")
+@
+Now the model files can be read in by using the command \Comp{readTSVmod()}:
+<<print=true>>=
+mod <- readTSVmod(prefix = "Ec_core", fpath = mp, quoteChar = "\"")
+@
+If the fields in the input files for function \Comp{readTSVmod()} are quoted,
+argument \Comp{quoteChar} must be used. The value of \Comp{quoteChar} is passed
+to the argument \Comp{quote} of the R~function \Comp{read.table()}. Argument
+\Comp{fpath} gets the path to the directory containing the model files. Argument
+\Comp{prefix} can be used, if the file names of the model files end like the
+file names used in the above example. All have the same base name
+\Comp{"Ec\_core"} which is used for argument \Comp{prefix}. Function
+\Comp{readTSVmod()} now assumes, that the model files are named as follows:
+\begin{itemize}
+\item the model description file (if exists): \Comp{<prefix>\_desc}\,,
+\item the list of metabolites (if exists): \Comp{<prefix>\_met} and
+\item the list of reactions (must be there): \Comp{<prefix>\_react}\,.
+\end{itemize}
+The file name suffix depends on the field delimiter. If the fields are
+tab-delimited, the default is \Comp{.tsv}\,. Function \Comp{readTSVmod()}
+returns an object of class \Comp{modelorg}.
+Models (instances of class \Comp{modelorg}, see section~\ref{classmod}) can be
+converted to files in tabular form with the command \Comp{modelorg2tsv}:
+<<eval=FALSE>>=
+modelorg2tsv(mod, prefix = "Ec_core")
+@
+This will generate the three files shown in the list above (see also
+section~\ref{tabmod}).
+Load the example dataset included in \pkgname.
+<<>>=
+data(Ec_core)
+@
+The example model is a `ready to use' model, it contains a biomass objective
+function and an uptake of glucose \citep{Orth:2010fk,Palsson:2006fk}. It is the
+same model as used in the text files before.
+
+
+% ---------------------------------------------------------------------------- %
+
+\subsection{Media conditions} \label{envir}
+
+The current set of exchange reactions in the model can be accessed with the
+function \Comp{findExchReact()}.
+<<print=true>>=
+ex <- findExchReact(Ec_core)
+@
+The subset of uptake reactions can be retrieved by method \Comp{uptReact}.
+<<print=true>>=
+upt <- uptReact(ex)
+ex[upt]
+@
+Function \Comp{findExchReact()} returns an object of class \Comp{reactId\_Exch}
+(extending class \Comp{reactId}) which can be used to alter reaction bounds
+with function \Comp{changeBounds()}. Make lactate the main carbon source instead
+of glucose:
+<<>>=
+mod <- changeBounds(Ec_core, ex[c("EX_glc(e)", "EX_lac_D(e)")], lb = c(0, -10))
+findExchReact(mod)
+@
+
+
+% ---------------------------------------------------------------------------- %
+
+\subsection{Flux-balance analysis} \label{fba}
+
+Perform flux-balance analysis (FBA) by using method \Comp{optimizeProb} of class
+\Comp{modelorg}.
+Method \Comp{optimizeProb} performs flux-balance analysis
+\citep{Edwards:2002kx,Orth:2010vn}. It returns a list containing the return
+value of the optimization process (\Comp{"ok"}), the solution status
+(\Comp{"stat"}), the value of the objective function after optimization
+(\Comp{"obj"}), the resulting flux distribution---the phenotype of the metabolic
+network---(\Comp{"fluxes"}) and results of pre- and post processing commands, if
+given (\Comp{"preP"} and \Comp{"postP"}). Also, a vector of integers will be
+returned (\Comp{"fldind"}). The flux value \Comp{fluxes[fldind[i]]} is the flux
+value of reaction \Comp{i} in the model (see section~\ref{mtf}).
+<<print=true>>=
+optL <- optimizeProb(Ec_core, algorithm = "fba", retOptSol = FALSE)
+@
+Perform FBA, return an object of class \Comp{optsol\_optimizeProb}
+(extends class \Comp{optsol}, see section~\ref{classopt}, this is the default
+behavior).
+<<print=true>>=
+opt <- optimizeProb(Ec_core, algorithm = "fba", retOptSol = TRUE)
+@
+The variable \Comp{opt} contains an object of class \Comp{optsol\_optimizeProb},
+a data structure storing all results of the optimization and providing methods
+to access the data (see section~\ref{classopt}).
+Retrieve the value of the objective function after optimization.
+<<>>=
+lp_obj(opt)
+@
+Translate the return and status codes of the optimization software into human
+readable strings.
+<<>>=
+checkOptSol(opt)
+@
+
+
+% ---------------------------------------------------------------------------- %
+
+\subsection{Minimize total flux} \label{mtf}
+
+Usually, an FBA solution is not unique. There can be many equivalent flux
+distributions supporting the same objective value. A method to decide for one
+out of these solutions is to compute the flux distribution minimizing the total
+absolute flux (MTF) but still supporting the objective value of the FBA
+solution. At first, an objective value, for example calculated via FBA, is
+required:
+<<>>=
+fba <- optimizeProb(Ec_core, algorithm = "fba")
+@
+Get the optimized value of the objective function:
+<<>>=
+mod_obj(fba)
+@
+Now, the objective value of the solution in \Comp{fba} is used to compute a
+flux distribution with a minimized total absolute flux:
+<<>>=
+mtf <- optimizeProb(Ec_core, algorithm = "mtf", wtobj = mod_obj(fba))
+@
+The value of the objective function for the MTF algorithm now is
+<<>>=
+lp_obj(mtf)
+@
+which is the minimized sum of all absolute flux values. The number of variables
+of the MTF problem is three times the number of the variables of the FBA
+solution
+<<>>=
+nvar(fluxdist(fba))
+nvar(fluxdist(mtf))
+@
+which is due to the different formulations of the two optimization problems.
+Consult the documentation of class \Comp{sysBiolAlg} (section~\ref{classsba})
+for more detailed information on the algorithms.
+<<>>=
+help("sysBiolAlg_fba-class")
+help("sysBiolAlg_mtf-class")
+@
+There are also shortcuts available:
+<<>>=
+?fba
+?mtf
+@
+Method \Comp{getFluxDist} can be used to get the flux distribution of the MTF
+solution; the values of the variables corresponding to the reactions in the
+metabolic network.
+<<>>=
+fl <- getFluxDist(mtf)
+length(fl)
+@
+The flux distribution of the exchange reactions can be retrieved in a similar
+way (variable \Comp{ex} contains the exchange reactions of the \emph{E. coli}
+model, see section~\ref{envir}).
+<<print=true>>=
+fd <- getFluxDist(mtf, ex)
+getNetFlux(fd)
+@
+Function \Comp{getNetFlux()} the absolute flux values of the exchange reactions
+grouped by flux direction.  The value of the objective function given in the
+model (here: biomass production) can be accessed by method \Comp{mod\_obj}:
+<<>>=
+mod_obj(mtf)
+@
+which is of course the same value as for the FBA algorithm.
+
+
+% ---------------------------------------------------------------------------- %
+
+\subsection{Genetic perturbations} \label{komut}
+
+To compute the metabolic phenotypes of \emph{in silico} knock-out mutants,
+argument \Comp{gene} of method \Comp{optimizeProb} can be used.
+<<print=true>>=
+ko <- optimizeProb(Ec_core, gene = "b2276", lb = 0, ub = 0)
+@
+Argument \Comp{gene} gets a character vector of gene locus tags present in the
+used model. The flux boundaries of reactions affected by the genes given in
+argument \Comp{gene} will be set to the values of arguments \Comp{lb} and
+\Comp{ub}. If both arguments are set to zero, no flux through the affected
+reactions is allowed.
+
+
+% ---------------------------------------------------------------------------- %
+
+\subsubsection{Minimization of metabolic adjustment (MOMA)} \label{MOMA}
+
+The default algorithm used by method \Comp{optimizeProb} is
+FBA \citep{Edwards:2002kx,Orth:2010vn}, implying the assumption, that the
+phenotype of the mutant metabolic network is independent of the wild-type
+phenotype. An alternative is the MOMA algorithm described in
+\citet{Segre:2002fk} minimizing the hamiltonian distance of the wild-type
+phenotype and the mutant phenotype (argument \Comp{algorithm = "lmoma"} computes
+a linearized version of the MOMA algorithm; \Comp{algorithm = "moma"} runs the
+quadratic formulation).
+<<print=true>>=
+ko <- optimizeProb(Ec_core, gene = "b2276", lb = 0, ub = 0,
+                   algorithm = "lmoma", wtflux = getFluxDist(mtf))
+@
+The variable \Comp{ko} contains the solution of the linearized version of the
+MOMA algorithm. A wild-type flux distribution can be set via argument
+\Comp{wtflux}, here, the flux distribution computed through the MTF algorithm
+was used. If argument \Comp{wtflux} is not set, a flux distribution based on
+FBA will be used.
+
+
+% ---------------------------------------------------------------------------- %
+
+\subsubsection{Regulatory on/off minimization (ROOM)} \label{ROOM}
+
+Another alternative is the ROOM algorithm (regulatory on/off minimization)
+described in \citet{Shlomi:2005fk}. Set argument \Comp{algorithm} to \Comp{room}
+in order to run ROOM.
+<<eval=FALSE>>=
+ko <- optimizeProb(Ec_core, gene = "b2276", lb = 0, ub = 0,
+                   algorithm = "room", wtflux = getFluxDist(mtf),
+                   solverParm = list(PRESOLVE = GLP_ON))
+@
+ROOM is a mixed integer programming problem which requires for GLPK to switch
+on the pre-solver. See section \ref{optparm} for more information on setting
+parameters to the mathematical programming software.
+
+
+% ---------------------------------------------------------------------------- %
+
+\subsubsection{Multiple knock-outs} \label{multknockout}
+
+Method \Comp{optimizeProb} can be used to study the metabolic phenotype of one
+knock-out mutant. The purpose of functions \Comp{oneGeneDel()},
+\Comp{doubleGeneDel()} and \Comp{geneDeletion()} is the simulation of multiple
+\emph{in silico} knock-outs (see table~\ref{tabmultko}).
+\begin{table}
+\centering
+\caption{Functions used to simulate multiple
+         \emph{in silico} knock-out mutants.}
+\label{tabmultko}
+\begin{tabular}{ll}
+\toprule
+function & purpose \\
+\midrule
+\Comp{oneGeneDel()}    & single gene knock-outs             \\
+\Comp{doubleGeneDel()} & pairwise gene knock-outs           \\
+\Comp{geneDeletion()}  & simultaneous deletion of $n$ genes \\
+\bottomrule
+\end{tabular}
+\end{table}
+Function \Comp{oneGeneDel()} simulates all possible single gene knock-out
+mutants in a metabolic model (default algorithm is FBA).
+<<print=true>>=
+opt <- oneGeneDel(Ec_core)
+@
+The function \Comp{oneGeneDel} gets an argument \Comp{geneList}, a character
+vector containing the gene id's to knock out.  If \Comp{geneList} is missing,
+all genes are taken into account.  The example model contains 137 independent
+genes, so 137 optimizations will be performed.
+
+The result stored in the variable \Comp{opt} is an object of class
+\Comp{optsol\_geneDel}, extending class \Comp{optsol\_optimizeProb}
+(see section~\ref{fba}).  Method \Comp{checkOptSol} gives an overview about the
+results and status of the optimizations. Additionally, class \Comp{optsol}
+contains a method \Comp{plot}, plotting a histogram of the values of the
+objective function given in the model after optimization 
+(section~\ref{classopt}).
+<<>>=
+checkOptSol(opt)
+@
+Plot the histogram:
+\begin{center}
+<<fig=TRUE>>=
+plot(opt, nint = 20)
+@
+\end{center}
+Argument \Comp{algorithm} can be used here to use MOMA to compute the mutant
+flux distributions. Additionally, a wild-type solution can be provided.
+\begin{center}
+<<fig=TRUE>>=
+opt <- oneGeneDel(Ec_core, algorithm = "lmoma", wtflux = getFluxDist(mtf))
+checkOptSol(opt)
+plot(opt, nint = 20)
+@
+\end{center}
+In order to perform all possible double-knock-out mutants, or $n$-knock-out
+mutants, the function \Comp{geneDeletion} can be used. Perform single gene
+deletions (in principle the same as before with \Comp{oneGeneDel}).
+<<>>=
+opt <- geneDeletion(Ec_core)
+@
+Compute all double-knock-out mutants and all triple-knock-out mutants
+<<eval=FALSE>>=
+opt2 <- geneDeletion(Ec_core, combinations = 2)
+opt3 <- geneDeletion(Ec_core, combinations = 3)
+@
+which will result in 9317 optimizations for double-knock-outs and
+419\,221~Optimizations for triple-knock-outs using the metabolic model of the
+core energy metabolism of \emph{E.\,coli}. This model contains 137 genes.
+
+
+% ---------------------------------------------------------------------------- %
+
+\subsection{Flux variability analysis}
+
+The function \Comp{fluxVar} performs a flux variability analysis with a given
+model \citep{Mahadevan:2003fk}. The minimum and maximum flux values for each
+reaction in the model are calculated, which still support a certain percentage
+of a given optimal functional state $Z_{\mathrm{opt}}$.
+\begin{center}
+<<fig=TRUE>>=
+opt <- fluxVar(Ec_core, percentage = 80, verboseMode = 0)
+plot(opt)
+@
+\end{center}
+% The example below is based upon the metabolic model of the human red blood cell
+% by \citet{Palsson:2006fk} and \citet{Price:2004fk}.
+% <<>>=
+% rbc <- readTSVmod(reactList = "rbc.tsv", fpath = mp, quoteChar = "\"")
+% @
+% Perform flux variability analysis.
+% \begin{center}
+% <<fig=TRUE>>=
+% opt <- fluxVar(Ec_core, percentage = 1, verboseMode = 0)
+% plot(opt)
+% @
+% \end{center}
+
+
+% ---------------------------------------------------------------------------- %
+
+\subsection{Robustness analysis}
+
+The function \Comp{robAna} performs a robustness analysis with a given model.
+The flux of a control reaction will be varied stepwise between the maximum and
+minimum value the flux of the control reaction can reach \citep{Palsson:2006fk}. 
+The example below shows a flux variability analysis based upon the metabolic
+model of the core energy metabolism of \emph{E.\,coli} using the exchange flux
+of oxygen as control reaction.
+\begin{center}
+<<fig=TRUE>>=
+opt <- robAna(Ec_core, ctrlreact = "EX_o2(e)", verboseMode = 0)
+plot(opt)
+@
+\end{center}
+
+
+% ---------------------------------------------------------------------------- %
+
+\subsection{Phenotypic phase plane analysis}
+
+The function \Comp{phpp} performs a phenotypic phase plane
+analysis \citep{Edwards:2001fk,Edwards:2002uq} with a given model.  The flux of
+two control reactions will be varied stepwise between a given maximum and
+minimum value.  The example below shows a phenotypic phase plane analysis based
+upon the metabolic model of the core energy metabolism of \emph{E.\,coli} using
+the exchange fluxes of oxygen and succinate as control reactions.  First, the
+uptake of glucose is switched off.
+\begin{center}
+<<fig=TRUE>>=
+Ec_core_wo_glc <- changeUptake(Ec_core, off = "glc_D[e]")
+opt <- phpp(Ec_core_wo_glc,
+            ctrlreact = c("EX_succ(e)", "EX_o2(e)"),
+            redCosts = TRUE,
+            numP = 25,
+            verboseMode = 0)
+plot(opt)
+@
+\end{center}
+Plot reduced costs of succinate import flux and oxygen import flux.
+
+<<fig=TRUE, label=phpp_rf, include=FALSE>>=
+plot(opt, "EX_succ(e)")
+@
+<<fig=TRUE,label=phpp_rs, include=FALSE>>=
+plot(opt, "EX_o2(e)")
+@
+
+\begin{minipage}{0.45\textwidth}
+\begin{center}
+\includegraphics[width=\textwidth]{sybil-phpp_rf}
+\end{center}
+\end{minipage}
+\hfill
+\begin{minipage}{0.45\textwidth}
+\begin{center}
+\includegraphics[width=\textwidth]{sybil-phpp_rs}
+\end{center}
+\end{minipage}
+
+
+% ---------------------------------------------------------------------------- %
+
+\subsection{Summarizing simulation results}
+
+Each simulation generates an object of class \Comp{optsol} containing all
+the results of the optimizations. In order to get a quick overview of the
+results, the function \Comp{summaryOptsol()} can be used. At first, let's
+compute all single gene knock-outs of the metabolic model of the core energy
+metabolism of \emph{E.\,coli}:
+<<>>=
+opt <- oneGeneDel(Ec_core, algorithm = "fba", fld = "all")
+@
+Generate a summary:
+<<print=true>>=
+sum <- summaryOptsol(opt, Ec_core)
+@
+The function \Comp{summaryOptsol()} returns an object of class
+\Comp{optsolSummary} and needs the object of class \Comp{optsol} (results of
+simulations) and the corresponding object of class \Comp{modelorg} (the entire
+metabolic network). The generated object of class \Comp{summaryOptsol} contains
+some information about the flux distribution, substrates, products and limiting
+reactions.
+
+The method \Comp{printExchange()} prints a subset of the flux distribution for
+the exchange reactions in the model. Each column represents the environment of
+one optimization. The symbol \Comp{"-"} indicates that the corresponding
+metabolite is imported (is a substrate); the symbol \Comp{"+"} indicates, that
+the corresponding metabolite excreted (is a product).
+<<>>=
+printExchange(sum, j = c(1:50), dense = TRUE)
+@
+
+
+% ---------------------------------------------------------------------------- %
+
+\subsection{Parallel computing}
+
+The package \pkgname{} provides basic support for the R-package \pkg{parallel}
+in function \Comp{multidel()}.  The following example shows the computation of
+all possible triple-knock-out mutants using the model of the core energy
+metabolism of \emph{E.\,coli}.  The set of genes included in the analysis will
+be reduced to genes, which are not lethal.  A gene $i$ is considered as
+``lethal'', if in a single-gene-knockout the deletion of gene $i$ results in a
+maximum growth ratio of zero.
+<<>>=
+ref    <- optimizeProb(Ec_core)
+opt    <- oneGeneDel(Ec_core)
+let    <- lethal(opt, wt = mod_obj(ref))
+nletid <- c(1:length(allGenes(Ec_core)))[! let] 
+@
+
+\noindent
+At first, a wild-type maximum growth rate is computed and stored in the variable
+\Comp{ref}. Then, all single-gene knock-outs are computed. The variable
+\Comp{let} contains pointers to the gene id's of genes, who's deletion is
+lethal. The variable \Comp{nletid} contains pointers to the gene id's of all
+genes, except for the lethal ones.
+<<eval=FALSE>>=
+gmat <- combn(nletid, 3)
+@
+The variable \Comp{gmat} now contains a matrix with three rows, each column is
+one combination of three values in \Comp{nletid}; one set of genes to knock-out
+in one step.
+<<eval=FALSE>>=
+opt <- multiDel(Ec_core, nProc = 4, todo = "geneDeletion", del1 = gmat)
+@
+The function \Comp{multiDel} performs a \Comp{geneDeletion} with the model
+\Comp{Ec\_core} on four CPU's (argument \Comp{nProc}) on a shared memory
+machine. Argument \Comp{del1} is the matrix containing the sets of genes to
+delete. This matrix will be split up in smaller sub-matrices all having about the
+same number of columns and three rows. The sub-matrices are passed to
+\Comp{geneDeletion} and are processed on separate cores in parallel. The
+resulting variable \Comp{opt} now contains a list of four objects of class
+\Comp{optsol\_genedel}. Use \Comp{mapply} to access the values stored in the
+\Comp{optsol} objects.
+<<eval=FALSE>>=
+mapply(checkOptSol, opt)
+@
+
+
+% ---------------------------------------------------------------------------- %
+
+\subsection{Interacting with the optimization process}
+
+Method \Comp{optimizeProb} provides a basic mechanism to run commands before
+and or after solving the optimization problem. In order to retrieve the reduced
+costs after the optimization, use argument \Comp{poCmd}.
+<<>>=
+opt <- optimizeProb(Ec_core, poCmd = list("getRedCosts"))
+postProc(opt)
+@
+
+
+% ---------------------------------------------------------------------------- %
+
+\subsection{Optimization software}
+
+To solve optimization problems,
+GLPK\footnote{Andrew Makhorin: GNU Linear Programming Kit, version~4.42 or
+higher
+
+\url{http://www.gnu.org/software/glpk/glpk.html}},
+\cplex\footnote{\cplex{} version 12.2 (or higher) from the IBM Academic
+Ini\-tia\-tive
+
+\url{https://www.ibm.com/developerworks/university/academicinitiative/}},
+COIN-OR Clp\footnote{COIN-OR linear programming version 1.12.0 or higher
+\url{https://projects.coin-or.org/Clp}}
+or lp\_solve\footnote{lp\_solve via R-package \pkg{lpSolveAPI} version 5.5.2.0-5
+or higher
+
+\url{http://lpsolve.sourceforge.net/5.5/index.htm}}
+can be used (package \pkg{sybilGUROBI} providing support for Gurobi
+optimization\footnote{\url{http://www.gurobi.com}} is available on request).
+All functions performing optimizations, get the arguments
+\Comp{solver} and \Comp{method}.  The first setting the desired solver and the
+latter setting the desired optimization algorithm.
+Possible values for the argument \Comp{solver} are:
+\begin{itemize}
+\item \Comp{"glpkAPI"}, which is the default,
+\item \Comp{"cplexAPI"},
+\item \Comp{"clpAPI"} or
+\item \Comp{"lpSolveAPI"}.
+\end{itemize}
+Perform FBA, using GLPK as solver and ``simplex exact'' as algorithm.
+<<eval=FALSE>>=
+optimizeProb(Ec_core, method = "exact")
+@
+Perform FBA, using \cplex{} as solver and ``dualopt'' as algorithm.
+<<eval=FALSE>>=
+optimizeProb(Ec_core, solver = "cplexAPI", method = "dualopt")
+@
+The R-packages \pkg{glpkAPI}, \pkg{clpAPI} and \pkg{cplexAPI}
+provide access to the C-API of the corresponding optimization software.
+They are also available from CRAN\footref{cranfoot}.
+
+
+% ---------------------------------------------------------------------------- %
+
+\subsection{Setting parameters to the optimization software}
+\label{optparm}
+
+All functions performing optimizations can handle the argument
+\Comp{solverParm} getting a list or data frame containing parameters used by the
+optimization software.
+
+
+% ---------------------------------------------------------------------------- %
+
+\subsubsection{GLPK}
+
+For available parameters used by GLPK, see the GLPK and the \pkg{glpkAPI}
+documentation.
+<<eval=FALSE>>=
+opt <- oneGeneDel(Ec_core,
+                  solverParm = list(TM_LIM = 1000,
+                                    PRESOLVE = GLP_ON))
+@
+The above command performs a single gene deletion experiment
+(see section~\ref{multknockout}), sets the time limit for each optimization to
+one second and does pre-solving in each optimization.
+
+
+% ---------------------------------------------------------------------------- %
+
+\subsubsection{\cplex}
+
+For available parameters used by \cplex{}, see the \cplex{} and the
+\pkg{cplexAPI} documentation.
+<<eval=FALSE>>=
+opt <- optimizeProb(Ec_core,
+                    solverParm = list(CPX_PARAM_SCRIND = CPX_ON,
+                                      CPX_PARAM_EPRHS = 1E-09),
+                    solver = "cplexAPI")
+@
+The above command performs FBA, sets the messages to screen switch to ``on''
+and sets the feasibility tolerance to $10^{-9}$.
+
+
+% ---------------------------------------------------------------------------- %
+
+\subsubsection{COIN-OR Clp}
+
+At the time of writing, it is not possible to set any parameters when using
+COIN-OR Clp.
+
+
+% ---------------------------------------------------------------------------- %
+
+\subsubsection{lpSolveAPI}
+
+See the \pkg{lpSolveAPI} documentation for parameters for \Comp{lp\_solve}.
+<<eval=FALSE>>=
+opt <- optimizeProb(Ec_core,
+                    solverParm = list(verbose = "full",
+                                      timeout = 10),
+                    solver = "lpSolveAPI")
+@
+The above command performs FBA, sets the verbose mode to ``full''
+and sets the timeout to ten seconds.
+
+
+
+% ---------------------------------------------------------------------------- %
+
+\subsection{Setting parameters in sybil}
+
+Parameters to \pkgname{} can be set using the function \Comp{SYBIL\_SETTINGS}.
+Parameter names and their default values are shown in table~\ref{sybilparm},
+all possible values are described in the \Comp{SYBIL\_SETTINGS} documentation.
+<<>>=
+help(SYBIL_SETTINGS)
+@
+\begin{table}
+\centering
+\caption{Available parameters in \pkgname{} and their default values.}
+\label{sybilparm}
+\begin{tabular}{ll}
+\toprule
+parameter name            & default value            \\
+\midrule
+\Comp{SOLVER}             & \Comp{glpkAPI}              \\
+\Comp{METHOD}             & \Comp{simplex}           \\
+\Comp{SOLVER\_CTRL\_PARM} & \Comp{as.data.frame(NA)} \\
+\Comp{ALGORITHM}          & \Comp{fba}               \\
+\Comp{TOLERANCE}          & \Comp{1E-6}              \\
+\Comp{MAXIMUM}            & \Comp{1000}              \\
+\Comp{OPT\_DIRECTION}     & \Comp{max}               \\
+\Comp{PATH\_TO\_MODEL}    & \Comp{.}                 \\
+\bottomrule
+\end{tabular}
+\end{table}
+The function \Comp{SYBIL\_SETTINGS} gets at most two arguments:
+<<eval=FALSE>>=
+SYBIL_SETTINGS("parameter name", value)
+@
+the first one giving the name of the parameter to set (as character string) and
+the second one giving the desired value. If \Comp{SYBIL\_SETTINGS} is called
+with only one argument
+<<eval=FALSE>>=
+SYBIL_SETTINGS("parameter name")
+@
+the current setting of \Comp{"parameter name"} will be returned. All parameters
+and their values can be achieved by calling \Comp{SYBIL\_SETTINGS} without
+any argument.
+<<eval=FALSE>>=
+SYBIL_SETTINGS()
+@
+
+
+% ---------------------------------------------------------------------------- %
+
+\subsubsection{Solver software specific}
+
+The two parameters \Comp{SOLVER} and \Comp{METHOD} depend on each other, e.\,g.
+the method called \Comp{simplex} is only available when \Comp{glpkAPI} is used
+as solver software. Each solver has its own specific set of methods available in
+order to solve optimization problems. If one changes the parameter \Comp{SOLVER}
+to, let's say \Comp{cplexAPI}, the parameter \Comp{METHOD} will automatically
+be adjusted to the default method used by \Comp{cplexAPI}.
+Set parameter solver to \cplex{} for every optimization:
+<<>>=
+SYBIL_SETTINGS("SOLVER", "cplexAPI", loadPackage = FALSE)
+@
+Now, \cplex{} is used as default solver e.\,g. in \Comp{optimizeProb} or
+\Comp{oneGeneDel}, and parameter \Comp{METHOD} has changed to the default method
+in \pkg{cplexAPI}. Setting argument \Comp{loadPackage} to \Comp{FALSE} prevents
+loading the API package. Get the current setting for \Comp{Method}:
+<<>>=
+SYBIL_SETTINGS("METHOD")
+@
+Reset the solver to \Comp{glpkAPI}:
+<<>>=
+SYBIL_SETTINGS("SOLVER", "glpkAPI")
+@
+Now, the default method again is \Comp{simplex}
+<<>>=
+SYBIL_SETTINGS("METHOD")
+@
+It is not possible to set a wrong method for a given solver. If the desired
+method is not available, always the default method is used.
+Parameters to the solver software (parameter \Comp{SOLVER\_CTRL\_PARM}) must be
+set as \Comp{list} or \Comp{data.frame} as described in section~\ref{optparm}.
+
+
+% ---------------------------------------------------------------------------- %
+
+\subsubsection{Analysis specific}
+
+The parameter \Comp{ALGORITHM} controls the way gene deletion analysis will be
+performed. The default setting \Comp{"fba"} will use flux-balance analysis (FBA)
+as described in \citet{Edwards:2002kx} and \citet{Orth:2010vn}. Setting this
+parameter to \Comp{"lmoma"}, results in a linearized version of the MOMA
+algorithm described in \citet{Segre:2002fk} ("moma" will run the original
+version). The linearized version of MOMA, like it is implemented in the COBRA
+Toolbox \citep{Becker:2007uq,Schellenberger:2011fk}, can be used in functions
+like \Comp{oneGeneDel()} via the Boolean argument \Comp{COBRAflag}.
+Setting the parameter \Comp{"ALGORITHM"} to \Comp{"room"} will run a regulatory
+on/off minimization as described in \citet{Shlomi:2005fk}.
+See also section~\ref{komut} for details on gene deletion analysis.
+
+
+% ---------------------------------------------------------------------------- %
+
+\section{Central data structures}
+
+\subsection{Class modelorg} \label{classmod}
+
+The class \Comp{modelorg} is the core datastructure to represent a metabolic 
+network, in particular the stoichiometric matrix $S$. 
+An example (E.\,coli core flux by \citep{Palsson:2006fk}) is shipped within 
+\pkgname and can be loaded this way:
+<<>>=
+data(Ec_core)
+Ec_core
+@
+The generic method \Comp{show} displays a short summary of the parameters of the
+metabolic network. See
+<<>>=
+help("modelorg")
+@
+for the list of available methods.  All slots of an object of class
+\Comp{modelorg} are accessible via setter and getter methods having the same
+name as the slot. For example, slot \Comp{react\_num} contains the number of
+reactions in the model (equals the number of columns in $S$). Access the
+number of reactions in the \emph{E.\,coli} model.
+<<>>=
+react_num(Ec_core)
+@
+Get all reaction is's:
+<<>>=
+id <- react_id(Ec_core)
+@
+Change a reaction id:
+<<>>=
+react_id(Ec_core)[13] <- "biomass"
+@
+Plot an image of the stoichiometric matrix $S$:
+\begin{center}
+<<fig=TRUE>>=
+cg <- gray(0:8/8)
+image(S(Ec_core), col.regions = c(cg, rev(cg)))
+@
+\end{center}
+Matrices in objects of class \Comp{modelorg} are stored in formats provided by
+the \pkg{Matrix}-package\footnote{http://CRAN.R-project.org/package=Matrix}.
+
+Objects of class \Comp{modelorg} can easily be created. Sources are common file
+formats like tab delimited files from the
+BiGG database \citep{Schellenberger:2010fk}\footnote{\url{http://bigg.ucsd.edu}}
+or SBML files (with package \pkg{sybilSBML}\footref{sybilhome}).
+See section~\ref{inputformats} on
+page \pageref{inputformats} about supported file formats and their description.
+Read a reaction list generated from the BiGG database:
+<<eval=FALSE>>=
+mod <- readTSVmod(reactList = "reactionList.txt")
+@
+Here, \Comp{"reactionList.txt"} is an from BiGG database exported reaction
+list. Usually, these files do neither contain an objective function, nor upper
+and lower bounds on the reaction rates. They need to be added to the returned
+object of class \Comp{modelorg} using the methods \Comp{obj\_coef<-},
+\Comp{lowbnd<-} and \Comp{uppbnd<-}, or by adding the columns \Comp{obj\_coef},
+\Comp{lowbnd} and \Comp{uppbnd} to the input file.
+
+
+% ---------------------------------------------------------------------------- %
+
+\subsection{Class optsol} \label{classopt}
+
+\begin{figure}
+    \centering
+    \includegraphics{optsol-class}
+    \caption{UML representation of class \Comp{optsol}.}
+    \label{optsol-class}
+\end{figure}
+
+The derived classes of class \Comp{optsol} (optimization solution) are used to
+store information and results from various optimization problems and their
+biological relation. See
+<<>>=
+help("optsol")
+@
+for the list of available methods to access the
+data (figure~\ref{optsol-class}). A simple demonstration would be:
+<<print=true>>=
+os <- optimizeProb(Ec_core)
+is(os)
+@
+Retrieve objective value.
+<<>>=
+lp_obj(os)
+@
+Retrieve flux distribution.
+<<>>=
+getFluxDist(os)
+@
+
+
+% ---------------------------------------------------------------------------- %
+
+\subsection{Class optObj} \label{classoo}
+
+\begin{figure}
+    \centering
+    \includegraphics{optObj-class}
+    \caption{UML representation of class \Comp{optObj}.}
+    \label{optObj-class}
+\end{figure}
+
+The class \Comp{optObj} is \pkgname's internal representation of an optimization
+problem (figure~\ref{optObj-class}). Objects of this class harbor four slots:
+\begin{inparaenum}[i)]
+\item \Comp{oobj}: a pointer to the C-structure of the problem object (depending
+      on the solver software),
+\item \Comp{solver}: the name of the solver,
+\item \Comp{method}: the name of the optimization method used by the solver and
+\item \Comp{probType}: single character string, describing the problem type
+      (e.\,g. \Comp{lp}: linear programming, or \Comp{mip}: mixed integer
+      programming).
+\end{inparaenum}
+
+The package \pkgname provides several functions to alter the problem object.
+Each function takes care of the special needs of every supported solver. The
+following example should illustrate the purpose of class \Comp{optObj}.
+Consider a linear programming problem, here written in lp formatted file
+format:
+\begin{verbatim}
+Maximize
+  obj: + x_1 + x_2
+Subject To
+  r_1: + 0.5 x_1 + x_2 <= 4.5
+  r_2: + 2   x_1 + x_2 <= 9
+Bounds
+  0 <= x_1 <= 1000
+  0 <= x_2 <= 1000
+\end{verbatim}
+In order to solve this lp problem with \pkgname{}, an object of class
+\Comp{optObj} has to be created. The constructor function has the same name as
+the class it builds.
+<<print=true>>=
+lp <- optObj(solver = "glpkAPI", method = "exact")
+@
+The first argument is the used solver software, in this case it is GLPK. The
+second optional argument gives the method, how the solver software has to solve
+the problem. Here, it is the simplex exact algorithm of GLPK. The constructor
+function \Comp{optObj()} (figure~\ref{optObj-const}) returns an object of class
+\Comp{optObj\_glpkAPI} in this case. This class enables \pkgname to communicate
+with the GLPK software. The constructor function \Comp{optObj()} calls the
+function \Comp{checkDefaultMethod()} which tries to load the specified solver
+package and also checks if all other arguments (\Comp{method} and \Comp{pType})
+are valid arguments. Each solver package has its own set of methods for specific
+types of optimization (e.\,g. linear programming or quadratic programming) and
+is thus available maybe not for all problem types.
+
+\begin{figure}
+    \centering
+    \includegraphics{optObj-const}
+    \caption{Work flow of the constructor function \Comp{optObj()}.}
+    \label{optObj-const}
+\end{figure}
+
+
+Initialize the new problem object. Each solver software needs to create
+specific data structures to hold the problem and solution data.
+<<print=true>>=
+lp <- initProb(lp)
+@
+Slot \Comp{oobj} holds a pointer to the problem object of GLPK. Now, we need to
+allocate space for the problem data and load the data into the problem object.
+<<>>=
+cm <- Matrix(c(0.5, 2, 1, 1), nrow = 2)
+loadLPprob(lp, nCols = 2, nRows = 2, mat = cm,
+           lb = c(0, 0), ub = rep(1000, 2), obj = c(1, 1),
+           rlb = c(0, 0), rub = c(4.5, 9), rtype = c("U", "U"),
+           lpdir = "max")
+@
+The first command generates the constraint matrix in sparse format (see also
+documentation in package \pkg{Matrix}). The second command loads the problem
+data into the problem object.
+<<>>=
+lp
+@
+All data are now set in the problem object, so it can be solved.
+<<print=true>>=
+status <- solveLp(lp)
+@
+Translate the status code in a text string.
+<<>>=
+getMeanReturn(code = status, solver = solver(lp))
+@
+Check the solution status.
+<<>>=
+status <- getSolStat(lp)
+getMeanStatus(code = status, solver = solver(lp))
+@
+Retrieve the value of the objective function and the values of the variables
+after optimization.
+<<>>=
+getObjVal(lp)
+getFluxDist(lp)
+@
+Get the reduced costs.
+<<>>=
+getRedCosts(lp)
+@
+Delete problem object and free all memory allocated by the solver software.
+<<>>=
+delProb(lp)
+lp
+@
+
+
+% ---------------------------------------------------------------------------- %
+
+\subsection{Class sysBiolAlg} \label{classsba}
+
+\begin{figure}
+    \centering
+    \includegraphics{sysBiolAlg-class}
+    \caption{UML representation of class \Comp{sysBiolAlg}.}
+    \label{sysBiolAlg-class}
+\end{figure}
+
+The class \Comp{sysBiolAlg} holds objects of class \Comp{optObj} which are
+prepared for a particular kind of algorithm, e.\,g. FBA, MOMA or ROOM
+(figure~\ref{sysBiolAlg-class}). Class \Comp{optObj} takes care of the
+communication between \pkgname and the solver software. Class \Comp{sysBiolAlg}
+instead is responsible for the algorithm used to analyze a metabolic network.
+The constructor function \Comp{sysBiolalg()} (figure~\ref{sysBiolAlg-const})
+gets at least two arguments:
+\begin{inparaenum}[1.]
+\item an object of class \Comp{modelorg} (section~\ref{classmod}) and
+\item a single character string indicating the name of the desired algorithm.
+\end{inparaenum}
+Further arguments are passed through argument \Comp{\dots} to the corresponding
+constructor of the class extending class \Comp{sysBiolAlg}. The base class
+\Comp{sysBiolAlg} is virtual, no objects can be created from that class
+directly. The constructor function builds an instance of a class extending the
+base class:
+<<>>=
+ec <- sysBiolAlg(Ec_core, algorithm = "fba")
+is(ec)
+@
+Now, the variable \Comp{ec} contains an object of class \Comp{sysBiolAlg\_fba}.
+Slot \Comp{problem} of that object is of class \Comp{optObj} and is prepared
+for FBA. The optimization can be performed with method \Comp{optimizeProb}:
+<<>>=
+opt <- optimizeProb(ec)
+@
+The return value of \Comp{optimizeProb} is discussed in section~\ref{fba}.
+Method \Comp{optimizeProb} of class \Comp{sysBiolAlg} always returns a list,
+not an object of class \Comp{optsol}.
+In order to run a ROOM analysis create an object of class
+\Comp{sysBiolAlg\_room}:
+<<>>=
+ecr <- sysBiolAlg(Ec_core, algorithm = "room", wtflux = opt$fluxes)
+is(ecr)
+ecr
+@
+Argument \Comp{wtflux} gets the optimal flux distribution computed via FBA
+earlier. It is used by the constructor method of class \Comp{sysBiolAlg\_room}.
+
+\begin{figure}
+    \centering
+    \includegraphics{sysBiolAlg-const}
+    \caption{Work flow of the constructor function \Comp{sysBiolAlg()}.}
+    \label{sysBiolAlg-const}
+\end{figure}
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics{sysBiolAlg-init}
+    \caption{Work flow of the constructor methods of classes extending
+             class \Comp{sysBiolAlg}. The gray shaded part is done by the
+             constructor method or the base class.}
+    \label{sysBiolAlg-init}
+\end{figure}
+
+
+% ---------------------------------------------------------------------------- %
+
+\subsubsection{Constructor methods}
+
+The base class \Comp{sysBiolAlg} contains a constructor method \Comp{initialize}
+which is called by the constructor methods of the subclasses via
+\Comp{callNextMethod()} (figure~\ref{sysBiolAlg-init}). Every subclass has its
+own constructor method preparing all necessary data structures in order to call
+the constructor of the base class. For example, for the ROOM algorithm, a
+``wild type'' flux distribution is required (argument \Comp{wtflux} in the
+example above). The constructor of class \Comp{sysBiolAlg\_room} generates all
+data structures to build the optimization problem, e.\,g. the constraint matrix,
+objective coefficients, right hand side, \dots{} It passes all these data to
+the constructor of \Comp{sysBiolAlg} via a call to \Comp{callNextMethod()}.
+This constructor generates the object of class \Comp{optObj} while taking care
+on solver software specific details.
+
+
+% ---------------------------------------------------------------------------- %
+
+\subsubsection{New algorithms}
+
+In order to extend the functionality of \pkgname with new algorithms, a new
+class describing that algorithm is required. The function
+\Comp{promptSysBiolAlg()} generates a skeletal structure of a new class definition
+and a corresponding constructor method. To implement an algorithm named ``foo'',
+run
+<<eval=FALSE>>=
+promptSysBiolAlg(algorithm = "foo")
+@
+which generates a file \Comp{sysBiolAlg\_fooClass.R} containing the new class
+definition. The class \Comp{sysBiolAlg\_foo} will extend class \Comp{sysBiolAlg}
+directly and will not add any slots to the class. Additionally, an unfinished
+method \Comp{initialize} is included. Here it is necessary to generate the data
+structures required by the new algorithm. There are comments in the skeletal
+structure guiding through the process.
+
+
+%% maybe next chapter: how to extend sybil, example fluxVar or robAna
+
+% ---------------------------------------------------------------------------- %
+
+\newpage
+
+\bibliographystyle{abbrvnat}
+\bibliography{sybil}
+
+\end{document}

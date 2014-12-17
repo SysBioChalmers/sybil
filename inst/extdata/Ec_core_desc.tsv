@@ -1,0 +1,2 @@
+"name"	"id"	"description"	"compartment"	"abbreviation"	"Nmetabolites"	"Nreactions"	"Ngenes"	"Nnnz"
+"Ecoli_core_model"	"Ecoli_core_model"	"ecoli_core_model"	"C_c, C_e"	"[c], [e]"	72	95	137	360
