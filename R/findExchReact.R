@@ -45,12 +45,24 @@ findExchReact <- function(model) {
     }
 
     # columns with only one entry
-    oneEntry <- apply(St, 2, function(x) sum(x != 0) == 1)
+    if(is(St, "Matrix")){
+    	oneEntry <- colSums(St != 0)==1
+    }
+    else{
+    	oneEntry <- apply(St, 2, function(x) sum(x != 0) == 1)
+    }
+    
 
     if (sum(oneEntry) > 0) {
         # exchange reactions -- with a -1 or 1
-        exchangeReact <- apply(St[ , oneEntry, drop = FALSE], 2, function(x) (sum(x == 1) == 1) | (sum(x == -1) == 1))
-
+        
+        if(is(St, "Matrix")){
+			exchangeReact <- (colSums(St[ , oneEntry, drop = FALSE] == 1) == 1 | colSums(St[ , oneEntry, drop = FALSE]== -1) == 1)
+		}
+		else{
+			exchangeReact <- apply(St[ , oneEntry, drop = FALSE], 2, function(x) (sum(x == 1) == 1) | (sum(x == -1) == 1))
+		}
+        
         # vector with the reaction id's of the exchange reactions
         ex <- c(1 : dim(St)[2])[oneEntry[exchangeReact]]
 
