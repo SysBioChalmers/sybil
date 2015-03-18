@@ -7,6 +7,13 @@
 \newcommand{\CRANpkg}{\href{http://CRAN.R-project.org/package=#1}{\pkg{#1}}}
 
 % ---------------------------------------------------------------------------- %
+\section{Changes in version 1.2.10 2015-03-02}{
+  \itemize{
+    \item \code{findExchangeReact} can now deal with bigger matrices
+  }
+}
+
+% ---------------------------------------------------------------------------- %
 \section{Changes in version 1.2.9 2014-11-19}{
   \itemize{
     \item fixed a bug in class \code{modelorg} and function \code{addReact} when
