@@ -1,5 +1,2 @@
-# ignore pdf files
-*.pdf
-
 # ignore build r package:
 sybil_*.tar.gz
