@@ -75,6 +75,27 @@
 \seealso{
   Superclass \code{\linkS4class{optObj}} and constructor function
   \code{\link{optObj}}.
+  Method to read problem objects: \code{\link{readProb}}
+}
+
+\examples{
+	\dontrun{
+		# In very rare cases it is handy to save a sysBiolAlg-object:
+
+		library(sybil)
+		data(Ec_core)
+		prob <- sysBiolAlg(Ec_core, algorithm = "fba", solver="glpkAPI") # create a sysBiolAlg object (we use here GLPK (!))
+		save(file="prob.RData",prob) # write the R-object to disc
+		writeProb(prob@problem, fname="prob.lp", ff="lp") # now write the linear program part (managed by the solver) to disc
+
+		# start new R session
+
+		library(sybil)
+		library(glpkAPI)
+		load("prob.RData") # restore the R-object
+		prob@problem@oobj <- initProbGLPK() # initialize a new linear program
+		readProb(problem(prob), fname="prob.lp") # load the previously saved linear program
+	}
 }
 
 \keyword{methods}
