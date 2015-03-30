@@ -85,9 +85,14 @@ multiDel <- function(model, nProc = 2,
 
 
     # load library 'parallel'
-    if(!isTRUE(require("parallel"))) {
-        stop("package parallel not found.")
+    if (!requireNamespace("parallel", quietly = TRUE)) {
+    	stop("package parallel not found.")
     }
+
+#	unwanted conditioning for loading packages...
+#    if(!isTRUE(require("parallel"))) {
+#        stop("package parallel not found.")
+#    }
 
     # number of cores
     ncore <- parallel::detectCores()

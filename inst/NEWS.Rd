@@ -7,9 +7,11 @@
 \newcommand{\CRANpkg}{\href{http://CRAN.R-project.org/package=#1}{\pkg{#1}}}
 
 % ---------------------------------------------------------------------------- %
-\section{Changes in version 1.2.10 2015-03-02}{
+\section{Changes in version 1.2.10 2015-03-30}{
   \itemize{
-    \item \code{findExchangeReact} can now deal with bigger matrices
+    \item \code{findExchangeReact} can now deal with real big matrices (>30.000 columns).
+    \item additional example for readProb and writeProb.
+    \item modified \code{multiDel} to not use \code{require}
   }
 }
 
