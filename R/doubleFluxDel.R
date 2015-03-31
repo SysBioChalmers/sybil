@@ -158,7 +158,6 @@ doubleFluxDel <- function(model, react1, react2, lb = NULL, ub = NULL,
     }
 
     koreact   <- lapply(seq_len(nrow(koreactID)), function(x) koreactID[x, ])
-	browser()
 
     # The number of TRUE's in tmpMAT is equal to the number of optimizations
     # print(num_opt)
