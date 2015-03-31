@@ -60,8 +60,8 @@ doubleFluxDel <- function(model, react1, react2, lb = NULL, ub = NULL,
         }
     }
 
-    react1 <- sort(react_pos(react1))
-    react2 <- sort(react_pos(react2))
+    react1 <- (react_pos(react1)) # removed sort here
+    react2 <- (react_pos(react2)) # removed sort here
 
 
 #------------------------------------------------------------------------------#
@@ -94,7 +94,12 @@ doubleFluxDel <- function(model, react1, react2, lb = NULL, ub = NULL,
 #     print(react2)
   
     if (isTRUE(allComb)) {
-
+		# if allComb is used, duplicated entries in react1 or react2 dont make 
+		# sense:
+		react1 <- unique(react1)
+		react2 <- unique(react2)
+		
+		
         # Compute Boolean matrix with TRUE in the upper triangonal
         # (the maximum number of comparisons)
         tmpMAT <- upper.tri(matrix(nrow = react_num(model),
@@ -129,38 +134,38 @@ doubleFluxDel <- function(model, react1, react2, lb = NULL, ub = NULL,
         }
         # The number of TRUE's in tmpMAT is equal to the number of optimizations
         num_opt <- sum(tmpMAT == TRUE)
+        
+        
+        rownames(tmpMAT) <- react1
+	    colnames(tmpMAT) <- react2
+        
+		deletions <- which(tmpMAT == TRUE, arr.ind = TRUE)
+		koreactID <- cbind(react1[deletions[,"row"]],
+				  		   react2[deletions[,"col"]])
 
     }
     else {
-  
-        tmpMAT <- matrix(FALSE, nrow = react_num(model),
-                                ncol = react_num(model))
-        for (i in 1:num_react1) {
-            tmpMAT[react1[i], react2[i]] <- TRUE
-        }
-        #tmpMAT[geneList1, geneList2] <- TRUE
-        num_opt <- num_react1
-        tmpMAT <- tmpMAT[react1, react2]
-  
+  		 koreactID <- cbind(react1, react2)
+#        tmpMAT <- matrix(FALSE, nrow = react_num(model),
+#                                ncol = react_num(model))
+#        for (i in 1:num_react1) {
+#            tmpMAT[react1[i], react2[i]] <- TRUE
+#        }
+#        #tmpMAT[geneList1, geneList2] <- TRUE
+#        browser()
+#        num_opt <- num_react1
+#        tmpMAT <- tmpMAT[react1, react2]
     }
 
-    rownames(tmpMAT) <- react1
-    colnames(tmpMAT) <- react2
-
+    koreact   <- lapply(seq_len(nrow(koreactID)), function(x) koreactID[x, ])
+	browser()
 
     # The number of TRUE's in tmpMAT is equal to the number of optimizations
     # print(num_opt)
 
-
 #------------------------------------------------------------------------------#
 #                               run optimization                               #
 #------------------------------------------------------------------------------#
-  
-    deletions <- which(tmpMAT == TRUE, arr.ind = TRUE)
-
-    koreactID <- cbind(react1[deletions[,"row"]],
-                       react2[deletions[,"col"]])
-    koreact   <- lapply(seq_len(nrow(koreactID)), function(x) koreactID[x, ])
     
     if (is.null(lb)) {
         lb <- rep(0, length(koreact))
