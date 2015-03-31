@@ -42,7 +42,8 @@
     }
     \item{\code{hasEffect}:}{
       Object of class \code{"logical"} indicating whether deletion of
-      gene \code{i} has an effect or not.
+      gene \code{i} has an effect or not. This is determined on basis of the 
+      \code{gprRules} and not by optimizations.
     }
     \item{\code{chlb}:}{Object of class \code{"numeric"}
       containing the new (changed) values for the columns lower bounds.
