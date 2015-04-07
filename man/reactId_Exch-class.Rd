@@ -140,11 +140,17 @@
     \item{met_id<-}{\code{signature(object = "reactId_Exch")}:
       sets the \code{met_id} slot.
     }
-    \item{met_pos}{\code{signature(object = "reactId_Exch")}:
-      gets the \code{met_pos} slot.
+    \item{react_pos}{\code{signature(object = "reactId_Exch")}:
+      gets the \code{react_pos} slot.
     }
-    \item{met_pos<-}{\code{signature(object = "reactId_Exch")}:
-      sets the \code{met_pos} slot.
+    \item{react_pos<-}{\code{signature(object = "reactId_Exch")}:
+      sets the \code{react_pos} slot.
+    }
+    \item{\code{react_id<-}:}{\code{signature(object = "reactId")}:
+    	sets the \code{react_id} slot.
+    }
+    \item{\code{react_id}:}{\code{signature(object = "reactId")}:
+    	gets the \code{react_id} slot.
     }
     \item{lowbnd}{\code{signature(object = "reactId_Exch")}:
       gets the \code{lowbnd} slot.
