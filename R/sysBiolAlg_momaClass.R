@@ -92,7 +92,8 @@ setMethod(f = "initialize",
                   }
 
                   if (is.null(Qmat)) {
-                      Q <- rep(2, nCols)
+#                  	  Q <- rep(2, nCols)
+                      Q <- rep(1, nCols)
                   }
                   else {
                       Q <- Qmat
@@ -156,7 +157,8 @@ setMethod(f = "initialize",
                                             ub         = uppbnd(model),
                                             lb         = lowbnd(model),
                                             #obj        = -2 * wtsol,
-                                            obj        = (-2 * wtsol) * sdf,
+                                            #obj        = (-2 * wtsol) * sdf,
+                                            obj        = (-1 * wtsol) * sdf,
                                             rlb        = rep(0, nRows),
                                             rtype      = rep("E", nRows),
                                             lpdir      = "min",
