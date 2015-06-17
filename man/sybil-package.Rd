@@ -54,6 +54,10 @@ model <- readTSVmod(prefix = "Ec_core",
 
 
 \references{
+  Gelius-Dietrich, G., Desouki, A. A., Fritzemeier, C. J., 
+  and Lercher, M. J. (2013). sybil -- Efficient constraint-based modelling 
+  in R. \emph{BMC Systems Biology} \bold{7}, 125.
+
   The BiGG database \url{http://bigg.ucsd.edu/}.
 
   Schellenberger, J., Park, J. O., Conrad, T. C., and Palsson, B. Ø., (2010)
