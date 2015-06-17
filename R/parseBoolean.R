@@ -29,10 +29,11 @@
 # The function .parseBoolean() is inspired by the function
 # parseBoolean() contained in the COBRA Toolbox.
 # The algorithm is the same.
+#
+# 2015-06-17 CJF: added handling for emtpy gprRule like "( )"
 
 
 .parseBoolean <- function(gprRule, tokens = "()&|~") {
-	print(gprRule)
 
 #.parseBoolean <- function(gprRule,
 #                          tokens = "()&|~",
