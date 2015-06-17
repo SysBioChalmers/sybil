@@ -6,6 +6,11 @@
 
 \newcommand{\CRANpkg}{\href{http://CRAN.R-project.org/package=#1}{\pkg{#1}}}
 
+\section{Changes in version 1.3.0 2015-06-17}{
+    \item changed maintainer
+    \item \code{.parseBoolean} now gives a warning, but handles empty gpr in a intuitive way.
+}
+
 % ---------------------------------------------------------------------------- %
 \section{Changes in version 1.2.10 2015-03-30}{
   \itemize{
@@ -14,7 +19,6 @@
     \item modified \code{multiDel} to not use \code{require}
     \item \code{doubleFluxDel} had a bug if \code{react1} or \code{react2} contained duplicated entries.
     \item documentation of \code{hasEffect} in \code{optsol_genedel} is now clearer.
-    \item \code{.parseBoolean} now gives a warning, but handles empty gpr in a intuitive way.
   }
 }
 

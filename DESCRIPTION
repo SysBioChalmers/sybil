@@ -4,13 +4,13 @@ Title: sybil - Efficient Constrained Based Modelling in R
 Version: 1.2.10
 Date: 2015-03-30
 Authors@R: c(person("Gabriel", "Gelius-Dietrich", role = c("aut", "cre"), email = "geliudie@uni-duesseldorf.de"),
-             person(c("C.", "Jonathan"), "Fritzemeier", role = "ctb"),
+             person(c("C.", "Jonathan"), "Fritzemeier", role = c("ctb", "cre")),
              person("Rajen", "Piernikarczyk", role = "ctb"),
              person(c("Marc", "Andre"), "Daxer", role = "ctb"),
              person("Benjamin", "Braasch", role = "ctb"),
              person("Abdelmoneim", "Desouki", role = "ctb"),
              person(c("Martin", "J."), "Lercher", role = "ctb"))
-Maintainer: Gabriel Gelius-Dietrich <geliudie@uni-duesseldorf.de>
+Maintainer: C. Jonathan Fritzemeier <clausjonathan.fritzemeier@uni-duesseldorf.de>
 Depends: R (>= 2.14.2), Matrix, lattice
 Imports: methods
 Suggests: glpkAPI (>= 1.2.8), cplexAPI (>= 1.2.4), clpAPI (>= 1.2.4),
@@ -51,8 +51,8 @@ Collate: generics.R validmodelorg.R validoptsol.R validreactId.R
         sysBiolAlg_lmomaClass.R sysBiolAlg_momaClass.R
         sysBiolAlg_mtfClass.R sysBiolAlg_roomClass.R sybilLogClass.R
 Packaged: 2014-11-19 20:39:37 UTC; gabriel
-Author: Gabriel Gelius-Dietrich [aut, cre],
-  C. Jonathan Fritzemeier [ctb],
+Author: C. Jonathan Fritzemeier [cre, ctb],
+  Gabriel Gelius-Dietrich [aut],
   Rajen Piernikarczyk [ctb],
   Marc Andre Daxer [ctb],
   Benjamin Braasch [ctb],
