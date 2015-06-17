@@ -87,9 +87,14 @@
 
 		library(sybil)
 		data(Ec_core)
-		prob <- sysBiolAlg(Ec_core, algorithm = "fba", solver="glpkAPI") # create a sysBiolAlg object (we use here GLPK (!))
-		save(file="prob.RData",prob) # write the R-object to disc
-		writeProb(prob@problem, fname="prob.lp", ff="lp") # now write the linear program part (managed by the solver) to disc
+		# create a sysBiolAlg object (we use here GLPK (!))
+		prob <- sysBiolAlg(Ec_core, algorithm = "fba", solver="glpkAPI")
+		
+		# write the R-object to disc
+		save(file="prob.RData",prob)
+		
+		# now write the linear program part (managed by the solver) to disc
+		writeProb(prob@problem, fname="prob.lp", ff="lp")
 
 		# start new R session
 

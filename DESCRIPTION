@@ -1,10 +1,11 @@
 Package: sybil
 Type: Package
-Title: sybil - Efficient Constrained Based Modelling in R
+Title: Efficient Constrained Based Modelling in R
 Version: 1.3.0
-Date: 2015-03-30
-Authors@R: c(person("Gabriel", "Gelius-Dietrich", role = c("aut")),
-             person(c("C.", "Jonathan"), "Fritzemeier", role = c("ctb", "cre"), email = "clausjonathan.fritzemeier@uni-duesseldorf.de"),
+Date: 2015-06-17
+Authors@R: c(
+	     person(c("C.", "Jonathan"), "Fritzemeier", role = c("cre", "ctb"), email = "clausjonathan.fritzemeier@uni-duesseldorf.de"),
+	     person("Gabriel", "Gelius-Dietrich", role = c("aut")),
              person("Rajen", "Piernikarczyk", role = "ctb"),
              person(c("Marc", "Andre"), "Daxer", role = "ctb"),
              person("Benjamin", "Braasch", role = "ctb"),
@@ -17,9 +18,9 @@ Suggests: glpkAPI (>= 1.2.8), cplexAPI (>= 1.2.4), clpAPI (>= 1.2.4),
         lpSolveAPI (>= 5.5.2.0), parallel, grid
 URL:
         http://www.cs.hhu.de/en/research-groups/bioinformatics/software/sybil.html
-Description: The package sybil is a Systems Biology Library for R, implementing algorithms for constraint based analyses of metabolic networks (e.g. flux-balance analysis (FBA), minimization of metabolic adjustment (MOMA), regulatory on/off minimization (ROOM), robustness analysis and flux variability analysis).
+Description: This Systems Biology Library for R implements algorithms for constraint based analyses of metabolic networks (e.g. flux-balance analysis (FBA), minimization of metabolic adjustment (MOMA), regulatory on/off minimization (ROOM), robustness analysis and flux variability analysis). Most of the current LP/MILP solvers are supported via additional packages.
 LazyLoad: yes
-License: GPL-3
+License: GPL-3 | file LICENSE
 Collate: generics.R validmodelorg.R validoptsol.R validreactId.R
         validreactId_Exch.R validsysBiolAlg.R addAlgorithm.R
         addExchReact.R addReact.R addSolver.R blockedReact.R
