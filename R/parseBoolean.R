@@ -32,6 +32,7 @@
 
 
 .parseBoolean <- function(gprRule, tokens = "()&|~") {
+	print(gprRule)
 
 #.parseBoolean <- function(gprRule,
 #                          tokens = "()&|~",
@@ -40,6 +41,11 @@
   # quit, if there is no gene association
   if ( is.na(gprRule) || (gprRule == "") ) {
       return(list(gene = "", rule = ""))
+  }
+  
+  if( grepl("\\s*\\(\\s*\\)\\s*", gprRule) ){
+  	warning("found empty expression rule: '( )'. check if this is intended.")
+  	return(list(gene = "", rule = ""))
   }
 
   # quit, if there is no gene association
@@ -163,18 +169,6 @@
 
 
 #  }
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
