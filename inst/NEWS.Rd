@@ -7,8 +7,10 @@
 \newcommand{\CRANpkg}{\href{http://CRAN.R-project.org/package=#1}{\pkg{#1}}}
 
 \section{Changes in version 1.3.0 2015-06-17}{
+  \itemize{
     \item changed maintainer
     \item \code{.parseBoolean} now gives a warning, but handles empty gpr in a intuitive way.
+  }
 }
 
 % ---------------------------------------------------------------------------- %
