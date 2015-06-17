@@ -64,10 +64,11 @@
 }
 
 \author{
-  Gabriel Gelius-Dietrich
+  Gabriel Gelius-Dietrich <geliudie@uni-duesseldorf.de>
 
-  Maintainer: Gabriel Gelius-Dietrich <geliudie@uni-duesseldorf.de>
+  Maintainer: Claus Jonathan Fritzemeier <clausjonathan.fritzemeier@uni-duesseldorf.de>
 }
+
 
 \seealso{
   \code{\link{SYBIL_SETTINGS}} and \code{\link{getsybilenv}}

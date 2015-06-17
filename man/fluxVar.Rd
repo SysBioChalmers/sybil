@@ -67,7 +67,12 @@
   Cambridge University Press.
 }
 
-\author{Gabriel Gelius-Dietrich}
+\author{
+  Gabriel Gelius-Dietrich <geliudie@uni-duesseldorf.de>
+
+  Maintainer: Claus Jonathan Fritzemeier <clausjonathan.fritzemeier@uni-duesseldorf.de>
+}
+
 
 \examples{
   data(Ec_core)

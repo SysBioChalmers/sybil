@@ -47,10 +47,11 @@ model <- readTSVmod(prefix = "Ec_core",
 }
 
 \author{
-  Gabriel Gelius-Dietrich
+  Gabriel Gelius-Dietrich <geliudie@uni-duesseldorf.de>
 
-  Maintainer: geliudie@uni-duesseldorf.de
+  Maintainer: Claus Jonathan Fritzemeier <clausjonathan.fritzemeier@uni-duesseldorf.de>
 }
+
 
 \references{
   The BiGG database \url{http://bigg.ucsd.edu/}.

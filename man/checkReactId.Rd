@@ -38,7 +38,12 @@
   \code{react} contains any reactions not in \code{model}.
 }
 
-\author{Gabriel Gelius-Dietrich}
+\author{
+  Gabriel Gelius-Dietrich <geliudie@uni-duesseldorf.de>
+
+  Maintainer: Claus Jonathan Fritzemeier <clausjonathan.fritzemeier@uni-duesseldorf.de>
+}
+
 
 \seealso{\code{\linkS4class{reactId}}}
 

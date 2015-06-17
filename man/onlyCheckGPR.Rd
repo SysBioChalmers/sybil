@@ -25,6 +25,11 @@
   The function checks the expressions for the chosen reactions.
 }
 
-\author{Benjamin Braasch}
+\author{
+  Gabriel Gelius-Dietrich <geliudie@uni-duesseldorf.de>
+
+  Maintainer: Claus Jonathan Fritzemeier <clausjonathan.fritzemeier@uni-duesseldorf.de>
+}
+
 
 \keyword{check}

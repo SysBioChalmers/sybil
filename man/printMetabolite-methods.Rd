@@ -60,8 +60,11 @@
 }
 
 \author{
-  Gabriel Gelius-Dietrich
+  Gabriel Gelius-Dietrich <geliudie@uni-duesseldorf.de>
+
+  Maintainer: Claus Jonathan Fritzemeier <clausjonathan.fritzemeier@uni-duesseldorf.de>
 }
+
 
 \value{
   The \code{\linkS4class{modelorg}} method returns a character vector of length

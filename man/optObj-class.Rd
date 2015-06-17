@@ -276,7 +276,12 @@
   \code{lp@oobj@env}.
 }
 
-\author{Gabriel Gelius-Dietrich}
+\author{
+  Gabriel Gelius-Dietrich <geliudie@uni-duesseldorf.de>
+
+  Maintainer: Claus Jonathan Fritzemeier <clausjonathan.fritzemeier@uni-duesseldorf.de>
+}
+
 
 \seealso{
   The constructor function \code{\link{sysBiolAlg}} for objects extending

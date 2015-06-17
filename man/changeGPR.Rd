@@ -28,5 +28,10 @@
   Then the changes are executed.
 }
 
-\author{Benjamin Braasch}
+\author{
+  Gabriel Gelius-Dietrich <geliudie@uni-duesseldorf.de>
+
+  Maintainer: Claus Jonathan Fritzemeier <clausjonathan.fritzemeier@uni-duesseldorf.de>
+}
+
 

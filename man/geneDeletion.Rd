@@ -89,7 +89,12 @@
   An object of class \code{\linkS4class{optsol_genedel}}.
 }
 
-\author{Gabriel Gelius-Dietrich}
+\author{
+  Gabriel Gelius-Dietrich <geliudie@uni-duesseldorf.de>
+
+  Maintainer: Claus Jonathan Fritzemeier <clausjonathan.fritzemeier@uni-duesseldorf.de>
+}
+
 
 \seealso{
   \code{\linkS4class{modelorg}}, \code{\linkS4class{optsol}},

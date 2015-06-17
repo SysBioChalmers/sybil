@@ -44,7 +44,12 @@
   Class \code{"\linkS4class{optObj}"}, directly.
 }
 
-\author{Gabriel Gelius-Dietrich}
+\author{
+  Gabriel Gelius-Dietrich <geliudie@uni-duesseldorf.de>
+
+  Maintainer: Claus Jonathan Fritzemeier <clausjonathan.fritzemeier@uni-duesseldorf.de>
+}
+
 
 \seealso{
   Superclass \code{\linkS4class{optObj}} and constructor function

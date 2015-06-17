@@ -27,7 +27,12 @@
   An object of class \code{\linkS4class{optsol_optimizeProb}}.
 }
 
-\author{Gabriel Gelius-Dietrich}
+\author{
+  Gabriel Gelius-Dietrich <geliudie@uni-duesseldorf.de>
+
+  Maintainer: Claus Jonathan Fritzemeier <clausjonathan.fritzemeier@uni-duesseldorf.de>
+}
+
 
 \seealso{
   Class \code{\linkS4class{optsol_optimizeProb}},
