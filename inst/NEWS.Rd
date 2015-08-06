@@ -6,6 +6,14 @@
 
 \newcommand{\CRANpkg}{\href{http://CRAN.R-project.org/package=#1}{\pkg{#1}}}
 
+\section{Changes in version 1.3.1 2015-08-06}{
+  \itemize{
+    \item \code{readTSVmod} had a mistake in the documentation about singletons.
+  }
+}
+
+% ---------------------------------------------------------------------------- %
+
 \section{Changes in version 1.3.0 2015-06-17}{
   \itemize{
     \item changed maintainer

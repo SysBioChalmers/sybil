@@ -314,7 +314,7 @@
   stoichiometric matrix \eqn{S} is used. Sums of rows gives the vector of
   metabolite usage, each element is the number of reactions a metabolite
   participates.  A single metabolite (singleton) is a metabolite with a row sum
-  of zero. All columns in \eqn{S} (reactions) containing singleton metabolites
+  of one. All columns in \eqn{S} (reactions) containing singleton metabolites
   will be set to zero. And again, singleton metabolites will be searched until
   none are found.
 
