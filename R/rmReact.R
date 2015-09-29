@@ -169,7 +169,7 @@ rmReact <- function(model, react, rm_met = TRUE) {
       keepGenes <- ifelse(is.na(keepGenes), FALSE, TRUE)
       #print(keepGenes)
 
-      rxnGeneMat(mod_out)   <- rxnGeneMat(mod_out)[, keepGenes]
+      rxnGeneMat(mod_out)   <- rxnGeneMat(mod_out)[, keepGenes, drop = FALSE]
       #print(dim(rxnGeneMat))
   }
   

@@ -8,6 +8,7 @@
 
 \section{Changes in version 1.3.1 2015-08-06}{
   \itemize{
+  	\item \code{rmReact} error, if resulting model had only one gene left, corrected.
     \item \code{deadEndMetabolite()} could miss deadEndMetabolites if reactions differ in stoichiometry e.g. 1 and 2.
   }
 }
