@@ -95,7 +95,7 @@
                     # dead end list: test all reactions k > j
                     k <- j+1
                     while (k <= length(nz)) {
-                        if ( (tmp_mat[i, nz[k]] != tmp_mat[i, nz[j]]) ||
+                        if ( ( sign(tmp_mat[i, nz[k]]) != sign(tmp_mat[i, nz[j]]) ) ||
                              (lb[nz[k]] < 0)        ||
                              (lb[nz[j]] < 0) ) {
                             #print(paste(i,":",k))
