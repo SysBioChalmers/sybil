@@ -47,6 +47,7 @@ setMethod(f = "initialize",
                                 rnames = NULL,
                                 pname = NULL,
                                 scaling = NULL,
+                                easyConstraint = NULL,
                                 writeProbToFileName = NULL, ...) {
 
               if ( ! missing(model) ) {
@@ -96,6 +97,34 @@ setMethod(f = "initialize",
                       rowNames <- NULL
                       probName <- NULL
                   }
+                  
+                  mat <- S(model)
+                  rtype <- rep("E", nRows)
+                  
+                  #add easyConstraints:
+                  if(!is.null(easyConstraint)){
+                  	if(		length(easyConstraint$nz) == length(easyConstraint$x)
+                  		| 	length(easyConstraint$nz) == length(easyConstraint$rtype)){
+                  		stop("easyConstraint elements have to have equal lengths")
+                  	}
+                  	stopifnot(is.list(easyConstraints$nz))
+                  	stopifnot(is.list(easyConstraints$x))
+                  	stopifnot(all(easyConstraints$rtype %in% c("F", "L", "U", "D", "E")))
+                  	
+                  	m <- Matrix(0, ncol=nCols, nrow=length(easyConstraint))
+                  	
+                  	for(i in 1:length(easyConstraint)){
+                  		m[i, easyConstraint$nz] <- easyConstraint$x
+                  	}
+                  	
+                  	mat <- rbind2(mat, m)
+                  	rtype <- c(rtype, easyConstraint$rtype)
+                  	nRow <- nRow + length(easyConstraint)
+                  	if(!is.null(rowNames)){
+                  		c(rowNames, paste0("easyConstraint", 1:length(easyConstraint)))
+                  	}
+                  	
+                  }
 
                   # generate problem object
                   .Object <- callNextMethod(.Object,
@@ -105,12 +134,12 @@ setMethod(f = "initialize",
                                             fi         = 1:nCols,
                                             nCols      = nCols,
                                             nRows      = nRows,
-                                            mat        = S(model),
+                                            mat        = mat,
                                             ub         = uppbnd(model),
                                             lb         = lowbnd(model),
                                             obj        = obj_coef(model),
                                             rlb        = rep(0, nRows),
-                                            rtype      = rep("E", nRows),
+                                            rtype      = rtype,
                                             lpdir      = lpdir,
                                             rub        = NULL,
                                             ctype      = NULL,
