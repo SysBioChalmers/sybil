@@ -1,4 +1,4 @@
-\name{sysBiolAlg_fba-class}
+\name{sysBiolAlg_fbaEasyConstraint-class}
 
 \Rdversion{1.1}
 \encoding{utf8}
@@ -115,12 +115,10 @@
   The optimization can be executed by using \code{\link{optimizeProb}}.
   
   The additional i-th EasyConstraint will be added as follows to the problem: \emph{to be checked.}
-  \deqn{
-  	\begin{array}{l}%
-  		\code{lb} <= v_\code{react\[\[i\]\]} * (x_i)^T <= \code{ub}
-  	\end{array}%
+  \deqn{%
+	\gamma <= v_{r^i} * (x_i)^T <= \delta
   }{
-  	\code{lb} <= v_{\code{react\[\[i\]\]}} * (x_i)^T <= \code{ub}
+  	\code{lb} <= v_{\code{react[[i]]}} * (x_i)^T <= \code{ub}
   }
   
 }
