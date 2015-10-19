@@ -392,7 +392,7 @@ setMethod("addRowsToProb", signature(lp = "optObj_cplexAPI"),
 
         cptype = character(length(type))
         for (l in seq(along = type)) {
-            cptype[l] <- switch(type[l],
+            cptype[l] <- switch(EXPR = type[l],
                 "L" = { "G" },
                 "U" = { "L" },
                 "D" = { "R" },
@@ -737,7 +737,7 @@ setMethod("loadLPprob", signature(lp = "optObj_cplexAPI"),
         stopifnot(is(mat, "Matrix"))
 
         crtype <- sapply(rtype,
-                         function(x) switch(x,
+                         function(x) switch(EXPR = x,
                                             "L" = { "G" },
                                             "U" = { "L" },
                                             "D" = { "R" },
@@ -898,7 +898,7 @@ setMethod("solveLp", signature(lp = "optObj_cplexAPI"),
     function(lp) {
 
         out <- FALSE
-        switch(lp@method,
+        switch(EXPR = lp@method,
             "primopt" = {
                 out <- cplexAPI::primoptCPLEX(lp@oobj@env, lp@oobj@lp)
             },

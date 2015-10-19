@@ -292,7 +292,7 @@ setMethod("addRowsToProb", signature(lp = "optObj_lpSolveAPI"),
 
         stopifnot(length(lb) == length(ub))
         for (k in seq(along = i)) {
-            ltype <- switch(type[k],
+            ltype <- switch(EXPR = type[k],
                             "L" = { 2 },
                             "U" = { 1 },
                             "D" = { 1 },
@@ -494,7 +494,7 @@ setMethod("loadLPprob", signature(lp = "optObj_lpSolveAPI"),
         # problem size is already specified in optObj_lpSolveAPI constructor
 
         crtype <- sapply(rtype,
-                         function(x) switch(x,
+                         function(x) switch(EXPR = x,
                                             "L" = { 2 },
                                             "U" = { 1 },
                                             "D" = { 1 },

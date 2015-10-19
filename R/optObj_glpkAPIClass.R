@@ -112,7 +112,7 @@ setMethod("setSolverParm", signature(lp = "optObj_glpkAPI"),
         parm <- sapply(names(solverParm), function(x) eval(parse(text = x)))
         val  <- unlist(solverParm)
 
-        switch(lp@method,
+        switch(EXPR=lp@method,
             "interior" = {
                 glpkAPI::setInteriorParmGLPK(parm, val)
             },
@@ -135,7 +135,7 @@ setMethod("getSolverParm", signature(lp = "optObj_glpkAPI"),
 
         out <- FALSE
 
-        switch(lp@method,
+        switch(EXPR=lp@method,
             "interior" = {
                 out <- glpkAPI::getInteriorParmGLPK()
             },
@@ -329,7 +329,7 @@ setMethod("addRowsToProb", signature(lp = "optObj_glpkAPI"),
         ord <- glpkAPI::addRowsGLPK(lp@oobj, length(i))
         gtype = integer(length(type))
         for (k in seq(along = i)) {
-            gtype[k] <- switch(type[k],
+            gtype[k] <- switch(EXPR = type[k],
                                "F" = { glpkAPI::GLP_FR },
                                "L" = { glpkAPI::GLP_LO },
                                "U" = { glpkAPI::GLP_UP },
@@ -576,7 +576,7 @@ setMethod("loadLPprob", signature(lp = "optObj_glpkAPI"),
         stopifnot(is(mat, "Matrix"))
 
         crtype <- sapply(rtype,
-                         function(x) switch(x,
+                         function(x) switch(EXPR = x,
                                             "F" = { glpkAPI::GLP_FR },
                                             "L" = { glpkAPI::GLP_LO },
                                             "U" = { glpkAPI::GLP_UP },
@@ -610,7 +610,7 @@ setMethod("loadLPprob", signature(lp = "optObj_glpkAPI"),
         # variable type
         if (!is.null(ctype)) {
             cctype <- sapply(ctype,
-                             function(x) switch(x,
+                             function(x) switch(EXPR = x,
                                                 "C" = { glpkAPI::GLP_CV },
                                                 "I" = { glpkAPI::GLP_IV },
                                                 "B" = { glpkAPI::GLP_BV },
@@ -689,7 +689,7 @@ setMethod("solveLp", signature(lp = "optObj_glpkAPI"),
 #                #print(basis)
 #            }
 #        }
-        switch(lp@method,
+        switch(EXPR = lp@method,
             "interior" = {
                 out <- glpkAPI::solveInteriorGLPK(lp@oobj)
             },
@@ -715,7 +715,7 @@ setMethod("getObjVal", signature(lp = "optObj_glpkAPI"),
 
     function(lp) {
 
-        switch(lp@method,
+        switch(EXPR = lp@method,
             "interior" = {
                 out <- glpkAPI::getObjValIptGLPK(lp@oobj)
             },
@@ -756,7 +756,7 @@ setMethod("getSolStat", signature(lp = "optObj_glpkAPI"),
 
     function(lp) {
 
-        switch(lp@method,
+        switch(EXPR = lp@method,
             "interior" = {
                 out <- glpkAPI::getSolStatIptGLPK(lp@oobj)
             },
@@ -779,7 +779,7 @@ setMethod("getFluxDist", signature(lp = "optObj_glpkAPI"),
 
     function(lp) {
 
-        switch(lp@method,
+        switch(EXPR = lp@method,
             "interior" = {
                 out <- glpkAPI::getColsPrimIptGLPK(lp@oobj)
             },
@@ -802,7 +802,7 @@ setMethod("getColPrim", signature(lp = "optObj_glpkAPI", j = "numeric"),
 
     function(lp, j) {
 
-        switch(lp@method,
+        switch(EXPR = lp@method,
             "interior" = {
                 out <- glpkAPI::getColPrimIptGLPK(lp@oobj, j)
             },
@@ -838,7 +838,7 @@ setMethod("writeProb", signature(lp = "optObj_glpkAPI", fname = "character"),
 
     function(lp, fname, ff = "lp", ...) {
 
-        switch(ff,
+        switch(EXPR = ff,
             "lp"  = {
                 fl <- glpkAPI::writeLPGLPK(lp@oobj, fname = fname)
             },
@@ -866,7 +866,7 @@ setMethod("readProb", signature(lp = "optObj_glpkAPI", fname = "character"),
 
     function(lp, fname, ff = "lp", ...) {
 
-        switch(ff,
+        switch(EXPR = ff,
             "lp"  = {
                 fl <- glpkAPI::readLPGLPK(lp@oobj, fname = fname)
             },
