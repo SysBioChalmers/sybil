@@ -12,7 +12,7 @@
 \alias{mtfEasyConstraint}
 \alias{fbaEasyConstraint}
 
-\title{Class \code{"sysBiolAlg_fbaEasyConstraint"} and \code{"sysBiolAlg_mtfEasyConstraint"}}
+\title{Class \code{"sysBiolAlg_fbaEasyConstraint"} and \cr Class \code{"sysBiolAlg_mtfEasyConstraint"}}
 
 \description{
   The classes \code{sysBiolAlg_fbaEasyConstraint} \code{sysBiolAlg_mtfEasyConstraint} hold an object of class
@@ -35,12 +35,11 @@
 
 \section{Slots}{
   \describe{
-    Slots are the same as in the original MTF/FBA classes.
+    Slots are the same as in the original MTF/FBA classes. In addition, this 
+    slot is implemented:\cr
     
-    In addition, this slot is implemented:
-    
-    \item{\code{easyConstraint}:}{
-    	List holding the information for the constraints (see details):
+    \item{\code{easyConstraint}}{
+    	Named list holding the information for the constraints (see details):\cr
 		\itemize{
 			\item{\code{react}}{
 				List of numeric vectors. Values indicate, to which reaction the 
@@ -116,10 +115,16 @@
   
   The additional i-th EasyConstraint will be added as follows to the problem: \emph{to be checked.}
   \deqn{%
-	\gamma <= v_{r^i} * (x_i)^T <= \delta
+	\gamma_i \leq v_{r_i} * (x_i)^\mathrm{T} \leq \delta_i
   }{
-  	\code{lb} <= v_{\code{react[[i]]}} * (x_i)^T <= \code{ub}
+  	gamma_i <= v_{r^i} * (x_i)^T <= delta_i
   }
+  Here \eqn{r_i}{r_i} (= \code{easyConstraint$react[[i]]}) is a set of reaction
+  indices and \eqn{x_i}{x_i} (= \code{easyConstraint$x[[i]]}) is the
+  corresponding set of coefficients. \eqn{\gamma}{gamma} and \eqn{\delta}{delta}
+  are the vectors of lower and upper bounds for the constraints, respectively.
+  For the type of (in)equality (\eqn{\leq}{<=}, ...) see the text above for parameter 
+  \code{rtype}.
   
 }
 
@@ -145,6 +150,45 @@
 
 \examples{
   showClass("sysBiolAlg_fba")
+  
+  # see package vignette for more comments 
+  data(Ec_core)
+  
+  # allow influx of Fumarate and restrict outflux of Fumarate and Glucose
+  lowbnd(Ec_core)[react_id(Ec_core) \%in\% c("EX_fum(e)")] <- -1000
+  uppbnd(Ec_core)[react_id(Ec_core) \%in\% c("EX_glc(e)", "EX_fum(e)")] <- 0
+  
+  # see result
+  findExchReact(Ec_core)
+  optimizeProb(Ec_core)
+  
+  # define easyConstraint to have the same influx for Glucose and Fumarate:
+  # EX_glc(e) = EX_fum(e)
+  # here we omit the upper and lower bound, hence they are set to zero.
+  ec <- list(
+  	react=list(which(react_id(Ec_core) \%in\% c("EX_glc(e)", "EX_fum(e)"))),
+  	x=list(c(1, -1)),
+  	rtype="E")
+  
+  # optimize
+  opt <- optimizeProb(Ec_core, algorithm=("fbaEasyConstraint"), easyConstraint=ec)
+  
+  # check if fluxes are really the same:
+  fluxes(opt)[react_id(Ec_core) \%in\% c("EX_glc(e)", "EX_fum(e)")]
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
 }
 
 \keyword{classes}

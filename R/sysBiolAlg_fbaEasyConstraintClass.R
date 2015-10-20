@@ -28,7 +28,10 @@
 #------------------------------------------------------------------------------#
 
 setClass(Class = "sysBiolAlg_fbaEasyConstraint",
-         contains = "sysBiolAlg"
+			representation(
+				easyConstraint = "list"
+			),
+			contains = "sysBiolAlg"
 )
 
 
@@ -137,7 +140,6 @@ setMethod(f = "initialize",
                   			rub <- c(rub, easyConstraint$ub)
                   		}
                   	}
-                  	browser()
                   	
                   	m <- Matrix(0, ncol=nCols, nrow=length(easyConstraint$react))
                   	
@@ -150,7 +152,7 @@ setMethod(f = "initialize",
                   	rtype <- c(rtype, easyConstraint$rtype)
                   	nRows <- nRows + length(easyConstraint$react)
                   	if(!is.null(rowNames)){
-                  		c(rowNames, paste0("easyConstraint", 1:length(easyConstraint$react)))
+                  		rowNames <- c(rowNames, paste0("easyConstraint", 1:length(easyConstraint$react)))
                   	}
                   	
                   }
@@ -176,7 +178,7 @@ setMethod(f = "initialize",
                                             rnames     = rowNames,
                                             pname      = probName,
                                             ...)
-
+					.Object@easyConstraint <- easyConstraint
                   if (!is.null(writeProbToFileName)) {
                       writeProb(problem(.Object),
                                 fname = as.character(writeProbToFileName))
