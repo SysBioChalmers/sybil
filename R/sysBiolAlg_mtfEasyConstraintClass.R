@@ -29,7 +29,8 @@
 
 setClass(Class = "sysBiolAlg_mtfEasyConstraint",
          representation(
-             maxobj = "numeric"
+             maxobj = "numeric",
+             easyConstraint = "list"
          ),
          contains = "sysBiolAlg"
 )
@@ -54,12 +55,16 @@ setMethod(f = "initialize",
                                 rnames = NULL,
                                 pname = NULL,
                                 scaling = NULL,
+                                easyConstraint = NULL,
                                 writeProbToFileName = NULL, ...) {
 
               if ( ! missing(model) ) {
 
                   if (is.null(wtobj)) {
-                      tmp <- .generateWT(model, react, lb, ub, ...)
+                      tmp <- .generateWT(model, react, lb, ub, 
+                      				algorithm="fbaEasyConstraint",
+                      				easyConstraint=easyConstraint,
+                      				...)
                       wtobj  <- tmp[["obj"]]
                   }
                   
@@ -233,7 +238,57 @@ setMethod(f = "initialize",
                       rowNames <- NULL
                       probName <- NULL
                   }
-
+                  
+                  #add easyConstraints:
+                  if(!is.null(easyConstraint)){
+                  	if(		length(easyConstraint$react) != length(easyConstraint$x)
+                  		| 	length(easyConstraint$react) != length(easyConstraint$rtype)
+                  		){
+                  		stop("easyConstraint elements have to have equal lengths")
+                  	}
+                  	stopifnot(is.list(easyConstraint$react))
+                  	stopifnot(is.list(easyConstraint$x))
+                  	stopifnot(all(easyConstraint$rtype %in% c("F", "L", "U", "D", "E")))
+                  	
+                  	# setting and checking rlb
+                  	if(is.null(easyConstraint$lb)){
+                  		rlower <- c(rlower, rep(0, length(easyConstraint$react)))
+                  	}else{
+                  		if(length(easyConstraint$react) != length(easyConstraint$lb)){
+                  			stop("easyConstraint$lb length has to match length of react argument")
+                  		}else{
+                  			stopifnot(is.numeric(easyConstraint$lb))
+                  			rlower <- c(rlower, easyConstraint$lb)
+                  		}
+                  	}
+                  	
+                  	# setting and checking rub
+                  	if(is.null(easyConstraint$ub)){
+                  		rupper <- c(rupper, rep(0, length(easyConstraint$react)))
+                  	}else{
+                  		if(length(easyConstraint$react) != length(easyConstraint$ub)){
+                  			stop("easyConstraint$ub length has to match length of react argument")
+                  		}else{
+                  			stopifnot(is.numeric(easyConstraint$ub))
+                  			rupper <- c(rupper, easyConstraint$ub)
+                  		}
+                  	}
+                  	
+                  	m <- Matrix(0, ncol=nCols, nrow=length(easyConstraint$react))
+                  	
+                  	for(i in 1:length(easyConstraint$react)){
+                  		m[i, easyConstraint$react[[i]]] <- easyConstraint$x[[i]]
+                  	}
+                  	
+                  	
+                  	LHS <- rbind2(LHS, m)
+                  	rtype <- c(rtype, easyConstraint$rtype)
+                  	nRows <- nRows + length(easyConstraint$react)
+                  	if(!is.null(rowNames)){
+                  		rowNames <- c(rowNames, paste0("easyConstraint", 1:length(easyConstraint$react)))
+                  	}
+                  	
+                  }
 
                   # ---------------------------------------------
                   # build problem object
@@ -264,6 +319,7 @@ setMethod(f = "initialize",
                                             ...)
 
                   .Object@maxobj <- as.numeric(maxobj)
+                  .Object@easyConstraint <- easyConstraint
 
                   if (!is.null(writeProbToFileName)) {
                       writeProb(problem(.Object),

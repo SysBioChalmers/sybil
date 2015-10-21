@@ -646,6 +646,53 @@ which is of course the same value as for the FBA algorithm.
 
 
 % ---------------------------------------------------------------------------- %
+\subsection{Example: Limit carbon intake (easyConstraint)} \label{carbonIntake}
+
+This example is meant to demonstrate the usage of the classes 
+\Comp{sysBiolAlg\_fbaEasyConstraint} and \Comp{sysBiolAlg\_mtfEasyConstraint}.
+These two algorithms work like the normal FBA and MTF, but also have the 
+ability to easily add additional linear constraints to the linear programm. So 
+the $i^{th}$ constraint woult look like follows:
+
+$$\gamma_i \leq v_{r_i} * x_i^\mathrm{T} \leq \delta_i$$
+
+With $\gamma$ and $\delta$ beeing the vectors of upper and lower bounds, 
+$v$ is flux vector and $r$ and $x$ are sets of vectors indicating the 
+affected reactions and the corresponding coefficients, respectively.
+
+In our example we want to limit the carbon intake on basis of the C-atoms in the
+molekules: we only allow uptake for glucose (6 carbon atoms) and fumarate 
+(4 carbon atoms):
+<<>>=
+data(Ec_core)
+optimizeProb(Ec_core)
+lowbnd(Ec_core)[react_id(Ec_core) == "EX_co2(e)"] <- 0
+lowbnd(Ec_core)[react_id(Ec_core) == "EX_fum(e)"] <- -1000
+lowbnd(Ec_core)[react_id(Ec_core) == "EX_glc(e)"] <- -1000
+findExchReact(Ec_core)
+@
+Now we define the additional linear constraint to limit the overall carbon 
+uptake to be as high as before ($-10 * 6$ C-atoms of glucose):
+<<>>=
+help("fbaEasyConstraint")
+ec <- list(
+	react=list(match(c("EX_glc(e)", "EX_fum(e)"), react_id(Ec_core))),
+	x=list(c(6, 4)),
+	rtype="L",
+	lb=-60)
+@
+Optimize with the constraint:
+<<print=true>>=
+o <- optimizeProb(Ec_core, algorithm="fbaEasyConstraint", easyConstraint=ec)
+@
+The result shows, that for this model it is more efficient to take up glucose 
+than fumarate in order to obtain maximal growth:
+<<print=false>>=
+fluxes(o)[match(c("EX_glc(e)", "EX_fum(e)"), react_id(Ec_core))]
+@
+
+
+% ---------------------------------------------------------------------------- %
 
 \subsection{Genetic perturbations} \label{komut}
 

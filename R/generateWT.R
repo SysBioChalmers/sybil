@@ -28,7 +28,8 @@
 #
 #
 
-.generateWT <- function(model, react = NULL, lb = NULL, ub = NULL, ...) {
+.generateWT <- function(model, react = NULL, lb = NULL, ub = NULL, 
+					algorithm="fba", ...) {
 
     ca <- match.call()
     
@@ -59,11 +60,11 @@
     if (is(react, "list")) {
         message("calculating fba solutions ... ", appendLF = FALSE)
         suppressMessages(
-            tmp <- optimizer(model, algorithm = "fba",
+            tmp <- optimizer(model, algorithm = algorithm,
                              lpdir = rep("max", length(react)),
                              react = react, lb = lb, ub = ub, verboseMode = 0, 
                              solver = me[["sol"]], method = me[["met"]],
-                             solverParm = as.data.frame(NA))
+                             solverParm = as.data.frame(NA), ...)
         )
         message("OK")
     }
@@ -71,11 +72,11 @@
         tmp <- optimizeProb(model,
                             react = react, lb = lb, ub = ub,
                             retOptSol = FALSE,
-                            algorithm = "fba",
+                            algorithm = algorithm,
                             lpdir = "max",
                             solver = me[["sol"]],
                             method = me[["met"]],
-                            solverParm = as.data.frame(NA))
+                            solverParm = as.data.frame(NA), ...)
     }
 
     return(tmp)

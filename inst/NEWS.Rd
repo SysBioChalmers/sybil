@@ -6,7 +6,16 @@
 
 \newcommand{\CRANpkg}{\href{http://CRAN.R-project.org/package=#1}{\pkg{#1}}}
 
-\section{Changes in version 1.3.1 2015-08-06}{
+\section{Changes in version 1.3.2 2015-10-21}{
+  \itemize{
+  	\item New Algorithm \code{fbaEasyConstraint} and \code{mtfEasyConstraint} 
+  	implemented. With these new \code{sysBiolAlg}-Classes it is easier to add 
+  	linear constraints to a model. See package vignette or manual for more details.
+    \item \code{switch} needs the first parameter explicitly named.
+  }
+}
+
+\section{Changes in version 1.3.1 2015-10-02}{
   \itemize{
   	\item \code{rmReact} error, if resulting model had only one gene left, corrected.
     \item \code{deadEndMetabolite()} could miss deadEndMetabolites if reactions differ in stoichiometry e.g. 1 and 2.
