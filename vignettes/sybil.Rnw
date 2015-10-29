@@ -646,7 +646,7 @@ which is of course the same value as for the FBA algorithm.
 
 
 % ---------------------------------------------------------------------------- %
-\subsection{Example: Limit carbon intake (easyConstraint)} \label{carbonIntake}
+\subsection{Example: Limit intake by carbon atom number (easyConstraint)} \label{carbonIntake}
 
 This example is meant to demonstrate the usage of the classes 
 \Comp{sysBiolAlg\_fbaEasyConstraint} and \Comp{sysBiolAlg\_mtfEasyConstraint}.
@@ -661,34 +661,62 @@ $v$ is flux vector and $r$ and $x$ are sets of vectors indicating the
 affected reactions and the corresponding coefficients, respectively.
 
 In our example we want to limit the carbon intake on basis of the C-atoms in the
-molekules: we only allow uptake for glucose (6 carbon atoms) and fumarate 
-(4 carbon atoms):
+molekules: we only allow uptake for glucose (6 carbon atoms), fumarate 
+(4 carbon atoms), and fructose (4 carbons). Thus we can find the preffered 
+carbon source of the model.
+
 <<>>=
 data(Ec_core)
 optimizeProb(Ec_core)
-lowbnd(Ec_core)[react_id(Ec_core) == "EX_co2(e)"] <- 0
-lowbnd(Ec_core)[react_id(Ec_core) == "EX_fum(e)"] <- -1000
-lowbnd(Ec_core)[react_id(Ec_core) == "EX_glc(e)"] <- -1000
-findExchReact(Ec_core)
+Ec_core_C <- Ec_core # we copy the model to compare later.
+
+# define carbon sources...
+CS_List = c('EX_fru(e)' , 'EX_glc(e)', 'EX_fum(e)')
+CS_CA = c(6,6,4); # ...and the number of carbon atoms per molekule
+
+cntCAtoms = 6 * abs(lowbnd(Ec_core_C)[react_id(Ec_core_C)=='EX_glc(e)'])
+# prohibit excretion of carbon sources
+uppbnd(Ec_core_C)[react_id(Ec_core_C) %in% CS_List] = 0
+# co2 mustn't act as source, too!
+lowbnd(Ec_core_C)[react_id(Ec_core_C) == "EX_co2(e)"] <- 0
+lowbnd(Ec_core_C)[react_id(Ec_core_C) %in% CS_List] = -1000
+findExchReact(Ec_core_C)
 @
 Now we define the additional linear constraint to limit the overall carbon 
 uptake to be as high as before ($-10 * 6$ C-atoms of glucose):
 <<>>=
 help("fbaEasyConstraint")
+
 ec <- list(
-	react=list(match(c("EX_glc(e)", "EX_fum(e)"), react_id(Ec_core))),
-	x=list(c(6, 4)),
-	rtype="L",
-	lb=-60)
+	react=list(match(CS_List,react_id(Ec_core_C))), # affected reactions
+	x=list(-1*CS_CA), # coefficient
+	ub = cntCAtoms, # atoms count is the upper bound
+	rtype="U" # type of constraint U => upper bound
+)
 @
 Optimize with the constraint:
 <<print=true>>=
-o <- optimizeProb(Ec_core, algorithm="fbaEasyConstraint", easyConstraint=ec)
+opt <- optimizeProb(Ec_core_C, algorithm=("fbaEasyConstraint"), easyConstraint=ec)
+opt2 <- optimizeProb(Ec_core_C, algorithm=("mtfEasyConstraint"), easyConstraint=ec)
+mtf_glc <- optimizeProb(Ec_core, algorithm="mtf") # normal opt to compare to.
 @
-The result shows, that for this model it is more efficient to take up glucose 
-than fumarate in order to obtain maximal growth:
+Show the results of the optimization.
 <<print=false>>=
-fluxes(o)[match(c("EX_glc(e)", "EX_fum(e)"), react_id(Ec_core))]
+# check fluxes in FBA result:
+print(data.frame(Csrc=CS_List, 
+		CS_CA, flx=fluxes(opt)[match(CS_List,react_id(Ec_core_C))]))
+# check fluxes in MTF result:
+print(data.frame(Csrc=CS_List, 
+		CS_CA, flx=fluxes(opt2)[match(CS_List,react_id(Ec_core_C))]))
+# look at biomass values:
+print(data.frame(fbaCA=mod_obj(opt), 
+		mtfCA=mod_obj(opt2), mtf_glc=mod_obj(mtf_glc)))
+# compare the absolute sum over fluxes
+print(data.frame(mtfCA=lp_obj(opt2), mtf_glc=lp_obj(mtf_glc)))
+# write problem to file (optional)
+prob <- sysBiolAlg(Ec_core_C, algorithm = "fbaEasyConstraint",
+			easyConstraint=ec, useNames=TRUE)
+writeProb(problem(prob), fname='test_easyCons.lp')
 @
 
 

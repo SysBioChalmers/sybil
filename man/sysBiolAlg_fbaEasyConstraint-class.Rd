@@ -27,7 +27,7 @@
 \section{Objects from the Class}{
   Objects can be created by calls of the form
   
-  \code{sysBiolAlg(model, algorithm = "fba", ...)}.
+  \code{sysBiolAlg(model, algorithm = "fbaEasyConstraint", ...)}.
   
   Arguments to \code{...} which are passed to method \code{initialize} of class
   \code{sysBiolAlg_fba} are described in the Details section.
@@ -149,9 +149,12 @@
 }
 
 \examples{
-  showClass("sysBiolAlg_fba")
+  showClass("sysBiolAlg_fbaEasyConstraint")
   
-  # see package vignette for more comments 
+  # see package vignette for second example with more comments:
+  vignette("sybil")
+  
+  #load model
   data(Ec_core)
   
   # allow influx of Fumarate and restrict outflux of Fumarate and Glucose
