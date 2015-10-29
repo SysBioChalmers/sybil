@@ -152,7 +152,7 @@
   showClass("sysBiolAlg_fbaEasyConstraint")
   
   # see package vignette for second example with more comments:
-  vignette("sybil")
+  #vignette("sybil")
   
   #load model
   data(Ec_core)
