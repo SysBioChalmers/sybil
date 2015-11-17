@@ -11,6 +11,7 @@
 \alias{sysBiolAlg_mtfEasyConstraint}
 \alias{mtfEasyConstraint}
 \alias{fbaEasyConstraint}
+\alias{EasyConstraint}
 
 \title{Class \code{"sysBiolAlg_fbaEasyConstraint"} and \cr Class \code{"sysBiolAlg_mtfEasyConstraint"}}
 

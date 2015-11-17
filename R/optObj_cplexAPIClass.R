@@ -518,7 +518,7 @@ setMethod("changeRowsBnds", signature(lp = "optObj_cplexAPI"),
 
         if (sum(rng) > 0) {
             rngv <- abs(ub[rng] - lb[rng])
-            out  <- chgRngValCPLEX(lp@oobj@env, lp@oobj@lp,
+            out  <- cplexAPI::chgRngValCPLEX(lp@oobj@env, lp@oobj@lp,
                                    sum(rng), i[rng]-1, rngv)
         }
         

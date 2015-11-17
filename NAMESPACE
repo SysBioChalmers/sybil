@@ -4,6 +4,10 @@ import(methods)
 import(Matrix)
 import(lattice)
 
+importFrom("grDevices", "colorRampPalette", "grey")
+importFrom("graphics", "arrows", "hist", "points", "polygon", "segments")
+importFrom("utils", "combn", "edit", "read.table", "str", "write.table")
+
 exportPattern("^[^\\.]")
 
 exportClass(

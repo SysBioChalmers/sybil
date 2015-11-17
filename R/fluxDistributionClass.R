@@ -280,7 +280,7 @@ setMethod("plot", signature(x = "fluxDistribution", y = "missing"),
 #                                          x1 = c(2, 10, 10), y1 = c(5, 5, 1),
 #                                          default.units = "native")
                             
-                            grid.points(5, 5, pch = 16, size=unit(5, "mm"))
+                            grid::grid.points(5, 5, pch = 16, size=grid::unit(5, "mm"))
 #                            default.units = "native")
                             
                             panel.levelplot(...)
