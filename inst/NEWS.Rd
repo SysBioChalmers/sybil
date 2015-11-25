@@ -6,6 +6,12 @@
 
 \newcommand{\CRANpkg}{\href{http://CRAN.R-project.org/package=#1}{\pkg{#1}}}
 
+\section{Changes in version 1.3.3 2015-11-25}{
+  \itemize{
+    \item \code{addReact} crashed for irreversible models.
+  }
+}
+% ---------------------------------------------------------------------------- %
 \section{Changes in version 1.3.2 2015-10-21}{
   \itemize{
   	\item New Algorithm \code{fbaEasyConstraint} and \code{mtfEasyConstraint} 
@@ -14,6 +20,7 @@
     \item \code{switch} needs the first parameter explicitly named.
   }
 }
+% ---------------------------------------------------------------------------- %
 
 \section{Changes in version 1.3.1 2015-10-02}{
   \itemize{
@@ -21,6 +28,7 @@
     \item \code{deadEndMetabolite()} could miss deadEndMetabolites if reactions differ in stoichiometry e.g. 1 and 2.
   }
 }
+% ---------------------------------------------------------------------------- %
 
 \section{Changes in version 1.3.1 2015-08-06}{
   \itemize{

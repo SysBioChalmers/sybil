@@ -317,7 +317,7 @@ addReact <- function(model,
         if (is(model, "modelorg_irrev")) {
             mod_out <- modelorg_irrev(mod_id(model), mod_name(model))
             irrev(mod_out)     <- TRUE
-            matchrev(mod_out)  <- append(matchrev(model), 0)
+            matchrev(mod_out)  <- append(matchrev(model), 0L)
             
             revReactId <- max(irrev2rev(model))+1
             irrev2rev(mod_out) <- append(irrev2rev(model), revReactId)
