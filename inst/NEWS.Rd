@@ -6,6 +6,13 @@
 
 \newcommand{\CRANpkg}{\href{http://CRAN.R-project.org/package=#1}{\pkg{#1}}}
 
+\section{Changes in version 1.3.4 2016-01-27}{
+  \itemize{
+    \item \code{sysBiolAlg_mtfClass} got option to be used as maximum total
+    flux, too.
+  }
+}
+% ---------------------------------------------------------------------------- %
 \section{Changes in version 1.3.3 2015-11-25}{
   \itemize{
     \item \code{addReact} crashed for irreversible models.

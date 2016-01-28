@@ -111,6 +111,11 @@
       values given in \code{costcoeffw}.\cr
       Default: \code{NULL}.
     }
+    \item{\code{lpdir}:}{Object of class \code{"character"}
+      giving the direction of optimization. with \code{max} this class can be
+      used to optimize maximum total flux. Cavetas: Because of changes in the
+      linear problem, this cannot be changed later. Default: \code{min}.
+    }
     \item{absMAX}{
       A single numerical value used as a maximum value for upper variable
       and contraint bounds.\cr

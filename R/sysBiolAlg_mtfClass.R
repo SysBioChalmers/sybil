@@ -47,6 +47,7 @@ setMethod(f = "initialize",
                                 react = NULL, lb = NULL, ub = NULL,
                                 costcoefbw = NULL,
                                 costcoeffw = NULL,
+                                lpdir = "min",
                                 absMAX = SYBIL_SETTINGS("MAXIMUM"),
                                 useNames = SYBIL_SETTINGS("USE_NAMES"),
                                 cnames = NULL,
@@ -65,6 +66,7 @@ setMethod(f = "initialize",
                   stopifnot(is(model, "modelorg"),
                             is(wtobj, "numeric"),
                             is(absMAX, "numeric"))
+                  stopifnot(lpdir %in% c("min", "max"))
 
                   # If wtobj is longer than 1, mtf algorithm has to run several
                   # times. In that case, wtobj is not written in the problem
@@ -102,6 +104,8 @@ setMethod(f = "initialize",
                   #            |      |      |
                   #  obj    0  |  1   |  1   |
 
+                  # NOTE: if lpdir == "max" the 2nd and 3rd block
+                  # will be <= instead of >= and signs change.
 
                   # ---------------------------------------------
                   # problem dimensions
@@ -131,10 +135,18 @@ setMethod(f = "initialize",
                   fi <- c(1:nc)
 
                   # rows for the delta match matrix
-                  diag(LHS[(nr+1)   :(nr+nc)  ,1       :nc    ]) <-  1
-                  diag(LHS[(nr+1)   :(nr+nc)  ,(nc+1)  :(2*nc)]) <-  1
-                  diag(LHS[(nr+nc+1):(nr+2*nc),1       :nc    ]) <- -1
-                  diag(LHS[(nr+nc+1):(nr+2*nc),(2*nc+1):(3*nc)]) <-  1
+                  if(lpdir=="min"){
+                  	diag(LHS[(nr+1)   :(nr+nc)  ,1       :nc    ]) <-  1
+                  	diag(LHS[(nr+1)   :(nr+nc)  ,(nc+1)  :(2*nc)]) <-  1
+                  	diag(LHS[(nr+nc+1):(nr+2*nc),1       :nc    ]) <- -1
+                  	diag(LHS[(nr+nc+1):(nr+2*nc),(2*nc+1):(3*nc)]) <-  1
+                  }else{
+                  	diag(LHS[(nr+1)   :(nr+nc)  ,1       :nc    ]) <-  1
+                  	diag(LHS[(nr+1)   :(nr+nc)  ,(nc+1)  :(2*nc)]) <-  -1
+                  	diag(LHS[(nr+nc+1):(nr+2*nc),1       :nc    ]) <- -1
+                  	diag(LHS[(nr+nc+1):(nr+2*nc),(2*nc+1):(3*nc)]) <-  1
+                  }
+                  
 
                   # fix the value of the objective function
                   LHS[(nr+2*nc+1),1:nc] <- obj_coef(model)
@@ -156,7 +168,11 @@ setMethod(f = "initialize",
                   #rupper <- c(rhs(model), rep(absMAX, 2*nc + 1))
                   rlower <- c(rep(0, nr), rep(0, 2*nc), currmo)
                   rupper <- c(rep(0, nr), rep(absMAX, 2*nc + 1))
-                  rtype  <- c(rep("E", nr), rep("L", 2*nc + 1))
+                  if(lpdir == "min"){
+                  	rtype  <- c(rep("E", nr), rep("L", 2*nc), "L")
+                  }else{
+                  	rtype  <- c(rep("E", nr), rep("U", 2*nc), "L")
+                  }
 
                   # ---------------------------------------------
                   # objective function
@@ -252,7 +268,7 @@ setMethod(f = "initialize",
                                             rlb        = rlower,
                                             rub        = rupper,
                                             rtype      = rtype,
-                                            lpdir      = "min",
+                                            lpdir      = lpdir,
                                             ctype      = NULL,
                                             cnames     = colNames,
                                             rnames     = rowNames,
