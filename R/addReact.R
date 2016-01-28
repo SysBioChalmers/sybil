@@ -319,7 +319,7 @@ addReact <- function(model,
             irrev(mod_out)     <- TRUE
             matchrev(mod_out)  <- append(matchrev(model), 0L)
             
-            revReactId <- max(irrev2rev(model))+1
+            revReactId <- as.integer(max(irrev2rev(model))+1)
             irrev2rev(mod_out) <- append(irrev2rev(model), revReactId)
             rev2irrev(mod_out) <- rbind(rev2irrev(model), c(nCols, nCols))
         }
