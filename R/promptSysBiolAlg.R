@@ -144,7 +144,7 @@ promptSysBiolAlg <- function(algorithm,
         "                                            ctype      = \n",
         "                                            cnames     = colNames,\n",
         "                                            rnames     = rowNames,\n",
-        "                                            pnames     = probName,\n",
+        "                                            pname     = probName,\n",
         "                                            algPar     = list(),\n",
         "                                            ...)\n\n",
         sep = "", file = sbfh, append = TRUE)
