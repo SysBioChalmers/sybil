@@ -195,44 +195,42 @@ doubleGeneDel <- function(model, geneList1, geneList2, lb = NULL, ub = NULL,
 
         # Exclude everything from tmpMAT we do not need.
         #tmpMAT <- tmpMAT[geneList1, geneList2, drop = FALSE]
-      
+		geneList1 <- unique(geneList1)
+		geneList2 <- unique(geneList2)
+
+		# Exclude everything from tmpMAT we do not need.
+		tmpMAT <- tmpMAT[geneList1, geneList2, drop = FALSE]
+	  
+		# The number of TRUE's in tmpMAT is equal to the number of optimizations
+		num_opt <- sum(tmpMAT == TRUE)
+
+
+		rownames(tmpMAT) <- geneList1
+		colnames(tmpMAT) <- geneList2
+
+		deletions <- which(tmpMAT == TRUE, arr.ind = TRUE)
+
+		kogenesID <- cbind(geneList1[deletions[,"row"]],
+							geneList2[deletions[,"col"]])
+	}
+	else {
+
+#		tmpMAT <- matrix(FALSE, nrow = num_genes, ncol = num_genes)
+#		#diag(tmpMAT) <- TRUE
+#		for (i in seq(along = geneList1)) {
+#			tmpMAT[geneList1[i], geneList2[i]] <- TRUE
+#		}
+		
+		kogenesID <- cbind(geneList1, geneList2)
+		
     }
-    else {
-  
-        tmpMAT <- matrix(FALSE, nrow = num_genes, ncol = num_genes)
-        #diag(tmpMAT) <- TRUE
-        for (i in seq(along = geneList1)) {
-            tmpMAT[geneList1[i], geneList2[i]] <- TRUE
-        }
-    }
-
-    geneList11 <- geneList1
-    geneList22 <- geneList2
-    
-    geneList1 <- unique(geneList1)
-    geneList2 <- unique(geneList2)
-
-    # Exclude everything from tmpMAT we do not need.
-    tmpMAT <- tmpMAT[geneList1, geneList2, drop = FALSE]
-  
-    # The number of TRUE's in tmpMAT is equal to the number of optimizations
-    num_opt <- sum(tmpMAT == TRUE)
-
-
-    rownames(tmpMAT) <- geneList1
-    colnames(tmpMAT) <- geneList2
-    #print(tmpMAT)
-    #print(num_opt)  
 
 
 #------------------------------------------------------------------------------#
 #                               run optimization                               #
 #------------------------------------------------------------------------------#
 
-    deletions <- which(tmpMAT == TRUE, arr.ind = TRUE)
- 
-    kogenesID <- cbind(geneList1[deletions[,"row"]],
-                       geneList2[deletions[,"col"]])
+    
     kogenes   <- lapply(seq_len(nrow(kogenesID)), function(x) kogenesID[x, ])
 
     fd <- .generateFluxdels(model, kogenes)

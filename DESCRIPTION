@@ -2,7 +2,7 @@ Package: sybil
 Type: Package
 Title: Efficient Constrained Based Modelling in R
 Version: 1.3.4
-Date: 2015-11-16
+Date: 2015-04-18
 Authors@R: c(
 	     person(c("C.", "Jonathan"), "Fritzemeier", role = c("cre", "ctb"), email = "clausjonathan.fritzemeier@uni-duesseldorf.de"),
 	     person("Gabriel", "Gelius-Dietrich", role = c("aut")),

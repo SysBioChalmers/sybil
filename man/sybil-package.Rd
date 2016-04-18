@@ -64,7 +64,7 @@ model <- readTSVmod(prefix = "Ec_core",
   BiGG: a Biochemical Genetic and Genomic knowledgebase of large scale metabolic
   reconstructions. \emph{BMC Bioinformatics} \bold{11}, 213.
 
-  The openCOBRA project \url{http://opencobra.sourceforge.net/}.
+  The openCOBRA project \url{https://opencobra.github.io/}.
 
   Becker, S. A., Feist, A. M., Mo, M. L., Hannum, G., Palsson, B. Ø.  and
   Herrgard, M. J. (2007) Quantitative prediction of cellular metabolism with

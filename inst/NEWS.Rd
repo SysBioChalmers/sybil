@@ -6,6 +6,14 @@
 
 \newcommand{\CRANpkg}{\href{http://CRAN.R-project.org/package=#1}{\pkg{#1}}}
 
+
+\section{Changes in version 1.3.4 2016-04-18}{
+  \itemize{
+    \item \code{doubleGeneDel} messed up the order of deletions when using exlicit gene lists.
+    \item corrected url of openCOBRA in the manual.
+  }
+}
+% ---------------------------------------------------------------------------- %
 \section{Changes in version 1.3.3 2015-11-25}{
   \itemize{
     \item \code{addReact} crashed for irreversible models.
