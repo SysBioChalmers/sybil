@@ -157,6 +157,7 @@ rmReact <- function(model, react, rm_met = TRUE) {
      	ag					<- ag[which(ncag != 0)]
       	allGenes(mod_out)   <- ag
       }
+      #TODO: update indices in the GPR rules accoording to the updated allGenes slot!
       
 
       # reaction to gene mapping
