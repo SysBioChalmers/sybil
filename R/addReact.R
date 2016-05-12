@@ -53,6 +53,10 @@ addReact <- function(model,
     if (!is(model, "modelorg")) {
         stop("needs an object of class modelorg!")
     }
+	
+	if(!.hasSlot(model, "version")){
+		validObject(model)
+	}
 
     if (length(met) != length(Scoef)) {
         stop("arguments 'met' and 'Scoef' must have the same length")
@@ -290,13 +294,14 @@ addReact <- function(model,
                 # genes per reaction
                 newgenes <- append(genes(model), list(gene_rule$gene))
                 newrule  <- gene_rule$rule
-
-                for (j in 1 : length(geneInd)) {
-                    pat  <- paste("x(", j, ")", sep = "")
-                    repl <- paste("x[", geneInd[j], "]", sep = "")
-    
-                    newrule <- gsub(pat, repl, newrule, fixed = TRUE)
-                }
+				
+				# not needed for modelorg version 2.0
+#                for (j in 1 : length(geneInd)) {
+#                    pat  <- paste("x(", j, ")", sep = "")
+#                    repl <- paste("x[", geneInd[j], "]", sep = "")
+#    
+#                    newrule <- gsub(pat, repl, newrule, fixed = TRUE)
+#                }
 
                 newgprRules <- append(gprRules(model), newrule)
             }

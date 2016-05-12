@@ -38,6 +38,15 @@
         return("needs an object of class modelorg!")
     }
     
+    if(compareVersion(version(object), SYBIL_SETTINGS("MODELORG_VERSION")) != 0){
+		if(compareVersion(version(object), SYBIL_SETTINGS("MODELORG_VERSION")) == -1){
+			return("You are using an old version of the modelorg-Class. Use upgradeModelorg to get a compatible object!")
+		}
+		if(compareVersion(version(object), SYBIL_SETTINGS("MODELORG_VERSION")) == 1){
+			return("You are using a new version of the modelorg-Class. Plase upgrade your sybil package!")
+		}
+    }
+    
     if ((length(mod_id(object)) != 1) || (length(mod_name(object)) != 1)) {
         return("mod_id and mod_name must have a length of 1!")
     }

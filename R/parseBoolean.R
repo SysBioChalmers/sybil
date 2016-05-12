@@ -88,7 +88,7 @@
   gene_uniq <- unique(genes)
 
   newTok    <- match(genes, gene_uniq)
-  newTok    <- sapply(newTok, function(x) paste("x(", x, ")", sep = ""))
+  newTok    <- sapply(newTok, function(x) paste("x[", x, "]", sep = ""))
 
 #  rule <- 
   

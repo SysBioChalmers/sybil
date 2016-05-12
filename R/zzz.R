@@ -36,6 +36,7 @@
     # settings in sybil
 
     .SYBILenv$settings <- list(
+        MODELORG_VERSION = "2.0",
         SOLVER           = "glpkAPI",
         METHOD           = "simplex",
         TOLERANCE        = 1E-6,

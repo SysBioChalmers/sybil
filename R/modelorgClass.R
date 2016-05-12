@@ -55,6 +55,7 @@ setClass("modelorg",
          lowbnd       = "numeric",     # vector reactions lower bounds
          uppbnd       = "numeric",     # vector reactions upper bounds
          obj_coef     = "numeric",     # vector objective coefficients
+         version      = "character",   # version to be compatible with changes in the class
          gprRules     = "character",
          genes        = "list",
          gpr          = "character",
@@ -113,6 +114,7 @@ setMethod(f = "initialize",
                   .Object@S          <- Matrix::Matrix(0, 0, 0)
                   .Object@rxnGeneMat <- Matrix::Matrix(0, 0, 0)
                   .Object@subSys     <- Matrix::Matrix(0, 0, length(subSys))
+                  .Object@version    <- SYBIL_SETTINGS("MODELORG_VERSION")
                   if (!is.null(subSys)) {
                       colnames(.Object@subSys) <- as.character(subSys)
                   }
@@ -544,6 +546,21 @@ setMethod("subSys", signature(object = "modelorg"),
 setReplaceMethod("subSys", signature(object = "modelorg"),
           function(object, value) {
               object@subSys <- value
+              return(object)
+          }
+)
+
+# reaction sub systems
+setMethod("version", signature(object = "modelorg"),
+          function(object) {
+              return(object@version)
+          }
+)
+
+setReplaceMethod("version", signature(object = "modelorg"),
+          function(object, value) {
+              object@version <- value
+              stopifnot(validObject(object))
               return(object)
           }
 )
@@ -1073,11 +1090,22 @@ setMethod("singletonMetabolites", signature(object = "modelorg"),
     }
 )
 
+#------------------------------------------------------------------------------#
 
 
 
-
-
+setMethod("checkVersion", signature(object = "modelorg"),
+	function(object) {
+		if(!.hasSlot(object, "version")){
+			stop("No version slot found. Please use upgradeModelorg on object")
+		}
+		
+		if(compareVersion(version(object), SYBIL_SETTINGS("MODELORG_VERSION")) == 0){
+			return(TRUE)
+		}
+		stop(paste0("modelorg has version ", object(version), ", but you need at least version ", version))
+	}
+)
 
 
 

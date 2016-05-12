@@ -42,6 +42,9 @@ SYBIL_SETTINGS <- function(parm, value, ...) {
     }
     
     switch(parm,
+        "MODELORG_VERSION" = {
+        	stop("this value must not be set by the user!")
+        },
     
         "SOLVER" = {
 

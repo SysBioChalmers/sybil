@@ -38,30 +38,33 @@ rmReact <- function(model, react, rm_met = TRUE) {
 #                           check model and react                              #
 #------------------------------------------------------------------------------#
 
-  if (!is(model, "modelorg")) {
-      stop("needs an object of class modelorg!")
-  }
+	if (!is(model, "modelorg")) {
+		stop("needs an object of class modelorg!")
+	}
+	
+	if(!.hasSlot(model, "version")){
+		validObject(model)
+	}
 
+	# check this, propably working wrong
+	if (is.na(match(is(react)[1], c("reactId", "numeric", "integer", "character")))) {
+		stop("argument react must be numeric, character, or of class reactId. Use checkReactId!")
+	}
 
-  # check this, propably working wrong
-  if (is.na(match(is(react)[1], c("reactId", "numeric", "integer", "character")))) {
-      stop("argument react must be numeric, character, or of class reactId. Use checkReactId!")
-  }
-
-  # argument react comes from the function checkReactId()
-  if (is(react, "reactId")) {
-      rmReact <- react_pos(react)
-  }
-  else {
-      checked_react <- checkReactId(model, react)
-      #print(is(checked_react))
-      if (!is(checked_react, "reactId")) {
-          stop("Check your reaction Id's")
-      }
-      else {
-          rmReact <- react_pos(checked_react)
-      }
-  }
+	# argument react comes from the function checkReactId()
+	if (is(react, "reactId")) {
+		rmReact <- react_pos(react)
+	}
+	else {
+		checked_react <- checkReactId(model, react)
+		#print(is(checked_react))
+		if (!is(checked_react, "reactId")) {
+			stop("Check your reaction Id's")
+		}
+		else {
+			rmReact <- react_pos(checked_react)
+		}
+	}
 
 
 #  if ((is(react, "numeric")) || (is(react, "integer"))) {

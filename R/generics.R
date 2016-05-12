@@ -126,6 +126,10 @@ setGeneric(name = "checkStat",
            def  = function(opt) { standardGeneric("checkStat") }
 )
 
+setGeneric(name = "checkVersion",
+           def  = function(object, ...) { standardGeneric("checkVersion") }
+)
+
 setGeneric(name = "chlb",
            def  = function(object) { standardGeneric("chlb") }
 )
@@ -943,6 +947,13 @@ setGeneric(name = "verblevel",
 )
 setGeneric(name = "verblevel<-",
            def  = function(object, value) { standardGeneric("verblevel<-") }
+)
+
+setGeneric(name = "version",
+           def  = function(object) { standardGeneric("version") }
+)
+setGeneric(name = "version<-",
+           def  = function(object, value) { standardGeneric("version<-") }
 )
 
 setGeneric(name = "writeProb",

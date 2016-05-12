@@ -41,6 +41,10 @@ geneDel <- function(model, genes, checkId = FALSE) {
       stop("needs an object of class modelorg!")
   }
   
+  if(!.hasSlot(model, "version")){
+  	validObject(model)
+  }
+  
   if (isTRUE(checkId)) {
       if (is(genes, "character")) {
           # Check if all genes are there
