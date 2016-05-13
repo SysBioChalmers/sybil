@@ -604,6 +604,7 @@ setMethod("optimizeProb", signature(object = "modelorg"),
              prCmd = NA, poCmd = NA,
              prCil = NA, poCil = NA, ...) {
 
+		stopifnot(checkVersion(object))
 
         if (!is.null(gene)) {
             if (!is.null(react)) {
@@ -1097,13 +1098,13 @@ setMethod("singletonMetabolites", signature(object = "modelorg"),
 setMethod("checkVersion", signature(object = "modelorg"),
 	function(object) {
 		if(!.hasSlot(object, "version")){
-			stop("No version slot found. Please use upgradeModelorg on object")
+			return("No version slot found. Please use upgradeModelorg with object")
 		}
 		
 		if(compareVersion(version(object), SYBIL_SETTINGS("MODELORG_VERSION")) == 0){
 			return(TRUE)
 		}
-		stop(paste0("modelorg has version ", object(version), ", but you need at least version ", version))
+		return(paste0("modelorg has version ", version(object), ", but you need at least version ", version))
 	}
 )
 

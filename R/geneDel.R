@@ -41,9 +41,7 @@ geneDel <- function(model, genes, checkId = FALSE) {
       stop("needs an object of class modelorg!")
   }
   
-  if(!.hasSlot(model, "version")){
-  	validObject(model)
-  }
+  stopifnot(checkVersion(model))
   
   if (isTRUE(checkId)) {
       if (is(genes, "character")) {
@@ -99,9 +97,10 @@ geneDel <- function(model, genes, checkId = FALSE) {
 #print(reactInd)
   
   #x <- logical(length(allGenes(model)))
-  x <- rep(TRUE, length(allGenes(model)))
+  xAll <- rep(TRUE, length(allGenes(model)))
   #print(x)
-  x[geneInd] <- FALSE
+  xAll[geneInd] <- FALSE
+  names(xAll) <- allGenes(model)
   constReact <- logical(length(reactInd))
 #print(constReact)
 
@@ -112,10 +111,15 @@ geneDel <- function(model, genes, checkId = FALSE) {
   # If that's the case, the reaction needs gene bla.
 
   ru <- gprRules(model)[reactInd]
+  ge <- genes(model)[reactInd]
   for(i in 1:length(reactInd)) {
       #print(reactInd[i])
       #print(ru[i])
       #ev <- eval(parse(text = ru[i]))
+      
+      #define x for eval:
+      x <- xAll[ge[[i]]]
+      
       ev <- tryCatch(eval(parse(text = ru[i])), error = function(e) e)
       if (is(ev, "simpleError")) {
           stop("wrong gene association:",

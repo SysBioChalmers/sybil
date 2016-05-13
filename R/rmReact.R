@@ -42,10 +42,8 @@ rmReact <- function(model, react, rm_met = TRUE) {
 		stop("needs an object of class modelorg!")
 	}
 	
-	if(!.hasSlot(model, "version")){
-		validObject(model)
-	}
-
+	stopifnot(checkVersion(model))
+	
 	# check this, propably working wrong
 	if (is.na(match(is(react)[1], c("reactId", "numeric", "integer", "character")))) {
 		stop("argument react must be numeric, character, or of class reactId. Use checkReactId!")

@@ -54,9 +54,7 @@ addReact <- function(model,
         stop("needs an object of class modelorg!")
     }
 	
-	if(!.hasSlot(model, "version")){
-		validObject(model)
-	}
+	stopifnot(checkVersion(model))
 
     if (length(met) != length(Scoef)) {
         stop("arguments 'met' and 'Scoef' must have the same length")
