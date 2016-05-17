@@ -38,7 +38,7 @@ upgradeModelorg <- function(object){
 		# just add version slot and run again.
 		object@version <- "2.0"
 		
-		rules <- lapply(gpr(object), sybil:::.parseBoolean)
+		rules <- lapply(gpr(object), .parseBoolean)
 		genes(object) <- sapply(rules, "[[", "gene")
 		gprRules(object) <- sapply(rules, "[[", "rule")
 		

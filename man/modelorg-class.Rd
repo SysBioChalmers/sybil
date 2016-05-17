@@ -118,6 +118,10 @@
 \alias{uppbnd,modelorg-method}
 \alias{uppbnd<-}
 \alias{uppbnd}
+\alias{version<-,modelorg-method}
+\alias{version,modelorg-method}
+\alias{version<-}
+\alias{version}
 
 \encoding{utf8}
 
@@ -159,6 +163,9 @@
     }
     \item{\code{mod_name}:}{
       Object of class \code{"character"} indicating the model name.
+    }
+    \item{\code{version}:}{
+      Object of class \code{"character"} indicating the model version.
     }
     \item{\code{mod_id}:}{
       Object of class \code{"character"} indicating the model id.
@@ -429,6 +436,12 @@
     }
     \item{\code{uppbnd}:}{
       \code{signature(object = "modelorg")}: gets the \code{uppbnd} slot.
+    }
+    \item{\code{version<-}:}{
+      \code{signature(object = "modelorg")}: sets the \code{version} slot.
+    }
+    \item{\code{version}:}{
+      \code{signature(object = "modelorg")}: gets the \code{version} slot.
     }
   }
 }
