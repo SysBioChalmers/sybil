@@ -39,18 +39,22 @@ setClass("modelorg",
          mod_id       = "character",   # model id
          mod_key      = "character",   # model key (unique character string)
          mod_compart  = "character",   # vector compartments
+         mod_attr     = "data.frame",  # dataframe to store attributes of the model
+         comp_attr    = "data.frame",  # dataframe to store attributes of the compartments
          met_num      = "integer",     # number of metabolites
          met_id       = "character",   # vector metabolite id's
          met_name     = "character",   # vector metabolite names
          met_comp     = "integer",     # vector the metabolites compartment
          met_single   = "logical",     # metabolites appearing only once in S
          met_de       = "logical",     # dead end metabolites
+         met_attr     = "data.frame",  # dataframe to store attributes of the metabolites
          react_num    = "integer",     # number of reactions
          react_rev    = "logical",     # vector reversibilities
          react_id     = "character",   # vector reaction id's
          react_name   = "character",   # vector reaction names
          react_single = "logical",     # reactions using metabolites appearing only once in S
          react_de     = "logical",     # reactions using dead end metabolites
+         react_attr   = "data.frame",  # dataframe to store attributes of the reactions
          S            = "Matrix",      # matrix S
          lowbnd       = "numeric",     # vector reactions lower bounds
          uppbnd       = "numeric",     # vector reactions upper bounds
@@ -111,6 +115,10 @@ setMethod(f = "initialize",
                   .Object@mod_key    <- as.character(.generateModKey())
                   .Object@react_num  <- as.integer(0)
                   .Object@met_num    <- as.integer(0)
+                  .Object@react_attr <- data.frame()
+                  .Object@met_attr   <- data.frame()
+                  .Object@mod_attr   <- data.frame()
+                  .Object@comp_attr  <- data.frame()
                   .Object@S          <- Matrix::Matrix(0, 0, 0)
                   .Object@rxnGeneMat <- Matrix::Matrix(0, 0, 0)
                   .Object@subSys     <- Matrix::Matrix(0, 0, length(subSys))
@@ -205,7 +213,6 @@ setReplaceMethod("mod_compart", signature(object = "modelorg"),
               return(object)
           }
 )
-
 
 # number of metabolites
 setMethod("met_num", signature(object = "modelorg"),
@@ -564,6 +571,64 @@ setReplaceMethod("version", signature(object = "modelorg"),
               return(object)
           }
 )
+
+# metabolites attributes
+setMethod("met_attr", signature(object = "modelorg"),
+          function(object) {
+              return(object@met_attr)
+          }
+)
+
+setReplaceMethod("met_attr", signature(object = "modelorg"),
+          function(object, value) {
+              object@met_attr <- value
+              return(object)
+          }
+)
+
+# reaction attributes
+setMethod("react_attr", signature(object = "modelorg"),
+          function(object) {
+              return(object@react_attr)
+          }
+)
+
+setReplaceMethod("react_attr", signature(object = "modelorg"),
+          function(object, value) {
+              object@react_attr <- value
+              return(object)
+          }
+)
+
+# compartment attributes
+setMethod("comp_attr", signature(object = "modelorg"),
+          function(object) {
+              return(object@comp_attr)
+          }
+)
+
+setReplaceMethod("comp_attr", signature(object = "modelorg"),
+          function(object, value) {
+              object@comp_attr <- value
+              return(object)
+          }
+)
+
+# model attributes
+setMethod("mod_attr", signature(object = "modelorg"),
+          function(object) {
+              return(object@mod_attr)
+          }
+)
+
+setReplaceMethod("mod_attr", signature(object = "modelorg"),
+          function(object, value) {
+              object@mod_attr <- value
+              return(object)
+          }
+)
+
+
 
 
 #------------------------------------------------------------------------------#

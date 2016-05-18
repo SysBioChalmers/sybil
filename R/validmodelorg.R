@@ -169,6 +169,30 @@
                 return("Wrong dimension of rxnGeneMat!")
             }
         }
+        
+        # attributes
+        
+        if(0 < ncol(met_attr(object))){
+        	if(nrow(met_attr(object)) != met){
+        		return("Wrong nrow of metabolite attributes")
+        	}
+        }
+        if(0 < ncol(react_attr(object))){
+        	if(nrow(react_attr(object)) != react){
+        		return("Wrong nrow of reaction attributes")
+        	}
+        }
+        if(0 < ncol(comp_attr(object))){
+        	if(nrow(comp_attr(object)) != length(mod_compart(object))){
+        		return("Wrong nrow of compartment attributes")
+        	}
+        }
+        if(0 < ncol(mod_attr(object))){
+        	if(nrow(mod_attr(object)) != 1){
+        		return("Wrong nrow of model attributes")
+        	}
+        }
+        
     }
     return(TRUE)
 }

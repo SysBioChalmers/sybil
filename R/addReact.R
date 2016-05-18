@@ -139,6 +139,11 @@ addReact <- function(model,
         newsubSys       <- subSys(model)
 
         newS            <- S(model)
+        
+        newMetAttr <- met_attr(model)
+        newReactAttr <- react_attr(model)
+        newCompAttr <- comp_attr(model)
+        newModAttr <- mod_attr(model)
 
     
         if (isTRUE(addRow)) {
@@ -181,6 +186,11 @@ addReact <- function(model,
                                       nrow = nNewRows,
                                       ncol = react_num(model))
             newS <- Matrix::rBind(newS, newRows)
+            
+            # new met attrs
+            if(ncol(newMetAttr) > 0){
+            	newMetAttr[nrow(newMetAttr)+1:nNewRows, ] <- NA
+            }
         }
     
         if (isTRUE(addCol)) {                        # we add at most one column
@@ -210,6 +220,12 @@ addReact <- function(model,
 
             # new column in stoichiometric matrix
             newS <- cBind(newS, rep(0, nrow(newS)))
+            
+            # new react Attr
+            # only one new row, /bc we can only add one reaction a time.
+            if(ncol(newReactAttr) > 0){
+            	newReactAttr[nrow(newReactAttr)+1, ] <- NA
+            }
             
             # subsystems
             if (any(is.na(subSystem))) {
@@ -359,6 +375,12 @@ addReact <- function(model,
         subSys(mod_out)       <- newsubSys
 
         S(mod_out)            <- newS
+        
+        react_attr(mod_out) <- newReactAttr
+        met_attr(mod_out) <- newMetAttr
+        comp_attr(mod_out) <- newCompAttr
+        mod_attr(mod_out) <- newModAttr
+        
 
     }
     else {

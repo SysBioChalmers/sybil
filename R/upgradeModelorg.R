@@ -33,16 +33,24 @@
 upgradeModelorg <- function(object){
 	stopifnot(is(object, "modelorg"))
 	
-	if(!.hasSlot(object, "version")){
+	if(!.hasSlot(object, "version") || compareVersion(version(object), "2.0") == -1){
 		# object is from a time before versions were introduced.
-		# just add version slot and run again.
+		
+		# just add version slot
 		object@version <- "2.0"
 		
+		# update gprRules to new format
 		rules <- lapply(gpr(object), .parseBoolean)
 		genes(object) <- sapply(rules, "[[", "gene")
 		gprRules(object) <- sapply(rules, "[[", "rule")
 		
-		#recursively upgrad to latest version.
+		# set attribute slots
+		react_attr(object) <- data.frame()
+		comp_attr(object) <- data.frame()
+		met_attr(object) <- data.frame()
+		mod_attr(object) <- data.frame()
+		
+		#recursively upgrade to latest version.
 		return(upgradeModelorg(object))
 	}
 	

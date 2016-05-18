@@ -8,6 +8,10 @@
 \alias{allGenes,modelorg-method}
 \alias{allGenes<-}
 \alias{allGenes}
+\alias{comp_attr<-,modelorg-method}
+\alias{comp_attr,modelorg-method}
+\alias{comp_attr<-}
+\alias{comp_attr}
 \alias{dim,modelorg-method}
 \alias{genes<-,modelorg-method}
 \alias{genes,modelorg-method}
@@ -25,6 +29,10 @@
 \alias{lowbnd,modelorg-method}
 \alias{lowbnd<-}
 \alias{lowbnd}
+\alias{met_attr<-,modelorg-method}
+\alias{met_attr,modelorg-method}
+\alias{met_attr<-}
+\alias{met_attr}
 \alias{met_comp<-,modelorg-method}
 \alias{met_comp,modelorg-method}
 \alias{met_comp<-}
@@ -49,6 +57,10 @@
 \alias{met_single,modelorg-method}
 \alias{met_single<-}
 \alias{met_single}
+\alias{mod_attr<-,modelorg-method}
+\alias{mod_attr,modelorg-method}
+\alias{mod_attr<-}
+\alias{mod_attr}
 \alias{mod_compart<-,modelorg-method}
 \alias{mod_compart,modelorg-method}
 \alias{mod_compart<-}
@@ -75,6 +87,10 @@
 \alias{obj_coef}
 \alias{printObjFunc,modelorg-method}
 \alias{printObjFunc}
+\alias{react_attr<-,modelorg-method}
+\alias{react_attr,modelorg-method}
+\alias{react_attr<-}
+\alias{react_attr}
 \alias{react_de<-,modelorg-method}
 \alias{react_de,modelorg-method}
 \alias{react_de<-}
@@ -174,8 +190,15 @@
       Object of class \code{"character"} containing a single character string
       functioning as a unique key to a model object.
     }
+    \item{\code{mod_attr}:}{
+      Object of class \code{"data.frame"} to store additional attributes of the model.
+    }
     \item{\code{mod_compart}:}{
       Object of class \code{"character"} containing the model compartments.
+    }
+    \item{\code{comp_attr}:}{
+      Object of class \code{"data.frame"} to store additional attributes for 
+      each compartment.
     }
     \item{\code{met_num}:}{
       Object of class \code{"integer"} indicating the number of metabolites.
@@ -188,6 +211,10 @@
     }
     \item{\code{met_comp}:}{
       Object of class \code{"integer"} containing the metabolites compartment.
+    }
+    \item{\code{met_attr}:}{
+      Object of class \code{"data.frame"} to store additional attributes for 
+      each metabolite.
     }
     \item{\code{met_single}:}{
       Object of class \code{"logical"} with length \code{met_num}. Element
@@ -209,6 +236,10 @@
     }
     \item{\code{react_name}:}{
       Object of class \code{"character"} containing the reaction names.
+    }
+    \item{\code{react_attr}:}{
+      Object of class \code{"data.frame"} to store additional attributes for 
+      each reaction.
     }
     \item{\code{react_single}:}{
       Object of class \code{"logical"} with length \code{react_num}. Element

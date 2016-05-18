@@ -151,6 +151,13 @@ setGeneric(name = "cmd<-",
            def  = function(object, value) { standardGeneric("cmd<-") }
 )
 
+setGeneric(name = "comp_attr",
+           def  = function(object) { standardGeneric("comp_attr") }
+)
+setGeneric(name = "comp_attr<-",
+           def  = function(object, value) { standardGeneric("comp_attr<-") }
+)
+
 setGeneric(name = "ctrlfl",
            def  = function(object) { standardGeneric("ctrlfl") }
 )
@@ -540,6 +547,13 @@ setGeneric(name = "maxSol",
            def  = function(object, ...) { standardGeneric("maxSol") }
 )
 
+setGeneric(name = "met_attr",
+           def  = function(object) { standardGeneric("met_attr") }
+)
+setGeneric(name = "met_attr<-",
+           def  = function(object, value) { standardGeneric("met_attr<-") }
+)
+
 setGeneric(name = "met_comp",
            def  = function(object) { standardGeneric("met_comp") }
 )
@@ -598,6 +612,13 @@ setGeneric(name = "method<-",
 
 setGeneric(name = "minSol",
            def  = function(object, ...) { standardGeneric("minSol") }
+)
+
+setGeneric(name = "mod_attr",
+           def  = function(object) { standardGeneric("mod_attr") }
+)
+setGeneric(name = "mod_attr<-",
+           def  = function(object, value) { standardGeneric("mod_attr<-") }
 )
 
 setGeneric(name = "mod_compart",
@@ -761,6 +782,13 @@ setGeneric(name = "react",
 )
 setGeneric(name = "react<-",
            def  = function(object, value) { standardGeneric("react<-") }
+)
+
+setGeneric(name = "react_attr",
+           def  = function(object) { standardGeneric("react_attr") }
+)
+setGeneric(name = "react_attr<-",
+           def  = function(object, value) { standardGeneric("react_attr<-") }
 )
 
 setGeneric(name = "react_de",
