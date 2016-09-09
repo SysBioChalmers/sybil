@@ -8,6 +8,8 @@
 
 \section{Changes in version 2.0.1 2016-07-05}{
   \itemize{
+  	\item After \code{rmReact} the columns of \code{rxnGeneMat} and 
+  		\code{allGenes}-slot did not match.
   	\item \code{upgradeModelorg} was not working correctly, when all gprRules
   	are empty.
   }
