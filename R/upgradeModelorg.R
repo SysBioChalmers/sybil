@@ -41,8 +41,14 @@ upgradeModelorg <- function(object){
 		
 		# update gprRules to new format
 		rules <- lapply(gpr(object), .parseBoolean)
-		genes(object) <- sapply(rules, "[[", "gene")
-		gprRules(object) <- sapply(rules, "[[", "rule")
+		if(length(rules) == 0){
+			genes(object) <- list()
+			gprRules(object) <- character(0)
+		}else{
+			genes(object) <- lapply(rules, "[[", "gene")
+			gprRules(object) <- sapply(rules, "[[", "rule")
+		}
+		
 		
 		# set attribute slots
 		react_attr(object) <- data.frame()

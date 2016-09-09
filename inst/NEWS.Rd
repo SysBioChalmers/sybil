@@ -6,6 +6,13 @@
 
 \newcommand{\CRANpkg}{\href{http://CRAN.R-project.org/package=#1}{\pkg{#1}}}
 
+\section{Changes in version 2.0.1 2016-07-05}{
+  \itemize{
+  	\item \code{upgradeModelorg} was not working correctly, when all gprRules
+  	are empty.
+  }
+}
+% ---------------------------------------------------------------------------- %
 \section{Changes in version 2.0.0 2016-05-17}{
   \itemize{
   	\item \code{modelorg}-class has changed and thus a slot \code{version} was introduced.
