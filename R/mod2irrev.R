@@ -245,7 +245,7 @@ mod2irrev <- function(model, exex = FALSE) {
       allGenes(modelIr)   <- allGenes(model)
 
       rxnG_temp          <- rxnGeneMat(model)
-      rxnG_temp          <- rxnG_temp[irrev2rev(modelIr),]
+      rxnG_temp          <- rxnG_temp[irrev2rev(modelIr), ,drop=FALSE]
       #rxnG_temp          <- rxnG_temp[irrev2rev,]
       rxnGeneMat(modelIr) <- rxnG_temp
 

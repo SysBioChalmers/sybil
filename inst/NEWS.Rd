@@ -6,6 +6,12 @@
 
 \newcommand{\CRANpkg}{\href{http://CRAN.R-project.org/package=#1}{\pkg{#1}}}
 
+\section{Changes in version 2.0.2 2017-03-24}{
+  \itemize{
+  	\item The function \code{mod2irrev} crashed when using models with just one gene.
+  }
+}
+% ---------------------------------------------------------------------------- %
 \section{Changes in version 2.0.1 2016-07-05}{
   \itemize{
   	\item After \code{rmReact} the columns of \code{rxnGeneMat} and 

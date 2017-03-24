@@ -50,7 +50,7 @@
 }
 
 \value{
-  TRUE or FALSE if \code{onlywarn} is set to TRUE, otherwisw an object of class
+  TRUE or FALSE if \code{onlywarn} is set to TRUE, otherwise an object of class
   \code{\linkS4class{checksol}}.
 }
 
