@@ -39,22 +39,27 @@ setClass("modelorg",
          mod_id       = "character",   # model id
          mod_key      = "character",   # model key (unique character string)
          mod_compart  = "character",   # vector compartments
+         mod_attr     = "data.frame",  # dataframe to store attributes of the model
+         comp_attr    = "data.frame",  # dataframe to store attributes of the compartments
          met_num      = "integer",     # number of metabolites
          met_id       = "character",   # vector metabolite id's
          met_name     = "character",   # vector metabolite names
          met_comp     = "integer",     # vector the metabolites compartment
          met_single   = "logical",     # metabolites appearing only once in S
          met_de       = "logical",     # dead end metabolites
+         met_attr     = "data.frame",  # dataframe to store attributes of the metabolites
          react_num    = "integer",     # number of reactions
          react_rev    = "logical",     # vector reversibilities
          react_id     = "character",   # vector reaction id's
          react_name   = "character",   # vector reaction names
          react_single = "logical",     # reactions using metabolites appearing only once in S
          react_de     = "logical",     # reactions using dead end metabolites
+         react_attr   = "data.frame",  # dataframe to store attributes of the reactions
          S            = "Matrix",      # matrix S
          lowbnd       = "numeric",     # vector reactions lower bounds
          uppbnd       = "numeric",     # vector reactions upper bounds
          obj_coef     = "numeric",     # vector objective coefficients
+         version      = "character",   # version to be compatible with changes in the class
          gprRules     = "character",
          genes        = "list",
          gpr          = "character",
@@ -110,9 +115,14 @@ setMethod(f = "initialize",
                   .Object@mod_key    <- as.character(.generateModKey())
                   .Object@react_num  <- as.integer(0)
                   .Object@met_num    <- as.integer(0)
+                  .Object@react_attr <- data.frame()
+                  .Object@met_attr   <- data.frame()
+                  .Object@mod_attr   <- data.frame()
+                  .Object@comp_attr  <- data.frame()
                   .Object@S          <- Matrix::Matrix(0, 0, 0)
                   .Object@rxnGeneMat <- Matrix::Matrix(0, 0, 0)
                   .Object@subSys     <- Matrix::Matrix(0, 0, length(subSys))
+                  .Object@version    <- SYBIL_SETTINGS("MODELORG_VERSION")
                   if (!is.null(subSys)) {
                       colnames(.Object@subSys) <- as.character(subSys)
                   }
@@ -203,7 +213,6 @@ setReplaceMethod("mod_compart", signature(object = "modelorg"),
               return(object)
           }
 )
-
 
 # number of metabolites
 setMethod("met_num", signature(object = "modelorg"),
@@ -548,6 +557,79 @@ setReplaceMethod("subSys", signature(object = "modelorg"),
           }
 )
 
+# reaction sub systems
+setMethod("version", signature(object = "modelorg"),
+          function(object) {
+              return(object@version)
+          }
+)
+
+setReplaceMethod("version", signature(object = "modelorg"),
+          function(object, value) {
+              object@version <- value
+              stopifnot(validObject(object))
+              return(object)
+          }
+)
+
+# metabolites attributes
+setMethod("met_attr", signature(object = "modelorg"),
+          function(object) {
+              return(object@met_attr)
+          }
+)
+
+setReplaceMethod("met_attr", signature(object = "modelorg"),
+          function(object, value) {
+              object@met_attr <- value
+              return(object)
+          }
+)
+
+# reaction attributes
+setMethod("react_attr", signature(object = "modelorg"),
+          function(object) {
+              return(object@react_attr)
+          }
+)
+
+setReplaceMethod("react_attr", signature(object = "modelorg"),
+          function(object, value) {
+              object@react_attr <- value
+              return(object)
+          }
+)
+
+# compartment attributes
+setMethod("comp_attr", signature(object = "modelorg"),
+          function(object) {
+              return(object@comp_attr)
+          }
+)
+
+setReplaceMethod("comp_attr", signature(object = "modelorg"),
+          function(object, value) {
+              object@comp_attr <- value
+              return(object)
+          }
+)
+
+# model attributes
+setMethod("mod_attr", signature(object = "modelorg"),
+          function(object) {
+              return(object@mod_attr)
+          }
+)
+
+setReplaceMethod("mod_attr", signature(object = "modelorg"),
+          function(object, value) {
+              object@mod_attr <- value
+              return(object)
+          }
+)
+
+
+
 
 #------------------------------------------------------------------------------#
 #                               other methods                                  #
@@ -587,6 +669,7 @@ setMethod("optimizeProb", signature(object = "modelorg"),
              prCmd = NA, poCmd = NA,
              prCil = NA, poCil = NA, ...) {
 
+		stopifnot(checkVersion(object))
 
         if (!is.null(gene)) {
             if (!is.null(react)) {
@@ -1073,11 +1156,22 @@ setMethod("singletonMetabolites", signature(object = "modelorg"),
     }
 )
 
+#------------------------------------------------------------------------------#
 
 
 
-
-
+setMethod("checkVersion", signature(object = "modelorg"),
+	function(object) {
+		if(!.hasSlot(object, "version")){
+			return("No version slot found. Please use upgradeModelorg with object")
+		}
+		
+		if(compareVersion(version(object), SYBIL_SETTINGS("MODELORG_VERSION")) == 0){
+			return(TRUE)
+		}
+		return(paste0("modelorg has version ", version(object), ", but you need at least version ", version))
+	}
+)
 
 
 

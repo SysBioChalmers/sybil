@@ -38,30 +38,31 @@ rmReact <- function(model, react, rm_met = TRUE) {
 #                           check model and react                              #
 #------------------------------------------------------------------------------#
 
-  if (!is(model, "modelorg")) {
-      stop("needs an object of class modelorg!")
-  }
+	if (!is(model, "modelorg")) {
+		stop("needs an object of class modelorg!")
+	}
+	
+	stopifnot(checkVersion(model))
+	
+	# check this, propably working wrong
+	if (is.na(match(is(react)[1], c("reactId", "numeric", "integer", "character")))) {
+		stop("argument react must be numeric, character, or of class reactId. Use checkReactId!")
+	}
 
-
-  # check this, propably working wrong
-  if (is.na(match(is(react)[1], c("reactId", "numeric", "integer", "character")))) {
-      stop("argument react must be numeric, character, or of class reactId. Use checkReactId!")
-  }
-
-  # argument react comes from the function checkReactId()
-  if (is(react, "reactId")) {
-      rmReact <- react_pos(react)
-  }
-  else {
-      checked_react <- checkReactId(model, react)
-      #print(is(checked_react))
-      if (!is(checked_react, "reactId")) {
-          stop("Check your reaction Id's")
-      }
-      else {
-          rmReact <- react_pos(checked_react)
-      }
-  }
+	# argument react comes from the function checkReactId()
+	if (is(react, "reactId")) {
+		rmReact <- react_pos(react)
+	}
+	else {
+		checked_react <- checkReactId(model, react)
+		#print(is(checked_react))
+		if (!is(checked_react, "reactId")) {
+			stop("Check your reaction Id's")
+		}
+		else {
+			rmReact <- react_pos(checked_react)
+		}
+	}
 
 
 #  if ((is(react, "numeric")) || (is(react, "integer"))) {
@@ -132,6 +133,10 @@ rmReact <- function(model, react, rm_met = TRUE) {
   obj_coef(mod_out)     <- obj_coef(model)[keepReact]
   react_single(mod_out) <- react_single(model)[keepReact]
   react_de(mod_out)     <- react_de(model)[keepReact]
+  
+  if(ncol(react_attr(model))>0){
+      	react_attr(mod_out)   <- react_attr(model)[keepReact, ]
+  }
 
   react_num(mod_out)    <- length(react_id(mod_out))
 
@@ -158,19 +163,8 @@ rmReact <- function(model, react, rm_met = TRUE) {
       	allGenes(mod_out)   <- ag
       }
       
-
-      # reaction to gene mapping
-      #SrGMbin     <- rxnGeneMat(mod_out) != 0
-
-      #SrGMbindiag <- diag(crossprod(SrGMbin))
-
-      #keepGenes   <- ifelse(SrGMbindiag == 0, FALSE, TRUE)
-      keepGenes <- sapply(allGenes(model), function(x) match(x, allGenes(mod_out)))
-      keepGenes <- ifelse(is.na(keepGenes), FALSE, TRUE)
-      #print(keepGenes)
-
-      rxnGeneMat(mod_out)   <- rxnGeneMat(mod_out)[, keepGenes, drop = FALSE]
-      #print(dim(rxnGeneMat))
+      newGeneOrder <- match(allGenes(mod_out), allGenes(model))
+      rxnGeneMat(mod_out)   <- rxnGeneMat(mod_out)[, newGeneOrder, drop = FALSE]
   }
   
 
@@ -208,6 +202,10 @@ rmReact <- function(model, react, rm_met = TRUE) {
       met_comp(mod_out)   <- met_comp(model)[keepMet]
       met_single(mod_out) <- met_single(model)[keepMet]
       met_de(mod_out)     <- met_de(model)[keepMet]
+      
+      if(ncol(met_attr(model))>0){
+      	met_attr(mod_out)   <- met_attr(model)[keepMet, ]
+      }
   }
   else {
       met_num(mod_out)  <- met_num(model)

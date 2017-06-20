@@ -31,6 +31,7 @@
 # The algorithm is the same.
 #
 # 2015-06-17 CJF: added handling for emtpy gprRule like "( )"
+# 2016-05-18 CJF: format of gprRules was changed.
 
 
 .parseBoolean <- function(gprRule, tokens = "()&|~") {
@@ -88,7 +89,7 @@
   gene_uniq <- unique(genes)
 
   newTok    <- match(genes, gene_uniq)
-  newTok    <- sapply(newTok, function(x) paste("x(", x, ")", sep = ""))
+  newTok    <- sapply(newTok, function(x) paste("x[", x, "]", sep = ""))
 
 #  rule <- 
   

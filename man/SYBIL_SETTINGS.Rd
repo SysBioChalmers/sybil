@@ -93,13 +93,14 @@
       for a particular \code{"SOLVER"}, the corresponding default value will
       be used in such a case.
     }
-    \item{\code{"TOLERANCE"}}{
-      Tolerance value.\cr
-      Default: \code{1E-6}.
-    }
     \item{\code{"MAXIMUM"}}{
       Absolute maximum value.\cr
       Default: \code{1000}.
+    }
+    \item{\code{"MODELORG_VERSION"}}{
+      Currtent version of \code{modelorg}-Class.\cr
+      Value: \code{"2.0"}.\cr
+      This value must not be changed.
     }
     \item{\code{"ALGORITHM"}}{
       Algorithm to use in order to analyze metabolic networks.
@@ -144,6 +145,10 @@
       A \code{data.frame} giving parameters to the optimizer software
       (e.g. GLPK).\cr
       Default: \code{as.data.frame(NA)}.
+    }
+    \item{\code{"TOLERANCE"}}{
+      Tolerance value.\cr
+      Default: \code{1E-6}.
     }
   }
 }

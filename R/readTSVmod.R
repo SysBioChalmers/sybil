@@ -26,7 +26,7 @@
 # Function: readTSVmod
 #
 #
-#
+# 2016-05-18 CJF: format of gprRules was changed.
 
 readTSVmod <- function(prefix, suffix,
                        reactList, metList = NA, modDesc = NA,
@@ -949,13 +949,14 @@ readTSVmod <- function(prefix, suffix,
         if (isTRUE(RruleL[i])) {
             geneInd <- match(Rgenes[[i]], allGenes)
             rxnGeneMat[i, geneInd] <- TRUE
+			
+			# not needed for version 2.0 modelorg gprRules
+#            for (j in 1 : length(geneInd)) {
+#                pat  <- paste("x(", j, ")", sep = "")
+#                repl <- paste("x[", geneInd[j], "]", sep = "")
 
-            for (j in 1 : length(geneInd)) {
-                pat  <- paste("x(", j, ")", sep = "")
-                repl <- paste("x[", geneInd[j], "]", sep = "")
-
-                Rrules[i] <- gsub(pat, repl, Rrules[i], fixed = TRUE)
-            }
+#                Rrules[i] <- gsub(pat, repl, Rrules[i], fixed = TRUE)
+#            }
         }
 
     }

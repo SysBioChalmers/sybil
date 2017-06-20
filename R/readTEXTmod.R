@@ -24,9 +24,9 @@
 
 ################################################
 # Function: readTEXTmod
-#
 # 
-# 
+# 2016-05-18 CJF: format of gprRules was changed.
+
 
 readTEXTmod <- function(filename,
                         description,
@@ -112,7 +112,10 @@ parse_genes <- function(gene) {
     }
 
     # for the gpr slot and gprRules slot
-    gene_pos <- which(allGenes %in% gene)
+    #gene_pos <- which(allGenes %in% gene)
+    #new gprRules:
+    gene_pos <- seq(along=gene)
+    
     if (length(gene) > 1) {
         gpr_string <- paste("(", paste(gene, sep = "", collapse = " and "), ")")
         rules_string <- paste("x[", gene_pos, "]", sep = "")
