@@ -6,7 +6,40 @@
 
 \newcommand{\CRANpkg}{\href{http://CRAN.R-project.org/package=#1}{\pkg{#1}}}
 
+\section{Changes in version 2.0.3 2017-04-20}{
+  \itemize{
+  	\item The function \code{genrateWT} caused a problem when setting only \code{solverParm} and no solver.
+  }
+}
+% ---------------------------------------------------------------------------- %
 
+\section{Changes in version 2.0.2 2017-03-24}{
+  \itemize{
+  	\item The function \code{mod2irrev} crashed when using models with just one gene.
+  }
+}
+% ---------------------------------------------------------------------------- %
+\section{Changes in version 2.0.1 2016-07-05}{
+  \itemize{
+  	\item After \code{rmReact} the columns of \code{rxnGeneMat} and 
+  		\code{allGenes}-slot did not match.
+  	\item \code{upgradeModelorg} was not working correctly, when all gprRules
+  	are empty.
+  }
+}
+% ---------------------------------------------------------------------------- %
+\section{Changes in version 2.0.0 2016-05-17}{
+  \itemize{
+  	\item \code{modelorg}-class has changed and thus a slot \code{version} was introduced.
+  	the method \code{upgradeModelorg} can convert from earlier instances of this
+  	 class. This method is only needed if \code{modelorg}-Objects were loaded 
+  	 with \code{load} from disk. 
+    \item \code{gprRules} were stored in an impractical format. This lead to bugs
+    in \code{rmReact} and further \code{geneDel}.
+    \item updated the manual of various files.
+  }
+}
+% ---------------------------------------------------------------------------- %
 \section{Changes in version 1.3.4 2016-04-18}{
   \itemize{
     \item \code{doubleGeneDel} messed up the order of deletions when using exlicit gene lists.

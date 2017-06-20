@@ -52,30 +52,30 @@
 	
 	# setting ... parameters into list
 	ca <- list(...)
-	if(is.null(ca$solver)){
-		ca$solver <- SYBIL_SETTINGS("SOLVER")
+	if(is.null(ca[["solver"]])){
+		ca[["solver"]] <- SYBIL_SETTINGS("SOLVER")
 	}
 
-    me <- checkDefaultMethod(solver = ca$solver,
+    me <- checkDefaultMethod(solver = ca[["solver"]],
                              method = "NA",
                              probType = "lp",
                              loadPackage = FALSE)
     
-    ca$solver <- me[["sol"]]
-    ca$method <- me[["met"]]
-    ca$solverParm <- as.data.frame(NA)
+    ca[["solver"]] <- me[["sol"]]
+    ca[["method"]] <- me[["met"]]
+    ca[["solverParm"]] <- as.data.frame(NA)
     
-    ca$object <- model
-    if(is.null(ca$algorithm)) ca$algorithm <- "fba"
-    ca$react <- react
-    ca$ub <- ub
-    ca$lb <- lb
+    ca[["object"]] <- model
+    if(is.null(ca[["algorithm"]])) ca[["algorithm"]] <- "fba"
+    ca[["react"]] <- react
+    ca[["ub"]] <- ub
+    ca[["lb"]] <- lb
 
     if (is(react, "list")) {
         message("calculating fba solutions ... ", appendLF = FALSE)
         suppressMessages({
-        	ca$lpdir <- rep("max", length(react))
-        	ca$verboseMode <- 0
+        	ca[["lpdir"]] <- rep("max", length(react))
+        	ca[["verboseMode"]] <- 0
         	
         	tmp <- do.call(optimizer, ca)
 #            tmp <- optimizer(model, algorithm = algorithm,
@@ -87,8 +87,8 @@
         message("OK")
     }
     else {
-    	ca$retOptSol <- FALSE
-    	ca$lpdir <- "max"
+    	ca[["retOptSol"]] <- FALSE
+    	ca[["lpdir"]] <- "max"
     	tmp <- do.call("optimizeProb", ca)
 #        tmp <- optimizeProb(model,
 #                            react = react, lb = lb, ub = ub,
