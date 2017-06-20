@@ -6,6 +6,13 @@
 
 \newcommand{\CRANpkg}{\href{http://CRAN.R-project.org/package=#1}{\pkg{#1}}}
 
+\section{Changes in version 2.0.3 2017-04-20}{
+  \itemize{
+  	\item The function \code{genrateWT} caused a problem when setting only \code{solverParm} and no solver.
+  }
+}
+% ---------------------------------------------------------------------------- %
+
 \section{Changes in version 2.0.2 2017-03-24}{
   \itemize{
   	\item The function \code{mod2irrev} crashed when using models with just one gene.

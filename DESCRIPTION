@@ -1,8 +1,8 @@
 Package: sybil
 Type: Package
 Title: Efficient Constrained Based Modelling in R
-Version: 2.0.2
-Date: 2017-03-24
+Version: 2.0.3
+Date: 2017-04-20
 Authors@R: c(
 	     person(c("C.", "Jonathan"), "Fritzemeier", role = c("cre", "ctb"), email = "clausjonathan.fritzemeier@uni-duesseldorf.de"),
 	     person("Gabriel", "Gelius-Dietrich", role = c("aut")),
@@ -53,7 +53,7 @@ Collate: generics.R validmodelorg.R validoptsol.R validreactId.R
         sysBiolAlg_lmomaClass.R sysBiolAlg_momaClass.R
         sysBiolAlg_mtfClass.R sysBiolAlg_mtfEasyConstraintClass.R
         sysBiolAlg_roomClass.R sybilLogClass.R upgradeModelorg.R
-Packaged: 2017-03-24 12:34:14 UTC; jonathan
+Packaged: 2017-04-20 12:34:14 UTC; jonathan
 Author: C. Jonathan Fritzemeier [cre, ctb],
   Gabriel Gelius-Dietrich [aut],
   Rajen Piernikarczyk [ctb],
