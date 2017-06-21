@@ -30,6 +30,7 @@ optsol_robAna,
 optsol,
 pointerToProb,
 ppProc,
+react,
 reactId,
 sybilError,
 sybilLog

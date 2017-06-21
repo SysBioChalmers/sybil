@@ -351,6 +351,10 @@ setGeneric(name = "getObjVal",
            def  = function(lp) { standardGeneric("getObjVal") }
 )
 
+setGeneric(name = "getReaction",
+           def  = function(X, ...) { standardGeneric("getReaction") }
+)
+
 setGeneric(name = "getRedCosts",
            def  = function(lp) { standardGeneric("getRedCosts") }
 )
@@ -387,6 +391,13 @@ setGeneric(name = "gprRules",
 )
 setGeneric(name = "gprRules<-",
            def  = function(object, value) { standardGeneric("gprRules<-") }
+)
+
+setGeneric(name = "gprRule",
+           def  = function(object) { standardGeneric("gprRule") }
+)
+setGeneric(name = "gprRule<-",
+           def  = function(object, value) { standardGeneric("gprRule<-") }
 )
 
 setGeneric(name = "hasEffect",
@@ -867,6 +878,13 @@ setGeneric(name = "S",
 )
 setGeneric(name = "S<-",
            def  = function(object, value) { standardGeneric("S<-") }
+)
+
+setGeneric(name = "s",
+           def  = function(object) { standardGeneric("s") }
+)
+setGeneric(name = "s<-",
+           def  = function(object, value) { standardGeneric("s<-") }
 )
 
 setGeneric(name = "scaleProb",

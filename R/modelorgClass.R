@@ -965,7 +965,44 @@ setMethod("printMetabolite", signature(object = "modelorg"),
 
     }
 )
+#------------------------------------------------------------------------------#
 
+setMethod("getReaction", signature(X = "modelorg"),
+	function(X, j = NULL, drop=T, tol = SYBIL_SETTINGS("TOLERANCE")) {
+		# translate reaction id's to indices
+		cj <- checkReactId(X, react = j)
+		if (!is(cj, "reactId")) {
+			stop("check argument j")
+		}
+		else {
+			cn <- react_pos(cj)
+		}
+		rl <- lapply(cn, function(r){
+			s <- S(X)[,r]
+			new("react",
+				id=react_id(X)[r],
+				name=react_name(X)[r],
+				rev=react_rev(X)[r],
+				met_id=met_id(X)[abs(s) > tol],
+				met_name=met_name(X)[abs(s) > tol],
+				met_comp=met_comp(X)[abs(s) > tol],
+				s=s[abs(s) > tol],
+				lowbnd=lowbnd(X)[r],
+				uppbnd=uppbnd(X)[r],
+				obj_coef=obj_coef(X)[r],
+				gprRule=gprRules(X)[r],
+				genes=genes(X)[[r]],
+				gpr = gpr(X)[r],
+				subSys = colnames(subSys(X))[subSys(X)[r,]]
+			)
+		})
+		
+		if(length(rl) == 1 && drop){
+			return(rl[[1]])
+		}
+		return(rl)
+	}
+)
 
 #------------------------------------------------------------------------------#
 
