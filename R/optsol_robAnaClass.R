@@ -49,7 +49,7 @@ setMethod("ctrlr", signature(object = "optsol_robAna"),
           }
 )
 
-setReplaceMethod("ctrlr", signature = (object = "optsol_robAna"),
+setReplaceMethod("ctrlr", signature(object = "optsol_robAna"),
                  function(object, value) {
                      object@ctrlr <- value
                      return(object)
@@ -64,7 +64,7 @@ setMethod("ctrlfl", signature(object = "optsol_robAna"),
           }
 )
 
-setReplaceMethod("ctrlfl", signature = (object = "optsol_robAna"),
+setReplaceMethod("ctrlfl", signature(object = "optsol_robAna"),
                  function(object, value) {
                      object@ctrlfl <- value
                      return(object)

@@ -8,6 +8,16 @@
 
 \section{Changes in version 2.0.3 2017-04-20}{
   \itemize{
+  	\item Preparation for \code{sybilNLO}.
+  	\item New reaction object for easy merging and splitting of models. See \code{reactClass}.
+  	\item Typo in setting methods generated an character vector \code{object}.
+  	\
+  }
+}
+% ---------------------------------------------------------------------------- %
+
+\section{Changes in version 2.0.3 2017-04-20}{
+  \itemize{
   	\item The function \code{genrateWT} caused a problem when setting only \code{solverParm} and no solver.
   }
 }

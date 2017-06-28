@@ -36,9 +36,12 @@ setClass("react",
 		 react_name	  = "character",   # reaction name
 		 react_single = "logical",	   # reaction using metabolites appearing only once in S
 		 react_de	  = "logical",	   # reaction using dead end metabolites
+		 react_attr	  = "data.frame",  # reaction attributes
 		 met_id		  = "character",   # metabolites used in this reaction
-		 met_comp	  = "integer",   # compartments of metabolites
+		 met_comp	  = "character",   # compartments of metabolites
 		 met_name	  = "character",   # metabolite names
+		 met_attr	  = "data.frame",  # metabolite attributes
+		 comp_attr	  = "data.frame",  # compartment attributes
 		 s			  = "numeric",	   # matrix S
 		 lowbnd		  = "numeric",	   # reaction lower bound
 		 uppbnd		  = "numeric",	   # reaction upper bound
@@ -72,10 +75,13 @@ setMethod(f = "initialize",
 								lowbnd=-1000,
 								uppbnd=1000,
 								obj_coef=0,
-								gprRule=NULL,
-								genes=NULL,
-								gpr = NULL,
-								subSys = NULL
+								gprRule="",
+								genes="",
+								gpr = "",
+								subSys = "",
+								met_attr = data.frame(),
+								react_attr = data.frame(),
+								comp_attr = data.frame()
 								) {
 			stopifnot(!missing(id))
 			stopifnot(!missing(met_id))
@@ -97,6 +103,10 @@ setMethod(f = "initialize",
 			.Object@genes <- genes
 			.Object@gpr <- gpr
 			.Object@subSys <- subSys
+			
+			.Object@met_attr <- met_attr
+			.Object@react_attr <- react_attr
+			.Object@comp_attr <- comp_attr
 			return(.Object)
 		  }
 )
@@ -342,6 +352,64 @@ setReplaceMethod("subSys", signature(object = "react"),
 			  return(object)
 		  }
 )
+
+
+# metabolites attributes
+setMethod("met_attr", signature(object = "react"),
+          function(object) {
+              return(object@met_attr)
+          }
+)
+
+setReplaceMethod("met_attr", signature(object = "react"),
+          function(object, value) {
+              object@met_attr <- value
+              return(object)
+          }
+)
+
+# reaction attributes
+setMethod("react_attr", signature(object = "react"),
+          function(object) {
+              return(object@react_attr)
+          }
+)
+
+setReplaceMethod("react_attr", signature(object = "react"),
+          function(object, value) {
+              object@react_attr <- value
+              return(object)
+          }
+)
+
+# compartment attributes
+setMethod("comp_attr", signature(object = "react"),
+          function(object) {
+              return(object@comp_attr)
+          }
+)
+
+setReplaceMethod("comp_attr", signature(object = "react"),
+          function(object, value) {
+              object@comp_attr <- value
+              return(object)
+          }
+)
+
+# model attributes
+setMethod("mod_attr", signature(object = "react"),
+          function(object) {
+              return(object@mod_attr)
+          }
+)
+
+setReplaceMethod("mod_attr", signature(object = "react"),
+          function(object, value) {
+              object@mod_attr <- value
+              return(object)
+          }
+)
+
 
 
 #------------------------------------------------------------------------------#

@@ -49,7 +49,7 @@ setMethod("fluxdels", signature(object = "optsol_genedel"),
           }
 )
 
-setReplaceMethod("fluxdels", signature = (object = "optsol_genedel"),
+setReplaceMethod("fluxdels", signature(object = "optsol_genedel"),
                  function(object, value) {
                      object@fluxdels <- value
                      return(object)
@@ -64,7 +64,7 @@ setMethod("hasEffect", signature(object = "optsol_genedel"),
           }
 )
 
-setReplaceMethod("hasEffect", signature = (object = "optsol_genedel"),
+setReplaceMethod("hasEffect", signature(object = "optsol_genedel"),
                  function(object, value) {
                      object@hasEffect <- value
                      return(object)
@@ -76,7 +76,7 @@ setReplaceMethod("hasEffect", signature = (object = "optsol_genedel"),
 #                               other methods                                  #
 #------------------------------------------------------------------------------#
 
-#setMethod("ind2id", signature = (object = "optsol_genedel"),
+#setMethod("ind2id", signature(object = "optsol_genedel"),
 #                 function(object, slotN) {
 #                     out <- NULL
 #                     switch (slotN,
@@ -107,7 +107,7 @@ setReplaceMethod("hasEffect", signature = (object = "optsol_genedel"),
 #)
 
 
-setMethod("deleted", signature = (object = "optsol_genedel"),
+setMethod("deleted", signature(object = "optsol_genedel"),
                  function(object, i) {
                      value <- fluxdels(object)[[i]]
                      return(value)

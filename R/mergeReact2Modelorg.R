@@ -47,18 +47,22 @@ mergeReact2Modelorg <- function(reactList = NULL, id="newModel", name=""){
 	
 	reacts <- sapply(reactList, react_id)
 	if(anyDuplicated(reacts)){
-		stop("reaction ids have to be unique")
+		stop("reaction ids have to be unique.")
 	}
 	react_id(morg) <- reacts
+	react_num(morg) <- length(reacts)
 	
-	met_id <- unique(unlist(sapply(reactList, met_id)))
+	met_id <- unique(unlist(lapply(reactList, met_id)))
 	met_id(morg) <- met_id
+	met_num(morg) <- length(met_id(morg))
 	
 	# collecting metabolite names and verifying identical assignments
 	met_name <- character(length(met_id))
 	names(met_name) <- met_id
 	for(r in reactList){
-		stopifnot(all(met_name[met_id(r)] == "" | met_name[met_id(r)] == met_name(r)))
+		if(!all(met_name[met_id(r)] == "" | met_name[met_id(r)] == met_name(r))){
+			stop("different metabolite names for same met_id")
+		}
 		met_name[met_id(r)] <- met_name(r)
 	}
 	met_name(morg) <- met_name
@@ -86,18 +90,67 @@ mergeReact2Modelorg <- function(reactList = NULL, id="newModel", name=""){
 	
 	subSys <- Matrix(F, ncol=length(subsUnique), nrow=length(reacts))
 	for(i in seq(along=reactList)){
-		if(length(subSys(r))> 0 ){
-			j <- match(subSys(r), subsUnique)
-			S[i, j] <- T
+		ss <- setdiff(subSys(r), "")
+		if(length(ss)> 0 ){
+			j <- match(ss, subsUnique)
+			subSys[i, j] <- T
 		}
 	}
+	colnames(subSys) <- subsUnique
 	subSys(morg) <- subSys
 	
 	gprRules(morg) <- sapply(reactList, gprRule)
 	gpr(morg) <- sapply(reactList, gpr)
 	genes(morg) <- lapply(reactList, genes)
-	allGenes(morg) <- unqiue(unlist(genes(morg)))
+	allGenes(morg) <- setdiff(unique(unlist(genes(morg))), "")
 	
+	
+	# built react_attr frame:
+	if(all(sapply(reactList, function(x) nrow(react_attr(x))==0))){
+		react_attr(morg) <- data.frame()
+	}else{
+		reactAttrList <- lapply(reactList, function(x){
+			df <- react_attr(x)
+			df$react_id <- react_id(x)
+			df
+		})
+		reactAttr <- Reduce(function(x, y) merge(x, y, by=intersect(colnames(x), colnames(y)), suffixes=c("", ""), all=TRUE), reactAttrList)
+		reactAttr <- reactAttr[match(react_id(morg), reactAttr$react_id), ]
+		reactAttr <- reactAttr[, setdiff(colnames(reactAttr), "react_id"), drop=F]
+		react_attr(morg) <- reactAttr
+	}
+	
+	# built met_attr frame:
+	if(all(sapply(reactList, function(x) nrow(met_attr(x))==0))){
+		met_attr(morg) <- data.frame()
+	}else{
+		metAttrList <- lapply(reactList, function(x){
+			df <- met_attr(x)
+			df$met_id <- met_id(x)
+			df
+		})
+		metAttr <- Reduce(function(x, y) merge(x, y, by=intersect(colnames(x), colnames(y)), suffixes=c("", ""), all=TRUE), metAttrList)
+		metAttr <- metAttr[match(met_id(morg), metAttr$met_id), ]
+		metAttr <- metAttr[, setdiff(colnames(metAttr), "met_id"), drop=F]
+		met_attr(morg) <- metAttr
+	}
+	
+	
+	# built comp_attr frame:
+	if(all(sapply(reactList, function(x) nrow(comp_attr(x))==0))){
+		comp_attr(morg) <- data.frame()
+	}else{
+		compAttrList <- lapply(reactList, function(x){
+			df <- comp_attr(x)
+			df
+		})
+		compAttr <- Reduce(function(x, y) merge(x, y, by=intersect(colnames(x), colnames(y)), suffixes=c("", ""), all=TRUE), compAttrList)
+		compAttr <- compAttr[match(mod_compart(morg), compAttr$comp_id), ]
+		compAttr <- compAttr[, setdiff(colnames(compAttr), "comp_id"), drop=F]
+		comp_attr(morg) <- compAttr
+	}
+	
+	mod_attr(morg)   <- data.frame()
 	stopifnot(validObject(morg, "modelorg"))
 	return(morg)
 }

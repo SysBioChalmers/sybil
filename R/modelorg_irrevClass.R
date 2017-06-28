@@ -83,7 +83,7 @@ setMethod("irrev", signature(object = "modelorg_irrev"),
           }
 )
 
-setReplaceMethod("irrev", signature = (object = "modelorg_irrev"),
+setReplaceMethod("irrev", signature(object = "modelorg_irrev"),
                  function(object, value) {
                      object@irrev <- value
                      return(object)
@@ -98,7 +98,7 @@ setMethod("matchrev", signature(object = "modelorg_irrev"),
           }
 )
 
-setReplaceMethod("matchrev", signature = (object = "modelorg_irrev"),
+setReplaceMethod("matchrev", signature(object = "modelorg_irrev"),
                  function(object, value) {
                      object@matchrev <- value
                      return(object)
@@ -113,7 +113,7 @@ setMethod("rev2irrev", signature(object = "modelorg_irrev"),
          }
 )
 
-setReplaceMethod("rev2irrev", signature = (object = "modelorg_irrev"),
+setReplaceMethod("rev2irrev", signature(object = "modelorg_irrev"),
                 function(object, value) {
                     object@rev2irrev <- value
                     return(object)
@@ -128,7 +128,7 @@ setMethod("irrev2rev", signature(object = "modelorg_irrev"),
          }
 )
 
-setReplaceMethod("irrev2rev", signature = (object = "modelorg_irrev"),
+setReplaceMethod("irrev2rev", signature(object = "modelorg_irrev"),
                 function(object, value) {
                     object@irrev2rev<- value
                     return(object)

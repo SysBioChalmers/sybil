@@ -50,7 +50,7 @@ setMethod("ctrlfl", signature(object = "optsol_phpp"),
           }
 )
 
-setReplaceMethod("ctrlfl", signature = (object = "optsol_phpp"),
+setReplaceMethod("ctrlfl", signature(object = "optsol_phpp"),
                  function(object, value) {
                      object@ctrlflm <- value
                      return(object)

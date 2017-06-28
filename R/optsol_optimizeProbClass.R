@@ -92,7 +92,7 @@ setMethod("preProc", signature(object = "optsol_optimizeProb"),
           }
 )
 
-setReplaceMethod("preProc", signature = (object = "optsol_optimizeProb"),
+setReplaceMethod("preProc", signature(object = "optsol_optimizeProb"),
                  function(object, value) {
                      object@preProc <- value
                      return(object)
@@ -107,7 +107,7 @@ setMethod("postProc", signature(object = "optsol_optimizeProb"),
           }
 )
 
-setReplaceMethod("postProc", signature = (object = "optsol_optimizeProb"),
+setReplaceMethod("postProc", signature(object = "optsol_optimizeProb"),
                  function(object, value) {
                      object@postProc <- value
                      return(object)
