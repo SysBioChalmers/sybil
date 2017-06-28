@@ -54,6 +54,7 @@ Collate: generics.R validmodelorg.R validoptsol.R validreactId.R validreact.R
         sysBiolAlg_lmomaClass.R sysBiolAlg_momaClass.R
         sysBiolAlg_mtfClass.R sysBiolAlg_mtfEasyConstraintClass.R
         sysBiolAlg_roomClass.R sybilLogClass.R upgradeModelorg.R
+        mergeReact2Modelorg.R
 Packaged: 2017-07-21 12:34:14 UTC; jonathan
 Author: C. Jonathan Fritzemeier [cre, ctb],
   Gabriel Gelius-Dietrich [aut],
