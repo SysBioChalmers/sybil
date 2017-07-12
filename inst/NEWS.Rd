@@ -6,9 +6,10 @@
 
 \newcommand{\CRANpkg}{\href{http://CRAN.R-project.org/package=#1}{\pkg{#1}}}
 
-\section{Changes in version 2.0.3 2017-04-20}{
+\section{Changes in version 2.0.3 2017-07-12}{
   \itemize{
   	\item The function \code{genrateWT} caused a problem when setting only \code{solverParm} and no solver.
+  	\item \code{rmReact} handles now \code{react_attr} and \code{met_attr} corretly, if there is just one column.
   }
 }
 % ---------------------------------------------------------------------------- %
