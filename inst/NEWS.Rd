@@ -6,6 +6,13 @@
 
 \newcommand{\CRANpkg}{\href{https://CRAN.R-project.org/package=#1}{\pkg{#1}}}
 
+\section{Changes in version 2.0.4 2017-07-18}{
+  \itemize{
+  	\item Minor changes for CRAN submission.
+  }
+}
+% ---------------------------------------------------------------------------- %
+
 \section{Changes in version 2.0.3 2017-07-12}{
   \itemize{
   	\item The function \code{genrateWT} caused a problem when setting only \code{solverParm} and no solver.

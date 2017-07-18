@@ -1,8 +1,8 @@
 Package: sybil
 Type: Package
-Title: Efficient Constrained Based Modelling in R
-Version: 2.0.3
-Date: 2017-07-12
+Title: Efficient Constrained Based Modelling
+Version: 2.0.4
+Date: 2017-07-18
 Authors@R: c(
 	     person(c("C.", "Jonathan"), "Fritzemeier", role = c("cre", "ctb"), email = "clausjonathan.fritzemeier@uni-duesseldorf.de"),
 	     person("Gabriel", "Gelius-Dietrich", role = c("aut")),
@@ -18,7 +18,7 @@ Suggests: glpkAPI (>= 1.2.8), cplexAPI (>= 1.2.4), clpAPI (>= 1.2.4),
         lpSolveAPI (>= 5.5.2.0), parallel, grid
 URL:
         http://www.cs.hhu.de/lehrstuehle-und-arbeitsgruppen/computational-cell-biology/software/sybil.html
-Description: This Systems Biology Library for R implements algorithms for constraint based analyses of metabolic networks (e.g. flux-balance analysis (FBA), minimization of metabolic adjustment (MOMA), regulatory on/off minimization (ROOM), robustness analysis and flux variability analysis). Most of the current LP/MILP solvers are supported via additional packages.
+Description: This Systems Biology Package (Gelius-Dietrich et. al. (2012) <doi:10.1186/1752-0509-7-125>) implements algorithms for constraint based analyses of metabolic networks, e.g. flux-balance analysis (FBA), minimization of metabolic adjustment (MOMA), regulatory on/off minimization (ROOM), robustness analysis and flux variability analysis. The package is easily extendable for additional algorithms. Most of the current LP/MILP solvers are supported via additional packages.
 LazyLoad: yes
 License: GPL-3 | file LICENSE
 Collate: generics.R validmodelorg.R validoptsol.R validreactId.R
@@ -53,7 +53,7 @@ Collate: generics.R validmodelorg.R validoptsol.R validreactId.R
         sysBiolAlg_lmomaClass.R sysBiolAlg_momaClass.R
         sysBiolAlg_mtfClass.R sysBiolAlg_mtfEasyConstraintClass.R
         sysBiolAlg_roomClass.R sybilLogClass.R upgradeModelorg.R
-Packaged: 2017-07-12 12:34:14 UTC; jonathan
+Packaged: 2017-07-18 09:34:14 UTC; jonathan
 Author: C. Jonathan Fritzemeier [cre, ctb],
   Gabriel Gelius-Dietrich [aut],
   Rajen Piernikarczyk [ctb],
