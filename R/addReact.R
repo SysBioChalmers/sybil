@@ -31,19 +31,20 @@
 # The algorithm is (more or less) the same.
 
 
-addReact <- function(model,
-                     id,
-                     met,
-                     Scoef,
-                     reversible = FALSE,
-                     lb = 0,
-                     ub = SYBIL_SETTINGS("MAXIMUM"),
-                     obj = 0,
-                     subSystem = NA,
-                     gprAssoc = NA,
-                     reactName = NA,
-                     metName = NA,
-                     metComp = NA) {
+setMethod("addReact", signature(model = "modelorg"),
+	function(model,
+			id,
+			met,
+			Scoef,
+			reversible = FALSE,
+			lb = 0,
+			ub = SYBIL_SETTINGS("MAXIMUM"),
+			obj = 0,
+			subSystem = NA,
+			gprAssoc = NA,
+			reactName = NA,
+			metName = NA,
+			metComp = NA) {
 
   
     # ------------------------------------------------------------------------ #
@@ -410,5 +411,5 @@ addReact <- function(model,
 
     return(mod_out)
 
-}
+})
 

@@ -38,6 +38,10 @@ setGeneric(name = "addColsToProb",
            def  = function(lp, ...) { standardGeneric("addColsToProb") }
 )
 
+setGeneric(name = "addReact",
+           def  = function(model, ...) { standardGeneric("addReact") }
+)
+
 setGeneric(name = "addRows",
            def  = function(lp, nrows, ...) { standardGeneric("addRows") }
 )

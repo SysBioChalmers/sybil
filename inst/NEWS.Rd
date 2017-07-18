@@ -6,6 +6,12 @@
 
 \newcommand{\CRANpkg}{\href{http://CRAN.R-project.org/package=#1}{\pkg{#1}}}
 
+\section{Changes in version 2.0.4 2017-07-17}{
+  \itemize{
+  	\item \code{addReact} is now a method of the \code{modelorg} class.
+  }
+}
+% ---------------------------------------------------------------------------- %
 \section{Changes in version 2.0.3 2017-04-20}{
   \itemize{
   	\item Preparation for \code{sybilNLO}.
