@@ -50,7 +50,7 @@ setMethod("chlb", signature(object = "optsol_fluxdel"),
           }
 )
 
-setReplaceMethod("chlb", signature = (object = "optsol_fluxdel"),
+setReplaceMethod("chlb", signature(object = "optsol_fluxdel"),
                  function(object, value) {
                      object@chlb <- value
                      return(object)
@@ -65,7 +65,7 @@ setMethod("chub", signature(object = "optsol_fluxdel"),
           }
 )
 
-setReplaceMethod("chub", signature = (object = "optsol_fluxdel"),
+setReplaceMethod("chub", signature(object = "optsol_fluxdel"),
                  function(object, value) {
                      object@chub <- value
                      return(object)
@@ -80,7 +80,7 @@ setMethod("dels", signature(object = "optsol_fluxdel"),
           }
 )
 
-setReplaceMethod("dels", signature = (object = "optsol_fluxdel"),
+setReplaceMethod("dels", signature(object = "optsol_fluxdel"),
                  function(object, value) {
                      object@dels <- value
                      return(object)
@@ -111,7 +111,7 @@ setMethod("lethal", signature(object = "optsol_fluxdel"),
 )
 
 
-#setMethod("ind2id", signature = (object = "optsol_fluxdel"),
+#setMethod("ind2id", signature(object = "optsol_fluxdel"),
 #                 function(object, slotN) {
 #                     out <- NULL
 #                     switch (slotN,
@@ -136,7 +136,7 @@ setMethod("lethal", signature(object = "optsol_fluxdel"),
 #)
 
 
-setMethod("deleted", signature = (object = "optsol_fluxdel"),
+setMethod("deleted", signature(object = "optsol_fluxdel"),
                  function(object, i) {
                      value <- dels(object)[i, ]
                      return(value)

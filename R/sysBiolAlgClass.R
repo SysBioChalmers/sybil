@@ -186,7 +186,7 @@ setMethod("algorithm", signature(object = "sysBiolAlg"),
           }
 )
 
-setReplaceMethod("algorithm", signature = (object = "sysBiolAlg"),
+setReplaceMethod("algorithm", signature(object = "sysBiolAlg"),
                  function(object, value) {
                      object@algorithm <- value
                      return(object)
@@ -201,7 +201,7 @@ setMethod("nr", signature(object = "sysBiolAlg"),
           }
 )
 
-setReplaceMethod("nr", signature = (object = "sysBiolAlg"),
+setReplaceMethod("nr", signature(object = "sysBiolAlg"),
                  function(object, value) {
                      object@nr <- value
                      return(object)
@@ -216,7 +216,7 @@ setMethod("nc", signature(object = "sysBiolAlg"),
           }
 )
 
-setReplaceMethod("nc", signature = (object = "sysBiolAlg"),
+setReplaceMethod("nc", signature(object = "sysBiolAlg"),
                  function(object, value) {
                      object@nc <- value
                      return(object)
@@ -231,7 +231,7 @@ setMethod("fldind", signature(object = "sysBiolAlg"),
           }
 )
 
-setReplaceMethod("fldind", signature = (object = "sysBiolAlg"),
+setReplaceMethod("fldind", signature(object = "sysBiolAlg"),
                  function(object, value) {
                      object@fldind <- value
                      return(object)
@@ -246,7 +246,7 @@ setMethod("alg_par", signature(object = "sysBiolAlg"),
           }
 )
 
-setReplaceMethod("alg_par", signature = (object = "sysBiolAlg"),
+setReplaceMethod("alg_par", signature(object = "sysBiolAlg"),
                  function(object, value) {
                      object@alg_par <- value
                      return(object)

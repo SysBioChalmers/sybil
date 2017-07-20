@@ -48,7 +48,7 @@ setMethod("react", signature(object = "optsol_fluxVar"),
           }
 )
 
-setReplaceMethod("react", signature = (object = "optsol_fluxVar"),
+setReplaceMethod("react", signature(object = "optsol_fluxVar"),
                  function(object, value) {
                      object@react <- value
                      return(object)

@@ -6,7 +6,18 @@
 
 \newcommand{\CRANpkg}{\href{http://CRAN.R-project.org/package=#1}{\pkg{#1}}}
 
-\section{Changes in version 2.0.3 2017-07-12}{
+\section{Changes in version 2.1.0 2017-07-17}{
+  \itemize{
+  	\item \code{addReact} is now a method of the \code{modelorg} class.
+  	\item Preparation for \code{sybilNLO}.
+  	\item New reaction object for easy merging and splitting of models. See \code{reactClass}.
+  	\item Typo in setting methods generated an character vector \code{object}.
+  	\
+  }
+}
+% ---------------------------------------------------------------------------- %
+
+\section{Changes in version 2.0.3 2017-04-20}{
   \itemize{
   	\item The function \code{genrateWT} caused a problem when setting only \code{solverParm} and no solver.
   	\item \code{rmReact} handles now \code{react_attr} and \code{met_attr} corretly, if there is just one column.

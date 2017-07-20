@@ -68,7 +68,7 @@ setMethod("cmd", signature(object = "ppProc"),
           }
 )
 
-setReplaceMethod("cmd", signature = (object = "ppProc"),
+setReplaceMethod("cmd", signature(object = "ppProc"),
                  function(object, value) {
                      object@cmd <- value
                      return(object)
@@ -83,7 +83,7 @@ setMethod("pa", signature(object = "ppProc"),
           }
 )
 
-setReplaceMethod("pa", signature = (object = "ppProc"),
+setReplaceMethod("pa", signature(object = "ppProc"),
                  function(object, value) {
                      object@pa <- value
                      return(object)
@@ -98,7 +98,7 @@ setMethod("ind", signature(object = "ppProc"),
           }
 )
 
-setReplaceMethod("ind", signature = (object = "ppProc"),
+setReplaceMethod("ind", signature(object = "ppProc"),
                  function(object, value) {
                      object@ind <- value
                      return(object)

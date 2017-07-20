@@ -92,7 +92,7 @@ setMethod("met_pos", signature(object = "reactId_Exch"),
           }
 )
 
-setReplaceMethod("met_pos", signature = (object = "reactId_Exch"),
+setReplaceMethod("met_pos", signature(object = "reactId_Exch"),
                  function(object, value) {
                      object@met_pos <- value
                      return(object)
@@ -107,7 +107,7 @@ setMethod("met_id", signature(object = "reactId_Exch"),
           }
 )
 
-setReplaceMethod("met_id", signature = (object = "reactId_Exch"),
+setReplaceMethod("met_id", signature(object = "reactId_Exch"),
                  function(object, value) {
                      object@met_id <- value
                      return(object)
@@ -122,7 +122,7 @@ setMethod("lowbnd", signature(object = "reactId_Exch"),
           }
 )
 
-setReplaceMethod("lowbnd", signature = (object = "reactId_Exch"),
+setReplaceMethod("lowbnd", signature(object = "reactId_Exch"),
                  function(object, value) {
                      object@lowbnd <- value
                      return(object)
@@ -137,7 +137,7 @@ setMethod("uppbnd", signature(object = "reactId_Exch"),
           }
 )
 
-setReplaceMethod("uppbnd", signature = (object = "reactId_Exch"),
+setReplaceMethod("uppbnd", signature(object = "reactId_Exch"),
                  function(object, value) {
                      object@uppbnd <- value
                      return(object)
@@ -152,7 +152,7 @@ setMethod("uptake", signature(object = "reactId_Exch"),
           }
 )
 
-setReplaceMethod("uptake", signature = (object = "reactId_Exch"),
+setReplaceMethod("uptake", signature(object = "reactId_Exch"),
                  function(object, value) {
                      object@uptake <- value
                      return(object)

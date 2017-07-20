@@ -62,7 +62,7 @@ setMethod("num_of_prob", signature(object = "checksol"),
           }
 )
 
-setReplaceMethod("num_of_prob", signature = (object = "checksol"),
+setReplaceMethod("num_of_prob", signature(object = "checksol"),
                  function(object, value) {
                      object@num_of_prob <- value
                      return(object)
@@ -77,7 +77,7 @@ setMethod("exit_code", signature(object = "checksol"),
           }
 )
 
-setReplaceMethod("exit_code", signature = (object = "checksol"),
+setReplaceMethod("exit_code", signature(object = "checksol"),
                  function(object, value) {
                      object@exit_code <- value
                      return(object)
@@ -92,7 +92,7 @@ setMethod("exit_num", signature(object = "checksol"),
           }
 )
 
-setReplaceMethod("exit_num", signature = (object = "checksol"),
+setReplaceMethod("exit_num", signature(object = "checksol"),
                  function(object, value) {
                      object@exit_num <- value
                      return(object)
@@ -107,7 +107,7 @@ setMethod("exit_meaning", signature(object = "checksol"),
           }
 )
 
-setReplaceMethod("exit_meaning", signature = (object = "checksol"),
+setReplaceMethod("exit_meaning", signature(object = "checksol"),
                  function(object, value) {
                      object@exit_meaning <- value
                      return(object)
@@ -122,7 +122,7 @@ setMethod("status_code", signature(object = "checksol"),
           }
 )
 
-setReplaceMethod("status_code", signature = (object = "checksol"),
+setReplaceMethod("status_code", signature(object = "checksol"),
                  function(object, value) {
                      object@status_code <- value
                      return(object)
@@ -137,7 +137,7 @@ setMethod("status_num", signature(object = "checksol"),
           }
 )
 
-setReplaceMethod("status_num", signature = (object = "checksol"),
+setReplaceMethod("status_num", signature(object = "checksol"),
                  function(object, value) {
                      object@status_num <- value
                      return(object)
@@ -153,7 +153,7 @@ setMethod("status_meaning", signature(object = "checksol"),
           }
 )
 
-setReplaceMethod("status_meaning", signature = (object = "checksol"),
+setReplaceMethod("status_meaning", signature(object = "checksol"),
                  function(object, value) {
                      object@status_meaning <- value
                      return(object)

@@ -78,7 +78,7 @@ setMethod("mod_id", signature(object = "optsol"),
           }
 )
 
-setReplaceMethod("mod_id", signature = (object = "optsol"),
+setReplaceMethod("mod_id", signature(object = "optsol"),
                  function(object, value) {
                      object@mod_id <- value
                      return(object)
@@ -93,7 +93,7 @@ setMethod("mod_key", signature(object = "optsol"),
           }
 )
 
-setReplaceMethod("mod_key", signature = (object = "optsol"),
+setReplaceMethod("mod_key", signature(object = "optsol"),
                  function(object, value) {
                      object@mod_key <- value
                      return(object)
@@ -108,7 +108,7 @@ setMethod("solver", signature(object = "optsol"),
           }
 )
 
-setReplaceMethod("solver", signature = (object = "optsol"),
+setReplaceMethod("solver", signature(object = "optsol"),
                  function(object, value) {
                      object@solver <- value
                      return(object)
@@ -123,7 +123,7 @@ setMethod("method", signature(object = "optsol"),
           }
 )
 
-setReplaceMethod("method", signature = (object = "optsol"),
+setReplaceMethod("method", signature(object = "optsol"),
                  function(object, value) {
                      object@method <- value
                      return(object)
@@ -138,7 +138,7 @@ setMethod("algorithm", signature(object = "optsol"),
           }
 )
 
-setReplaceMethod("algorithm", signature = (object = "optsol"),
+setReplaceMethod("algorithm", signature(object = "optsol"),
                  function(object, value) {
                      object@algorithm <- value
                      return(object)
@@ -153,7 +153,7 @@ setMethod("num_of_prob", signature(object = "optsol"),
           }
 )
 
-setReplaceMethod("num_of_prob", signature = (object = "optsol"),
+setReplaceMethod("num_of_prob", signature(object = "optsol"),
                  function(object, value) {
                      object@num_of_prob <- value
                      return(object)
@@ -168,7 +168,7 @@ setMethod("lp_num_cols", signature(object = "optsol"),
           }
 )
 
-setReplaceMethod("lp_num_cols", signature = (object = "optsol"),
+setReplaceMethod("lp_num_cols", signature(object = "optsol"),
                  function(object, value) {
                      object@lp_num_cols <- value
                      return(object)
@@ -183,7 +183,7 @@ setMethod("lp_num_rows", signature(object = "optsol"),
           }
 )
 
-setReplaceMethod("lp_num_rows", signature = (object = "optsol"),
+setReplaceMethod("lp_num_rows", signature(object = "optsol"),
                  function(object, value) {
                      object@lp_num_rows <- value
                      return(object)
@@ -240,7 +240,7 @@ setMethod("lp_obj", signature(object = "optsol"),
           }
 )
 
-setReplaceMethod("lp_obj", signature = (object = "optsol"),
+setReplaceMethod("lp_obj", signature(object = "optsol"),
                  function(object, value) {
                      object@lp_obj <- value
                      return(object)
@@ -255,7 +255,7 @@ setMethod("lp_ok", signature(object = "optsol"),
           }
 )
 
-setReplaceMethod("lp_ok", signature = (object = "optsol"),
+setReplaceMethod("lp_ok", signature(object = "optsol"),
                  function(object, value) {
                      object@lp_ok <- value
                      return(object)
@@ -270,7 +270,7 @@ setMethod("lp_stat", signature(object = "optsol"),
           }
 )
 
-setReplaceMethod("lp_stat", signature = (object = "optsol"),
+setReplaceMethod("lp_stat", signature(object = "optsol"),
                  function(object, value) {
                      object@lp_stat <- value
                      return(object)
@@ -315,7 +315,7 @@ setMethod("fldind", signature(object = "optsol"),
           }
 )
 
-setReplaceMethod("fldind", signature = (object = "optsol"),
+setReplaceMethod("fldind", signature(object = "optsol"),
                  function(object, value) {
                      object@fldind <- value
                      return(object)
@@ -330,7 +330,7 @@ setMethod("fluxdist", signature(object = "optsol"),
           }
 )
 
-setReplaceMethod("fluxdist", signature = (object = "optsol"),
+setReplaceMethod("fluxdist", signature(object = "optsol"),
                  function(object, value) {
                      object@fluxdist <- value
                      return(object)
@@ -345,7 +345,7 @@ setMethod("fluxes", signature(object = "optsol"),
           }
 )
 
-setReplaceMethod("fluxes", signature = (object = "optsol"),
+setReplaceMethod("fluxes", signature(object = "optsol"),
                  function(object, value) {
                      fluxes(object@fluxdist) <- value
                      return(object)
@@ -360,7 +360,7 @@ setMethod("alg_par", signature(object = "optsol"),
           }
 )
 
-setReplaceMethod("alg_par", signature = (object = "optsol"),
+setReplaceMethod("alg_par", signature(object = "optsol"),
                  function(object, value) {
                      object@alg_par <- value
                      return(object)
