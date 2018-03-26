@@ -1,8 +1,8 @@
 Package: sybil
 Type: Package
 Title: Efficient Constrained Based Modelling in R
-Version: 2.1.0
-Date: 2017-07-21
+Version: 2.1.1
+Date: 2018-03-26
 Authors@R: c(
 	     person(c("C.", "Jonathan"), "Fritzemeier", role = c("cre", "ctb"), email = "clausjonathan.fritzemeier@uni-duesseldorf.de"),
 	     person("Gabriel", "Gelius-Dietrich", role = c("aut")),
@@ -12,7 +12,7 @@ Authors@R: c(
              person("Abdelmoneim", "Desouki", role = "ctb"),
              person(c("Martin", "J."), "Lercher", role = "ctb"))
 Maintainer: C. Jonathan Fritzemeier <clausjonathan.fritzemeier@uni-duesseldorf.de>
-Depends: R (>= 2.14.2), Matrix, lattice
+Depends: R (>= 3.2.0), Matrix, lattice
 Imports: methods
 Suggests: glpkAPI (>= 1.2.8), cplexAPI (>= 1.2.4), clpAPI (>= 1.2.4),
         lpSolveAPI (>= 5.5.2.0), parallel, grid
@@ -55,7 +55,7 @@ Collate: generics.R validmodelorg.R validoptsol.R validreactId.R validreact.R
         sysBiolAlg_mtfClass.R sysBiolAlg_mtfEasyConstraintClass.R
         sysBiolAlg_roomClass.R sybilLogClass.R upgradeModelorg.R
         mergeReact2Modelorg.R
-Packaged: 2017-07-21 12:34:14 UTC; jonathan
+Packaged: 2018-03-26 12:34:14 UTC; jonathan
 Author: C. Jonathan Fritzemeier [cre, ctb],
   Gabriel Gelius-Dietrich [aut],
   Rajen Piernikarczyk [ctb],

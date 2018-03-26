@@ -186,7 +186,7 @@ setMethod("addReact", signature(model = "modelorg"),
             newRows <- Matrix::Matrix(0,
                                       nrow = nNewRows,
                                       ncol = react_num(model))
-            newS <- Matrix::rBind(newS, newRows)
+            newS <- rbind(newS, newRows)
             
             # new met attrs
             if(ncol(newMetAttr) > 0){
@@ -220,7 +220,7 @@ setMethod("addReact", signature(model = "modelorg"),
             newobj_coef  <- append(obj_coef(model),  obj)
 
             # new column in stoichiometric matrix
-            newS <- cBind(newS, rep(0, nrow(newS)))
+            newS <- cbind(newS, rep(0, nrow(newS)))
             
             # new react Attr
             # only one new row, /bc we can only add one reaction a time.
@@ -236,23 +236,23 @@ setMethod("addReact", signature(model = "modelorg"),
             		newsubSys <- ss
             	}
             	else {
-            		newsubSys <- rBind(ss, rep(FALSE, ncol(subSys(model))))
+            		newsubSys <- rbind(ss, rep(FALSE, ncol(subSys(model))))
             	}
             }
             else {
                 if (is(subSystem, "logical")) {
-                    newsubSys <- rBind(subSys(model), subSystem)
+                    newsubSys <- rbind(subSys(model), subSystem)
                 }
                 else {
                     nSubsRow  <- colnames(subSys(model)) %in% subSystem
-                    newsubSys <- rBind(subSys(model), nSubsRow)
+                    newsubSys <- rbind(subSys(model), nSubsRow)
                 }
             }
 
 
             # gpr association
             if (ncol(rxnGeneMat(model)) > 0) {
-                newrxnGeneMat   <- rBind(rxnGeneMat(model),
+                newrxnGeneMat   <- rbind(rxnGeneMat(model),
                                          rep(FALSE, ncol(rxnGeneMat(model))))
             }
             else { #if (nrow(rxnGeneMat(model)) > 0) {
@@ -294,7 +294,7 @@ setMethod("addReact", signature(model = "modelorg"),
                     }
                     else {
                         for (i in seq(along = gene_rule[["gene"]][new_gene])) {
-	    					newrxnGeneMat <- cBind(newrxnGeneMat,
+	    					newrxnGeneMat <- cbind(newrxnGeneMat,
 		    								   rep(FALSE, nrow(newrxnGeneMat)))
 			    		}
 					}
