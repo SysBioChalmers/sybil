@@ -154,7 +154,7 @@ setMethod(f = "initialize",
                                              sparse = TRUE)
           
                       # the final contraint matrix
-                      LHS <- rBind(LHSwt, LHS, crow)
+                      LHS <- rbind(LHSwt, LHS, crow)
           
                       subalg <- "lmoma_cobra"
                   }

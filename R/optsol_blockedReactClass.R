@@ -50,7 +50,7 @@ setMethod("blocked", signature(object = "optsol_blockedReact"),
           }
 )
 
-setReplaceMethod("blocked", signature = (object = "optsol_blockedReact"),
+setReplaceMethod("blocked", signature(object = "optsol_blockedReact"),
                  function(object, value) {
                      object@blocked <- value
                      return(object)
@@ -65,7 +65,7 @@ setMethod("react", signature(object = "optsol_blockedReact"),
           }
 )
 
-setReplaceMethod("react", signature = (object = "optsol_blockedReact"),
+setReplaceMethod("react", signature(object = "optsol_blockedReact"),
                  function(object, value) {
                      object@react <- value
                      return(object)

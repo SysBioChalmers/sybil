@@ -108,7 +108,7 @@ setMethod("mod_id", signature(object = "summaryOptsol"),
           }
 )
 
-setReplaceMethod("mod_id", signature = (object = "summaryOptsol"),
+setReplaceMethod("mod_id", signature(object = "summaryOptsol"),
                  function(object, value) {
                      object@mod_id <- value
                      return(object)
@@ -123,7 +123,7 @@ setMethod("mod_key", signature(object = "summaryOptsol"),
           }
 )
 
-setReplaceMethod("mod_key", signature = (object = "summaryOptsol"),
+setReplaceMethod("mod_key", signature(object = "summaryOptsol"),
                  function(object, value) {
                      object@mod_key <- value
                      return(object)
@@ -138,7 +138,7 @@ setMethod("mod_obj", signature(object = "summaryOptsol"),
           }
 )
 
-setReplaceMethod("mod_obj", signature = (object = "summaryOptsol"),
+setReplaceMethod("mod_obj", signature(object = "summaryOptsol"),
                  function(object, value) {
                      object@mod_obj <- value
                      return(object)

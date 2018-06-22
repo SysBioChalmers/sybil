@@ -123,7 +123,7 @@ doubleReact <- function(model, checkRev = TRUE, linInd = FALSE) {
 
           # Put the columns of S into a new matrix, which contain the same
           # number of metabolites
-          Stmp <- cBind(S(model)[, columns[[i]] ])
+          Stmp <- cbind(S(model)[, columns[[i]] ])
 
           # translate Stmp into a matrix with the row indices of the
           # non zero elements

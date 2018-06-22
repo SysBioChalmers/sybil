@@ -5,15 +5,38 @@
 \encoding{UTF-8}
 
 \newcommand{\CRANpkg}{\href{https://CRAN.R-project.org/package=#1}{\pkg{#1}}}
+% ---------------------------------------------------------------------------- %
+
+\section{Changes in version 2.1.1 2018-07-17}{
+  \itemize{
+  	\item Package sybilSBML gets rejected on CRAN, but can be downloaded
+  	at \url{http://www.cs.hhu.de/en/research-groups/computational-cell-biology/software.html}.
+  	\item Documentation for \code{react-class} and related methods.
+  	\
+  }
+}
+% ---------------------------------------------------------------------------- %
+
+\section{Changes in version 2.1.0 2017-07-17}{
+  \itemize{
+  	\item \code{addReact} is now a method of the \code{modelorg} class.
+  	\item Preparation for \code{sybilNLO}.
+  	\item New reaction object for easy merging and splitting of models. See \code{reactClass}.
+  	\item Typo in setting methods generated an character vector \code{object}.
+  	\
+  }
+}
+% ---------------------------------------------------------------------------- %
+
 
 \section{Changes in version 2.0.4 2017-07-18}{
   \itemize{
   	\item Minor changes for CRAN submission.
   }
 }
-% ---------------------------------------------------------------------------- %
 
-\section{Changes in version 2.0.3 2017-07-12}{
+
+\section{Changes in version 2.0.3 2017-04-20}{
   \itemize{
   	\item The function \code{genrateWT} caused a problem when setting only \code{solverParm} and no solver.
   	\item \code{rmReact} handles now \code{react_attr} and \code{met_attr} corretly, if there is just one column.

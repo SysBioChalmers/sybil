@@ -75,7 +75,7 @@ setMethod("react_id", signature(object = "netFlux"),
           }
 )
 
-setReplaceMethod("react_id", signature = (object = "netFlux"),
+setReplaceMethod("react_id", signature(object = "netFlux"),
                  function(object, value) {
                      object@react_id <- value
                      return(object)

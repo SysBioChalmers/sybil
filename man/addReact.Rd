@@ -1,7 +1,11 @@
-\name{addReact}
-\alias{addReact}
-
+\name{addReact,modelorg-method}
+\docType{methods}
 \encoding{utf8}
+
+
+\alias{addReact}
+\alias{addReact,modelorg-method}
+\alias{addReact,modelorg,ANY-method}
 
 \title{
   Add/Change Reactions in a Model
@@ -11,9 +15,15 @@
   The function \code{addReact} adds one reaction to a metabolic model, or
   changes one reaction in a metabolic model.
 }
-
+\section{Methods}{
+  \describe{
+    \item{\code{addReact}:}{
+      \code{signature(object = "modelorg")}: adds a new reaction to a \code{modelorg} object.
+    }
+  }
+}
 \usage{
-  addReact(model,
+\S4method{addReact}{modelorg}(model,
            id,
            met,
            Scoef,

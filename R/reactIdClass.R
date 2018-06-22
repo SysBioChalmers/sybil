@@ -77,7 +77,7 @@ setMethod("mod_id", signature(object = "reactId"),
           }
 )
 
-setReplaceMethod("mod_id", signature = (object = "reactId"),
+setReplaceMethod("mod_id", signature(object = "reactId"),
                  function(object, value) {
                      object@mod_id <- value
                      return(object)
@@ -92,7 +92,7 @@ setMethod("mod_key", signature(object = "reactId"),
           }
 )
 
-setReplaceMethod("mod_key", signature = (object = "reactId"),
+setReplaceMethod("mod_key", signature(object = "reactId"),
                  function(object, value) {
                      object@mod_key <- value
                      return(object)
@@ -107,7 +107,7 @@ setMethod("react_pos", signature(object = "reactId"),
           }
 )
 
-setReplaceMethod("react_pos", signature = (object = "reactId"),
+setReplaceMethod("react_pos", signature(object = "reactId"),
                  function(object, value) {
                      object@react_pos <- value
                      return(object)
@@ -122,7 +122,7 @@ setMethod("react_id", signature(object = "reactId"),
           }
 )
 
-setReplaceMethod("react_id", signature = (object = "reactId"),
+setReplaceMethod("react_id", signature(object = "reactId"),
                  function(object, value) {
                      object@react_id <- value
                      return(object)

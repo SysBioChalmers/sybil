@@ -105,7 +105,7 @@ modelorg <- function(id, name, subSys = NULL, compartment = NULL) {
 #------------------------------------------------------------------------------#
 
 setMethod(f = "initialize",
-          signature = "modelorg",
+          signature("modelorg"),
           definition = function(.Object, id, name,
                                 subSys = NULL, compartment = NULL) {
 
@@ -147,7 +147,7 @@ setMethod("mod_id", signature(object = "modelorg"),
           }
 )
 
-setReplaceMethod("mod_id", signature = (object = "modelorg"),
+setReplaceMethod("mod_id", signature(object = "modelorg"),
                  function(object, value) {
                      object@mod_id <- value
                      return(object)
@@ -162,7 +162,7 @@ setMethod("mod_key", signature(object = "modelorg"),
           }
 )
 
-setReplaceMethod("mod_key", signature = (object = "modelorg"),
+setReplaceMethod("mod_key", signature(object = "modelorg"),
                  function(object, value) {
                      object@mod_key <- value
                      return(object)
@@ -177,7 +177,7 @@ setMethod("mod_name", signature(object = "modelorg"),
           }
 )
 
-setReplaceMethod("mod_name", signature = (object = "modelorg"),
+setReplaceMethod("mod_name", signature(object = "modelorg"),
                  function(object, value) {
                      object@mod_name <- value
                      return(object)
@@ -192,7 +192,7 @@ setMethod("mod_desc", signature(object = "modelorg"),
           }
 )
 
-setReplaceMethod("mod_desc", signature = (object = "modelorg"),
+setReplaceMethod("mod_desc", signature(object = "modelorg"),
                  function(object, value) {
                      object@mod_desc <- value
                      return(object)
@@ -965,7 +965,68 @@ setMethod("printMetabolite", signature(object = "modelorg"),
 
     }
 )
+#------------------------------------------------------------------------------#
 
+setMethod("getReaction", signature(X = "modelorg"),
+	function(X, j = NULL, drop=T, tol = SYBIL_SETTINGS("TOLERANCE")) {
+		# translate reaction id's to indices
+		cj <- checkReactId(X, react = j)
+		if (!is(cj, "reactId")) {
+			stop("check argument j")
+		}
+		else {
+			cn <- react_pos(cj)
+		}
+		rl <- lapply(cn, function(r){
+			s <- S(X)[,r]
+			
+			if(nrow(met_attr(X))>0){
+				ma <- met_attr(X)[abs(s) > tol, , drop=F]
+			}else{
+				ma <- data.frame()
+			}
+			if(nrow(react_attr(X))>0){
+				ra <- react_attr(X)[r, , drop=F]
+			}else{
+				ra <- data.frame()
+			}
+			if(nrow(comp_attr(X))>0){
+				comp <- unique(met_comp(X)[abs(s) > tol])
+				ca <- comp_attr(X)[comp, , drop=F]
+				ca$comp_id <- mod_compart(X)[comp]
+			}else{
+				ca <- data.frame()
+			}
+			
+			new("react",
+				id=react_id(X)[r],
+				name=react_name(X)[r],
+				rev=react_rev(X)[r],
+				met_id=met_id(X)[abs(s) > tol],
+				met_name=met_name(X)[abs(s) > tol],
+				met_comp=mod_compart(X)[met_comp(X)[abs(s) > tol]],
+				s=s[abs(s) > tol],
+				lowbnd=lowbnd(X)[r],
+				uppbnd=uppbnd(X)[r],
+				obj_coef=obj_coef(X)[r],
+				gprRule=gprRules(X)[r],
+				genes=genes(X)[[r]],
+				gpr = gpr(X)[r],
+				subSys = colnames(subSys(X))[subSys(X)[r,]],
+				met_attr = ma,
+				react_attr = ra,
+				comp_attr = ca
+			)
+		})
+		
+		if(length(rl) == 1 && drop){
+			return(rl[[1]])
+		}
+		
+		names(rl) <- react_id(X)[cn]
+		return(rl)
+	}
+)
 
 #------------------------------------------------------------------------------#
 

@@ -11,7 +11,6 @@
 \alias{blocked<-}
 \alias{react,optsol_blockedReact-method}
 \alias{react<-,optsol_blockedReact-method}
-\alias{react}
 \alias{react<-}
 \alias{maxSol,optsol_blockedReact-method}
 \alias{minSol,optsol_blockedReact-method}

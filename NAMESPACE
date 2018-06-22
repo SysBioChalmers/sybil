@@ -11,6 +11,7 @@ importFrom("utils", "compareVersion")
 
 exportPattern("^[^\\.]")
 
+
 exportClass(
 checksol,
 fluxDistribution,
@@ -30,6 +31,7 @@ optsol_robAna,
 optsol,
 pointerToProb,
 ppProc,
+react,
 reactId,
 sybilError,
 sybilLog

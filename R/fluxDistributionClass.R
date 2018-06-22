@@ -72,7 +72,7 @@ setMethod("fluxes", signature(object = "fluxDistribution"),
           }
 )
 
-setReplaceMethod("fluxes", signature = (object = "fluxDistribution"),
+setReplaceMethod("fluxes", signature(object = "fluxDistribution"),
                  function(object, value) {
                      object@fluxes <- value
                      return(object)
