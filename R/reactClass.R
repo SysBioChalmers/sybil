@@ -438,35 +438,33 @@ setMethod("printReaction", signature(object = "react"),
 		mat <- s(object)
 		reaction <- character(1)
 
-		for (j in seq(along = cind)) {
 		
-			met <- met_id(object)
-			nzv <- mat
-			
-			ed <- nzv < 0
-			pd <- nzv > 0
+		met <- met_id(object)
+		nzv <- mat
+		
+		ed <- nzv < 0
+		pd <- nzv > 0
 
-			if (sum(ed) > 0) {
-				educt	<- paste(paste("(", abs(nzv[ed]), ")", sep = ""),
-								 met[ed], collapse = " + ")
-			}
-			else {
-				educt = ""
-			}
-
-			if (sum(pd) > 0) {
-				product <- paste(paste("(", nzv[pd], ")", sep = ""),
-								 met[pd], collapse = " + ")
-			}
-			else {
-				product = ""
-			}
-			
-			arrow	<- ifelse(react_rev(object)[cind[j]], " <==> ", " --> ")
-			
-			reaction[j] <- paste(react_id(check)[j],
-								 paste(educt, product, sep = arrow), sep = "\t")
+		if (sum(ed) > 0) {
+			educt	<- paste(paste("(", abs(nzv[ed]), ")", sep = ""),
+							 met[ed], collapse = " + ")
 		}
+		else {
+			educt = ""
+		}
+
+		if (sum(pd) > 0) {
+			product <- paste(paste("(", nzv[pd], ")", sep = ""),
+							 met[pd], collapse = " + ")
+		}
+		else {
+			product = ""
+		}
+		
+		arrow <- ifelse(react_rev(object), " <==> ", " --> ")
+		
+		reaction <- paste(react_id(object),
+							 paste(educt, product, sep = arrow), sep = "\t")
 
 		if (isTRUE(printOut)) {
 		   cat("abbreviation\tequation", reaction, sep = "\n", ...)

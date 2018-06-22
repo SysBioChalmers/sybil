@@ -35,7 +35,7 @@
 
 
 #------------------------------------------------------------------------------#
-#               definition of the class mergeReact2Modelorg                    #
+#            definition of the function mergeReact2Modelorg                    #
 #------------------------------------------------------------------------------#
 
 

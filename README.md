@@ -5,4 +5,4 @@ The package sybil is a Systems Biology Library for R, implementing algorithms fo
 Please consider downloading and installing the package via the R internal package management:
 `install.packages("sybil")`
 
-Alternatively you can visit the [CRAN pakage website](http://cran.r-project.org/package=sybil).
+Alternatively you can visit the [CRAN pakage website](https://cran.r-project.org/package=sybil).

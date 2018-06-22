@@ -139,6 +139,90 @@
 \alias{version<-}
 \alias{version}
 
+\alias{react-class}
+\alias{react}
+\alias{comp_attr,react-method}
+\alias{comp_attr}
+\alias{comp_attr<-,react-method}
+\alias{comp_attr<-}
+\alias{genes,react-method}
+\alias{genes}
+\alias{genes<-,react-method}
+\alias{genes<-}
+\alias{gpr,react-method}
+\alias{gpr}
+\alias{gpr<-,react-method}
+\alias{gpr<-}
+\alias{gprRule,react-method}
+\alias{gprRule}
+\alias{gprRule<-,react-method}
+\alias{gprRule<-}
+\alias{lowbnd,react-method}
+\alias{lowbnd}
+\alias{lowbnd<-,react-method}
+\alias{lowbnd<-}
+\alias{met_attr,react-method}
+\alias{met_attr}
+\alias{met_attr<-,react-method}
+\alias{met_attr<-}
+\alias{met_comp,react-method}
+\alias{met_comp}
+\alias{met_comp<-,react-method}
+\alias{met_comp<-}
+\alias{met_id,react-method}
+\alias{met_id}
+\alias{met_id<-,react-method}
+\alias{met_id<-}
+\alias{met_name,react-method}
+\alias{met_name}
+\alias{met_name<-,react-method}
+\alias{met_name<-}
+\alias{mod_attr,react-method}
+\alias{mod_attr}
+\alias{mod_attr<-,react-method}
+\alias{mod_attr<-}
+\alias{obj_coef,react-method}
+\alias{obj_coef}
+\alias{obj_coef<-,react-method}
+\alias{obj_coef<-}
+\alias{react_attr,react-method}
+\alias{react_attr}
+\alias{react_attr<-,react-method}
+\alias{react_attr<-}
+\alias{react_de,react-method}
+\alias{react_de}
+\alias{react_de<-,react-method}
+\alias{react_de<-}
+\alias{react_id,react-method}
+\alias{react_id}
+\alias{react_id<-,react-method}
+\alias{react_id<-}
+\alias{react_name,react-method}
+\alias{react_name}
+\alias{react_name<-,react-method}
+\alias{react_name<-}
+\alias{react_rev,react-method}
+\alias{react_rev}
+\alias{react_rev<-,react-method}
+\alias{react_rev<-}
+\alias{react_single,react-method}
+\alias{react_single}
+\alias{react_single<-,react-method}
+\alias{react_single<-}
+\alias{s,react-method}
+\alias{s}
+\alias{s<-,react-method}
+\alias{s<-}
+\alias{subSys,react-method}
+\alias{subSys}
+\alias{subSys<-,react-method}
+\alias{subSys<-}
+\alias{uppbnd,react-method}
+\alias{uppbnd}
+\alias{uppbnd<-,react-method}
+\alias{uppbnd<-}
+
+
 \encoding{utf8}
 
 \title{Structure of Class "modelorg"}
@@ -146,6 +230,10 @@
 \description{
   Structure of the class \code{"modelorg"}. Objects of that class are
   returned by functions like \code{\link{readTSVmod}}.
+  
+  Structure of the class \code{"react"}. This depicts a subset of a metabolic model
+  that contains only one reaction. Multiple \code{react} objects can be combined to an
+  \code{"modelorg"} object.
 }
 
 \section{Objects from the Class}{

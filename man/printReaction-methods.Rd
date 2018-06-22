@@ -7,6 +7,7 @@
 \alias{printReaction-methods}
 \alias{printReaction,modelorg,ANY-method}
 \alias{printReaction,summaryOptsol,modelorg-method}
+\alias{printReaction,react,ANY-method}
 
 \title{Print Columns of the Stoichiometric Matrix}
 
@@ -17,6 +18,7 @@
 \usage{
 \S4method{printReaction}{modelorg,ANY}(object, react, printOut = TRUE, ...)
 \S4method{printReaction}{summaryOptsol,modelorg}(object, mod, j, ...)
+\S4method{printReaction}{react,ANY}(object, printOut = TRUE, ...)
 }
 
 \section{Methods}{
@@ -26,6 +28,9 @@
     }
     \item{\code{signature(object = "summaryOptsol", mod = "modelorg")}}{
       method to use with objects of class \code{\linkS4class{summaryOptsol}}.
+    }
+    \item{\code{signature(object = "react", ...)}}{
+      method to use with objects of class \code{\linkS4class{react}}.
     }
   }
 }

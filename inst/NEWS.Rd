@@ -4,7 +4,17 @@
 \title{sybil News}
 \encoding{UTF-8}
 
-\newcommand{\CRANpkg}{\href{http://CRAN.R-project.org/package=#1}{\pkg{#1}}}
+\newcommand{\CRANpkg}{\href{https://CRAN.R-project.org/package=#1}{\pkg{#1}}}
+
+\section{Changes in version 2.1.1 2018-07-17}{
+  \itemize{
+  	\item Package sybilSBML gets rejected on CRAN, but can be downloaded
+  	at \url{http://www.cs.hhu.de/en/research-groups/computational-cell-biology/software.html}.
+  	\item Documentation for \code{react-class} and related methods.
+  	\
+  }
+}
+% ---------------------------------------------------------------------------- %
 
 \section{Changes in version 2.1.0 2017-07-17}{
   \itemize{
