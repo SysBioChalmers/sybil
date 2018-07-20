@@ -1,17 +1,18 @@
 Package: sybil
 Type: Package
 Title: Efficient Constrained Based Modelling
-Version: 2.1.1
-Date: 2018-05-14
+Version: 2.1.2
+Date: 2018-07-20
 Authors@R: c(
-	     person(c("C.", "Jonathan"), "Fritzemeier", role = c("cre", "ctb"), email = "clausjonathan.fritzemeier@uni-duesseldorf.de"),
-	     person("Gabriel", "Gelius-Dietrich", role = c("aut")),
+         person("Mayo", "Roettger", role = c("cre"), email = "mayo.roettger@hhu.de"),
+	     person("Gabriel", "Gelius-Dietrich", role = "aut"),
+             person(c("C.", "Jonathan"), "Fritzemeier", role = "ctb", email = "clausjonathan.fritzemeier@uni-duesseldorf.de"),
              person("Rajen", "Piernikarczyk", role = "ctb"),
              person(c("Marc", "Andre"), "Daxer", role = "ctb"),
              person("Benjamin", "Braasch", role = "ctb"),
              person("Abdelmoneim", "Desouki", role = "ctb"),
              person(c("Martin", "J."), "Lercher", role = "ctb"))
-Maintainer: C. Jonathan Fritzemeier <clausjonathan.fritzemeier@uni-duesseldorf.de>
+Maintainer: Mayo Roettger <mayo.roettger@hhu.de>
 Depends: R (>= 3.2.0), Matrix, lattice
 Imports: methods
 Suggests: glpkAPI (>= 1.2.8), cplexAPI (>= 1.2.4), clpAPI (>= 1.2.4),
@@ -55,9 +56,10 @@ Collate: generics.R validmodelorg.R validoptsol.R validreactId.R validreact.R
         sysBiolAlg_mtfClass.R sysBiolAlg_mtfEasyConstraintClass.R
         sysBiolAlg_roomClass.R sybilLogClass.R upgradeModelorg.R
         mergeReact2Modelorg.R
-Packaged: 2018-05-14 12:34:14 UTC; jonathan
-Author: C. Jonathan Fritzemeier [cre, ctb],
+Packaged: 2018-07-20 08:13:00 UTC; jonathan
+Author: Mayo Roettger [cre],
   Gabriel Gelius-Dietrich [aut],
+  C. Jonathan Fritzemeier [ctb],
   Rajen Piernikarczyk [ctb],
   Marc Andre Daxer [ctb],
   Benjamin Braasch [ctb],

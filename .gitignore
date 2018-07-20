@@ -1,2 +1,5 @@
 # ignore build r package:
 sybil_*.tar.gz
+.DS_Store
+*/.DS_Store
+

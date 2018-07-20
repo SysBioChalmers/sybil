@@ -7,6 +7,14 @@
 \newcommand{\CRANpkg}{\href{https://CRAN.R-project.org/package=#1}{\pkg{#1}}}
 % ---------------------------------------------------------------------------- %
 
+\section{Changes in version 2.1.2 2018-07-20}{
+  \itemize{
+      \item Maintainer change to Mayo Roettger <mayo.roettger@hhu.de>
+      \
+  }
+}
+% ---------------------------------------------------------------------------- %
+
 \section{Changes in version 2.1.1 2018-07-17}{
   \itemize{
   	\item Package sybilSBML gets rejected on CRAN, but can be downloaded

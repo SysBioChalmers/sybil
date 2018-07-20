@@ -141,6 +141,8 @@
 
 \author{
  	Claus Jonathan Fritzemeier <clausjonathan.fritzemeier@uni-duesseldorf.de>
+
+    Maintainer: Mayo Roettger <mayo.roettger@hhu.de>     
 }
 
 

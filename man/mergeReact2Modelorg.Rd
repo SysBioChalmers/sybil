@@ -12,7 +12,7 @@
 	Functions to subset and merge modelorg objects.
 }
 \description{
-	The function \code{getReaction} can extract singe \code{react} objects from 
+	The function \code{getReaction} can extract single \code{react} objects from 
 	a modelorg object. If those \code{react} objects are saved in a list, they
 	can be passed to the function \code{mergeReact2Modelorg} to combine them to 
 	one new model.
@@ -52,6 +52,8 @@ mergeReact2Modelorg(reactList = NULL, id = "newModel", name = "")
 }
 \author{
   Claus Jonathan Fritzemeier <clausjonathan.fritzemeier@uni-duesseldorf.de>
+  
+  Maintainer: Mayo Roettger <mayo.roettger@hhu.de>
 }
 
 \seealso{
