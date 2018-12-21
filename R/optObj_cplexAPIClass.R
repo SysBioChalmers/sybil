@@ -966,10 +966,10 @@ setMethod("getObjVal", signature(lp = "optObj_cplexAPI"),
 setMethod("getRedCosts", signature(lp = "optObj_cplexAPI"),
 
     function(lp) {
-
-        nr  <- cplexAPI::getNumRowsCPLEX(lp@oobj@env, lp@oobj@lp)
-        out <- cplexAPI::getDjCPLEX(lp@oobj@env, lp@oobj@lp, 0, nr-1)
-
+        
+        nc  <- cplexAPI::getNumColsCPLEX(lp@oobj@env, lp@oobj@lp)
+        out <- cplexAPI::getDjCPLEX(lp@oobj@env, lp@oobj@lp, 0, nc-1)
+        
         return(out)
     }
 )
