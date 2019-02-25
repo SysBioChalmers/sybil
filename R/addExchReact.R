@@ -42,8 +42,9 @@ addExchReact <- function(model, met, lb, ub) {
         stop("needs an object of class modelorg")
     }
 
-    if ( (length(met) < 1) || (met == "") ) {
-        stop("at least one metabolite is required")
+    #if ( (length(met) < 1) || (met == "") ) {
+    if ( (length(met) < 1) || (any(met == "")) ) {
+        stop("at least one metabolite is required and all metabolite character strings required to be non-empty")
     }
 
     if (missing(lb)) {

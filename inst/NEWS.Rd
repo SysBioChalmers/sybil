@@ -7,6 +7,15 @@
 \newcommand{\CRANpkg}{\href{https://CRAN.R-project.org/package=#1}{\pkg{#1}}}
 % ---------------------------------------------------------------------------- %
 
+\section{Changes in version 2.1.4 2019-02-25}{
+  \itemize{
+      \item Minor code change in \code{addExchReact} for CRAN submission, where
+      logical operator || encountered and used argument of length more than one.
+      \
+  }
+}
+% ---------------------------------------------------------------------------- %
+
 \section{Changes in version 2.1.3 2018-12-21}{
   \itemize{
       \item Minor bug fix for function \code{getRedCosts} in \code{optObj_cplexAPI}.
@@ -17,7 +26,7 @@
 
 \section{Changes in version 2.1.2 2018-07-20}{
   \itemize{
-      \item Maintainer change to Mayo Roettger <mayo.roettger@hhu.de>
+      \item Maintainer change to Mayo Roettger <mayo.roettger@hhu.de>.
       \
   }
 }
