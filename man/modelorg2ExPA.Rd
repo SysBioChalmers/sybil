@@ -65,8 +65,6 @@
   Bell, S. L. and Palsson, B. Ø. (2005) Expa: a program for calculating extreme
   pathways in biochemical reaction networks. \emph{Bioinformatics} \bold{21},
   1739--1740.
-
-  The ExPA homepage \url{http://gcrg.ucsd.edu/Downloads/ExtremePathwayAnalysis}.
 }
 
 \author{

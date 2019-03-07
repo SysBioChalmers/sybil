@@ -16,8 +16,6 @@
 
 \format{An object of class \code{modelorg}}
 
-\source{\url{http://gcrg.ucsd.edu/Downloads/EcoliCore}}
-
 \references{
   Bernhard Ø. Palsson (2006).
   \emph{Systems Biology: Properties of Reconstructed Networks}.
