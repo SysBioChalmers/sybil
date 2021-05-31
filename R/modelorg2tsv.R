@@ -36,7 +36,6 @@ modelorg2tsv <- function(model, prefix, suffix, extMetFlag = "b",
                          fpath = SYBIL_SETTINGS("PATH_TO_MODEL"),
                          ...) {
 
-    ## on.exit( closeAllConnections() )
     
     if (!is(model, "modelorg")) {
         stop("needs an object of class modelorg!")

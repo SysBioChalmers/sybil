@@ -30,9 +30,13 @@
 \section{Methods}{
   \describe{
     \item{\code{signature(lp = "optObj_clpAPI")}}{
-      method to use with package \pkg{optObj_clpAPI}. This method is currently
-      unused. It is not possible to provide parameters for package \pkg{clpAPI}.
-      Always \code{FALSE} will be returned.
+      method to use with package \pkg{optObj_clpAPI}. This method calls 
+      functions \code{clpAPI::getHitMaximumIterationsCLP}, 
+      \code{clpAPI::getMaximumIterationsCLP} and \code{clpAPI::getMaximumSecondsCLP} 
+      and returns a list containing \code{hitMaximumIterations}, 
+      \code{maximumIterations} and \code{maximumSeconds} respectively.
+      \code{hitMaximumIterations} should be TRUE, if maximum number of 
+      iteration (or time) bound was hit.
     }
     \item{\code{signature(lp = "optObj_cplexAPI")}}{
       method to use with package \pkg{optObj_cplexAPI}. This method writes

@@ -36,8 +36,6 @@ promptSysBiolAlg <- function(algorithm,
                              ...) {
 
     stopifnot(is(algorithm, "character"))
-
-    on.exit( closeAllConnections() )
     
     # classname
     cname <- paste(prefix, algorithm, sep = sep)
@@ -52,6 +50,8 @@ promptSysBiolAlg <- function(algorithm,
 
     if (is(sbfh, "try-error")) {
         stop("can not write to file ", sQuote(sbfh))
+    } else {
+        on.exit(close(sbfh))
     }
 
     #--------------------------------------------------------------------------#
@@ -167,10 +167,6 @@ promptSysBiolAlg <- function(algorithm,
     #--------------------------------------------------------------------------#
     # end
     #--------------------------------------------------------------------------#
-
-    if ( (is(sbfh, "file")) && (isOpen(sbfh)) ) {
-        close(sbfh)
-    }
 
     message("created file ", sQuote(sbfile))
     

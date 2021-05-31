@@ -13,7 +13,7 @@ citEntry(
  year = "2013",
  number = "1",
  pages = "125",
- url = "http://www.biomedcentral.com/1752-0509/7/125",
+ url = "https://bmcsystbiol.biomedcentral.com/articles/10.1186/1752-0509-7-125",
  doi = "10.1186/1752-0509-7-125",
  issn = "1752-0509",
  textVersion = "Gelius-Dietrich, G. et al. (2013) sybil - Efficient constraint-based modelling in R. BMC Syst Biol 7(1):125"

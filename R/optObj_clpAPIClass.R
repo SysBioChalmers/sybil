@@ -107,25 +107,45 @@ setMethod("backupProb", signature(lp = "optObj_clpAPI"),
 setMethod("setSolverParm", signature(lp = "optObj_clpAPI"),
 
     function(lp, solverParm) {
+        # at the moment, only parameters 'numberIterations', 'maximumIterations', 
+        # and 'maximumSeconds' can be set by this function. In clpAPI, 
+        # these are actually set by three individual functions. In order to 
+        # stay similar to e.g. cplexAPI, we also use the setSolverParm method 
+        # for clpAPI in sybil.
+        out <- NULL
 
-        out <- FALSE
+        if ( ! ((is.data.frame(solverParm)) || (is.list(solverParm))) ) {
+            stop(sQuote(solverParm), " must be list or data.frame")
+        }
 
-        wrong_solver_msg(lp, "setSolverParm")
+        if (any(is.na(solverParm))) {
+            stop(sQuote(solverParm), " contains NA values")
+        }
 
-#        if ( ! ((is.data.frame(solverParm)) || (is.list(solverParm))) ) {
-#            stop(sQuote(solverParm), " must be list or data.frame")
-#        }
-#
-#        if (any(is.na(solverParm))) {
-#            stop(sQuote(solverParm), " contains NA values")
-#        }
-
-        # no parameters in COIN-OR CLP yet.
-        #    lp@oobj <- clpAPI::initProbCLP()
-        #    clpAPI::setLogLevelCLP(lp@oobj, 0)
+        numericParm <- sapply(solverParm, is.numeric)
+        num <- solverParm[numericParm]
+        if (length(num) != length(solverParm)) {
+            stop(sQuote(solverParm), " contains non numeric values")
+        }
+        
+        if (length(num) > 0) {
+            # get parameter names:
+            numericp <- names(num)
+            
+            for (i in seq(along = num)) {
+                if (numericp[i] == "numberIterations") {
+                    out <- clpAPI::setNumberIterationsCLP(lp@oobj, num[["numberIterations"]])
+                } else if (numericp[i] == "maximumIterations") {
+                    out <- clpAPI::setMaximumIterationsCLP(lp@oobj, num[["maximumIterations"]])
+                } else if (numericp[i] == "maximumSeconds") {
+                    out <- clpAPI::setMaximumSecondsCLP(lp@oobj, num[["maximumSeconds"]])
+                } else {
+                    stop(sQuote("solverParm"), " contains unknown parameter ", sQuote(numericp))
+                }
+            }
+        }
 
         return(out)
-
     }
 )
 
@@ -138,9 +158,14 @@ setMethod("getSolverParm", signature(lp = "optObj_clpAPI"),
 
         out <- FALSE
 
-        wrong_solver_msg(lp, "getSolverParm")
-
+        out <- list(
+            "hitMaximumIterations" = clpAPI::getHitMaximumIterationsCLP(lp@oobj),
+            "maximumIterations" = clpAPI::getMaximumIterationsCLP(lp@oobj),
+            "maximumSeconds" = clpAPI::getMaximumSecondsCLP(lp@oobj)
+        )
+        
         return(out)
+        
     }
 )
 

@@ -124,8 +124,11 @@ setMethod("setSolverParm", signature(lp = "optObj_cplexAPI"),
 
         intdbl  <- sapply(solverParm, is.integer)
         strparm <- sapply(solverParm, is.numeric)
+        # parameters of type integer:
         int  <- solverParm[intdbl]
+        # parameters of type double:
         dbl  <- solverParm[intdbl == FALSE & strparm == TRUE]
+        # parameters of type character:
         char <- solverParm[strparm == FALSE]
 
         if (length(int) > 0) {
@@ -137,6 +140,7 @@ setMethod("setSolverParm", signature(lp = "optObj_cplexAPI"),
         }
 
         if (length(dbl) > 0) {
+            # get 
             dblp <- sapply(names(dbl), function(x) eval(parse(text = x)))
             dblv <- unlist(dbl)
             for (i in seq(along = dbl)) {

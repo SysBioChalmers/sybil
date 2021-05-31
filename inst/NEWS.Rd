@@ -7,6 +7,24 @@
 \newcommand{\CRANpkg}{\href{https://CRAN.R-project.org/package=#1}{\pkg{#1}}}
 % ---------------------------------------------------------------------------- %
 
+\section{Changes in version 2.2.0 2021-05-31}{
+  \itemize{
+      \item Changes to functions \code{modelorg2ExPA} and \code{promptSysBiolAlg}, 
+      where \code{closeAllConnections} was called \code{on.exit} of the function. 
+      The two functions now only close the connections that they have opened.
+      \item It is now possible to use the functions \code{setSolverParm} and 
+      \code{getSolverParm} in combination with package \code{clpAPI} to set the 
+      number of iterations, to set or get the maximum number of iterations or 
+      maximum number of seconds and to check, if the maximum number of iterations 
+      (or time) was hit. See also \code{setSolverParm-methods} and 
+      \code{getSolverParm-methods} in the manual.
+      \item Updated URLs in DESCRIPTION, inst/CITATION and inst/NEWS.Rd and 
+      corrected keyword definition for CRAN submission.
+      \
+  }
+}
+% ---------------------------------------------------------------------------- %
+
 \section{Changes in version 2.1.5 2019-03-07}{
   \itemize{
       \item Minor changes removing invalid URLs for CRAN submission.
@@ -43,7 +61,7 @@
 \section{Changes in version 2.1.1 2018-07-17}{
   \itemize{
   	\item Package sybilSBML gets rejected on CRAN, but can be downloaded
-  	at \url{http://www.cs.hhu.de/en/research-groups/computational-cell-biology/software.html}.
+  	at \url{https://www.cs.hhu.de/en/research-groups/computational-cell-biology/software.html}.
   	\item Documentation for \code{react-class} and related methods.
   	\
   }

@@ -84,12 +84,16 @@
 
   # number of entries
   num_genes <- length(genes)
-
+  
+  
+  # vector with unique gene numbers like "x[1]", "x[2]", "x[1]", ...
+  
   # a unique vector with all genes
   gene_uniq <- unique(genes)
-
+  
   newTok    <- match(genes, gene_uniq)
   newTok    <- sapply(newTok, function(x) paste("x[", x, "]", sep = ""))
+
 
 #  rule <- 
   
@@ -98,8 +102,9 @@
   #rule <- apply(bla, 2, function(x) gsub(x[1], x[2], rule, fixed = TRUE))
   #apply(bla, 1, function(x) print(x[1]))
 
-  for (i in 1:num_genes) {
 
+  # replace gene names in rule by their newTok string (which is x[gene_number]):
+  for (i in 1:num_genes) {
       rule <- sub(genes[i], newTok[i], rule, fixed = TRUE)
       #start <- gregexpr(genes[i], gpr, fixed  = TRUE)
       #start <- start[[1]]
@@ -208,6 +213,8 @@
   
 #  gene = "bla"
 #  rule = "blubber"
+
+  # return vector with unique gene names and the rule where numbers correspond to unique gene names
   return(list(gene = gene_uniq, rule = rule))
 
 }

@@ -37,8 +37,6 @@ modelorg2ExPA <- function(model,
                           filepath = ".",
                           suffix = "expa",
                           tol = SYBIL_SETTINGS("TOLERANCE")) {
-	
-    on.exit( closeAllConnections() )
     
     if (!is(model, "modelorg")) {
         stop("needs an object of class modelorg!")
@@ -57,8 +55,9 @@ modelorg2ExPA <- function(model,
     fh <- try(file(tofile, "wt"), silent = TRUE)
     
     if (is(fh, "try-error")) {
-        warning("cannot write ExPA file!")
-        fh <- FALSE
+        stop("cannot write ExPA file ", sQuote(fh))
+    } else {
+        on.exit(close(fh))
     }
     
     # exclude reactions
@@ -170,12 +169,6 @@ modelorg2ExPA <- function(model,
     
     }
 	
-
-    # ------------------------------------------------------------------------ #
-
-    if (is(fh, "file")) {
-        close(fh)
-    }
 
     #--------------------------------------------------------------------------#
     # end

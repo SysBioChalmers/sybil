@@ -34,9 +34,11 @@
 \section{Methods}{
   \describe{
     \item{\code{signature(lp = "optObj_clpAPI")}}{
-      method to use with package \pkg{optObj_clpAPI}. This method is currently
-      unused. It is not possible to provide parameters for package \pkg{clpAPI}.
-      Always \code{FALSE} will be returned.
+      method to use with package \pkg{optObj_clpAPI}. It is possible 
+      to set \code{numberIterations}, \code{maximumIterations} and 
+      \code{maximumSeconds}, which call the respective functions 
+      \code{setNumberIterationsCLP}, \code{setMaximumIterationsCLP} and 
+      \code{setMaximumSecondsCLP} in clpAPI.
     }
     \item{\code{signature(lp = "optObj_cplexAPI")}}{
       method to use with package \pkg{optObj_cplexAPI}. In order to set

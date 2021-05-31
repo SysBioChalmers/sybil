@@ -44,5 +44,6 @@
 	upgradeModelorg(Ec_core)
 }
 
-\keyword{upgrade, version}
+\keyword{upgrade}
+\keyword{version}
 
