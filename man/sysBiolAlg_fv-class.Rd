@@ -140,7 +140,7 @@
       \begin{array}{rll}%
           \max \textrm{ or } \min & v_i                                 \\[1ex]
           \mathrm{s.\,t.} & Z = Z_{\mathrm{opt}}                        \\[1ex]
-                          & \mbox{\boldmath$Sv$\unboldmath} = 0         \\[1ex]
+                          & \mbox{$Sv$} = 0         \\[1ex]
                           & \alpha_i \leq v_i \leq \beta_i
                             & \quad \forall i \in \{1, \ldots, n\}      \\[1ex]
       \end{array}%

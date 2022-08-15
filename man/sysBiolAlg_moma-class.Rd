@@ -130,14 +130,10 @@
   problem
   \deqn{%
     \begin{array}{rll}%
-      \min            & \begin{minipage}[b]{5em}
-                        \[ 
-                          \sum_{j=1}^n
+      \min            & \sum\limits_{j=1}^n
                           %\bigl(v_{j,\mathrm{del}} - v_{j,\mathrm{wt}}\bigr)^2
-                          \left(\left(v_{j,\mathrm{del}} - v_{j,\mathrm{wt}}\right) \cdot sd_j \right)^2
-                        \]
-                        \end{minipage}                                 \\[2em]
-          \mathrm{s.\,t.} & \mbox{\boldmath$Sv$\unboldmath} = 0         \\[1ex]
+                        \left(\left(v_{j,\mathrm{del}} - v_{j,\mathrm{wt}}\right) \cdot sd_j \right)^2 \\[2em]
+          \mathrm{s.\,t.} & \mbox{$Sv$} = 0         \\[1ex]
                           & \alpha_j \leq v_j \leq \beta_j
                             & \quad \forall j \in \{1, \ldots, n\}      \\[1ex]
     \end{array}%
@@ -153,7 +149,7 @@
   The total number of variables of the optimization problem is denoted by
   \eqn{n}. Here,
   \eqn{
-    \mbox{\boldmath$v$\unboldmath}_{\mathrm{wt}}
+    \mbox{$v$}_{\mathrm{wt}}
   }{v_wt}
   is the optimal wild type flux distribution. This can be set via the argument
   \code{wtflux}.  If \code{wtflux} is \code{NULL} (the default), the

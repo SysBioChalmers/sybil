@@ -144,13 +144,10 @@
   linear programming problem
   \deqn{%
     \begin{array}{rll}%
-      \min            & \begin{minipage}[b]{5em}
-                        \[ 
-                          \sum_{i,j=1}^n
+      \min            & \sum\limits_{i,j=1}^n
                           \bigl|v_{j,\mathrm{del}} - v_{i,\mathrm{wt}}\bigr|
-                        \]
-                        \end{minipage}                                 \\[2em]
-      \mathrm{s.\,t.} & \mbox{\boldmath$Sv$\unboldmath}_{\mathrm{del}} = 0
+                                                                       \\[2em]
+      \mathrm{s.\,t.} & \mbox{$Sv$}_{\mathrm{del}} = 0
                                                                        \\[1ex]
                         & v_i = v_{i,\mathrm{wt}}
                           & \quad \forall i \in \{1, \ldots, n\}       \\[1ex]
@@ -165,7 +162,7 @@
   }
   Here,
   \eqn{
-    \mbox{\boldmath$v$\unboldmath}_{\mathrm{wt}}
+    \mbox{$v$}_{\mathrm{wt}}
   }{v_wt}
   is the optimal wild type flux distribution. This can be set via the argument
   \code{wtflux}.  If \code{wtflux} is \code{NULL} (the default), the
@@ -176,24 +173,21 @@
   simultaneously.
   \deqn{%
     \begin{array}{rll}%
-      \min            & \begin{minipage}[b]{5em}
-                        \[ 
-                          \sum_{i,j=1}^n
+      \min            & \sum\limits_{i,j=1}^n
                           \bigl|v_{j,\mathrm{del}} - v_{i,\mathrm{wt}}\bigr|
-                        \]
-                        \end{minipage}                                 \\[2em]
-      \mathrm{s.\,t.} & \mbox{\boldmath$Sv$\unboldmath}_{\mathrm{wt}} = 0
+                                                                       \\[2em]
+      \mathrm{s.\,t.} & \mbox{$Sv$}_{\mathrm{wt}} = 0
                                                                        \\[1ex]
                         & \alpha_i \leq v_{i,\mathrm{wt}} \leq \beta_i
                           & \quad \forall i \in \{1, \ldots, n\}       \\[1ex]
 
-                      & \mbox{\boldmath$Sv$\unboldmath}_{\mathrm{del}} = 0
+                      & \mbox{$Sv$}_{\mathrm{del}} = 0
                                                                        \\[1ex]
                         & \alpha_j \leq v_{j,\mathrm{del}} \leq \beta_j
                           & \quad \forall j \in \{1, \ldots, n\}       \\[1ex]
                           & \mbox{$\mu$}_{\mathrm{wt}} =
-                            \mbox{\boldmath$c$\unboldmath}^{\mathrm{T}}
-                            \mbox{\boldmath$v$\unboldmath}_{\mathrm{wt}} \\[1ex]
+                            \mbox{$c$}^{\mathrm{T}}
+                            \mbox{$v$}_{\mathrm{wt}} \\[1ex]
     \end{array}%
   }{
      min  sum |v_j,del - v_i,wt|  for i,j = 1, ..., n

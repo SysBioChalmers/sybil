@@ -113,9 +113,9 @@
   programming problem
   \deqn{%
       \begin{array}{rll}%
-          \max            & \mbox{\boldmath$c$\unboldmath}^{\mathrm{T}}
-                                         \mbox{\boldmath$v$\unboldmath} \\[1ex]
-          \mathrm{s.\,t.} & \mbox{\boldmath$Sv$\unboldmath} = 0         \\[1ex]
+          \max            & \mbox{$c$}^{\mathrm{T}}
+                                         \mbox{$v$} \\[1ex]
+          \mathrm{s.\,t.} & \mbox{$Sv$} = 0         \\[1ex]
                           & \alpha_i \leq v_i \leq \beta_i
                             & \quad \forall i \in \{1, \ldots, n\}      \\[1ex]
       \end{array}%
@@ -130,8 +130,8 @@
   problem is denoted by \eqn{n}.  The solution of the optimization is a flux
   distribution maximizing the objective function
   \eqn{
-      \mbox{\boldmath$c$\unboldmath}^{\mathrm{T}}
-      \mbox{\boldmath$v$\unboldmath}
+      \mbox{$c$}^{\mathrm{T}}
+      \mbox{$v$}
   }{c^T v} under the a given environment and the assumption of steady state.
   The optimization can be executed by using \code{\link{optimizeProb}}.
 }

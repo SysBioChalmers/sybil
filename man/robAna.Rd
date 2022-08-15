@@ -52,9 +52,9 @@
   For each of the \code{numP} datapoints the followong lp problem is solved
   \deqn{%
       \begin{array}{rll}%
-          \max            & \mbox{\boldmath$c$\unboldmath}^{\mathrm{T}}
-                                         \mbox{\boldmath$v$\unboldmath} \\[1ex]
-          \mathrm{s.\,t.} & \mbox{\boldmath$Sv$\unboldmath} = 0         \\[1ex]
+          \max            & \mbox{$c$}^{\mathrm{T}}
+                                         \mbox{$v$} \\[1ex]
+          \mathrm{s.\,t.} & \mbox{$Sv$} = 0         \\[1ex]
                           & v_j = c_k                                   \\[1ex]
                           & \alpha_i \leq v_i \leq \beta_i
                           & \quad \forall i \in \{1, \ldots, n\}, i \neq j\\[1ex]
