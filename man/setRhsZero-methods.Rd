@@ -15,7 +15,7 @@
 
 \description{
   Set right hand side of the optimization problem to zero:
-  \eqn{\mbox{\boldmath$Sv$\unboldmath} = 0}{Sv = 0}.
+  \eqn{\mbox{$Sv$} = 0}{Sv = 0}.
 }
 
 \usage{

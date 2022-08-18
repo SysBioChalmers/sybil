@@ -237,7 +237,7 @@
     }
     \item{\code{\link{setRhsZero}}:}{
       set right hand side of the problem object to zero:
-      \eqn{\mbox{\boldmath$Sv$\unboldmath} = 0}{Sv = 0}.
+      \eqn{\mbox{$Sv$} = 0}{Sv = 0}.
     }
     \item{\code{\link{setSolverParm}}:}{
       set parameters for the used solver.

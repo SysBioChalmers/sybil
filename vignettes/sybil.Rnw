@@ -927,17 +927,11 @@ plot(opt, "EX_succ(e)")
 plot(opt, "EX_o2(e)")
 @
 
-\begin{minipage}{0.45\textwidth}
-\begin{center}
-\includegraphics[width=\textwidth]{sybil-phpp_rf}
-\end{center}
-\end{minipage}
-\hfill
-\begin{minipage}{0.45\textwidth}
-\begin{center}
-\includegraphics[width=\textwidth]{sybil-phpp_rs}
-\end{center}
-\end{minipage}
+\begin{tabular}{lr}
+\includegraphics[width=0.45\textwidth]{sybil-phpp_rf}
+&
+\includegraphics[width=0.45\textwidth]{sybil-phpp_rs}
+\end{tabular}
 
 
 % ---------------------------------------------------------------------------- %

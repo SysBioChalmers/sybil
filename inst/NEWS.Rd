@@ -7,6 +7,15 @@
 \newcommand{\CRANpkg}{\href{https://CRAN.R-project.org/package=#1}{\pkg{#1}}}
 % ---------------------------------------------------------------------------- %
 
+\section{Changes in version 2.2.1 2022-08-15}{
+  \itemize{
+      \item Fix for CRAN issue with HTML version of manual, where LaTeX
+      control sequence \code{\\boldmath} and environment minipage produced errors.
+      \item Maintainer change.
+      \item Project changed from GitLab to GitHub \url{https://github.com/SysBioChalmers/sybil}.
+  }
+}
+% ---------------------------------------------------------------------------- %
 \section{Changes in version 2.2.0 2021-05-31}{
   \itemize{
       \item Changes to functions \code{modelorg2ExPA} and \code{promptSysBiolAlg}, 
@@ -61,7 +70,7 @@
 \section{Changes in version 2.1.1 2018-07-17}{
   \itemize{
   	\item Package sybilSBML gets rejected on CRAN, but can be downloaded
-  	at \url{https://www.cs.hhu.de/en/research-groups/computational-cell-biology/software.html}.
+  	at \url{https://www.cs.hhu.de/en/research-groups/computational-cell-biology/software-contributions.html}.
   	\item Documentation for \code{react-class} and related methods.
   	\
   }
@@ -595,10 +604,10 @@
           \code{optsol_fluxdel} and class \code{optsol_genedel} are used instead
     \item added new method \code{mod_obj} to class \code{optsol\_fluxdel}, which
           returns
-          \eqn{\mbox{\boldmath$c$\unboldmath}^{\mathrm{T}}\mbox{\boldmath$v$\unboldmath}}{c^T v}
-          with \eqn{\mbox{\boldmath$c$\unboldmath}}{c} being the vector of
+          \eqn{\mbox{$c$}^{\mathrm{T}}\mbox{$v$}}{c^T v}
+          with \eqn{\mbox{$c$}}{c} being the vector of
           objective coefficients in the model (object of class \code{modelorg})
-          and \eqn{\mbox{\boldmath$v$\unboldmath}}{v} being the flux
+          and \eqn{\mbox{$v$}}{v} being the flux
           distribution as a result of the optimization. In contrast, method
           \code{lp_obj} always returns the value of the objective function
           of the used algorithm after optimization.

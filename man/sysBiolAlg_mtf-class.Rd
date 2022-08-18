@@ -159,17 +159,13 @@
   problem
   \deqn{%
       \begin{array}{rll}%
-          \min            &  \begin{minipage}[b]{2.5em}
-                             \[
-                               \sum_{i=1}^n cost_i |v_i|
-                             \]
-                             \end{minipage}                              \\[2em]
-          \mathrm{s.\,t.} & \mbox{\boldmath$Sv$\unboldmath} = 0          \\[1ex]
+          \min            &  \sum\limits_{i=1}^n cost_i |v_i|            \\[2em]
+          \mathrm{s.\,t.} & \mbox{$Sv$} = 0          \\[1ex]
                           & \alpha_i \leq v_i \leq \beta_i
                             & \quad \forall i \in \{1, \ldots, n\}       \\[1ex]
-                          & \mbox{\boldmath$c$\unboldmath}_{\mathrm{wt}} \geq
-                            \mbox{\boldmath$c$\unboldmath}^{\mathrm{T}}
-                            \mbox{\boldmath$v$\unboldmath}_{\mathrm{wt}} \\[1ex]
+                          & \mbox{$c$}_{\mathrm{wt}} \geq
+                            \mbox{$c$}^{\mathrm{T}}
+                            \mbox{$v$}_{\mathrm{wt}} \\[1ex]
       \end{array}%
   }{
       min  sum cost_i abs(v_i)  for i = 1, ..., n
@@ -179,8 +175,8 @@
   }
   with
   \eqn{
-      \mbox{\boldmath$c$\unboldmath}^{\mathrm{T}}
-      \mbox{\boldmath$v$\unboldmath}_{\mathrm{wt}}
+      \mbox{$c$}^{\mathrm{T}}
+      \mbox{$v$}_{\mathrm{wt}}
   }{c^T v_wt}
   being the previously computed optimized value of the objective function
   (argument \code{wtobj}).

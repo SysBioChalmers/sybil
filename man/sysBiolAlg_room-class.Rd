@@ -156,12 +156,9 @@
   problem
   \deqn{%
     \begin{array}{rll}%
-      \min            & \begin{minipage}[b]{5em}
-                        \[ 
-                          \sum_{i=1}^n y_i
-                        \]
-                        \end{minipage}                                 \\[2em]
-          \mathrm{s.\,t.} & \mbox{\boldmath$Sv$\unboldmath} = 0         \\[1ex]
+      \min & \sum\limits_{i=1}^n y_i
+                                                                       \\[2em]
+          \mathrm{s.\,t.} & \mbox{$Sv$} = 0         \\[1ex]
                           & \alpha_i \leq v_i \leq \beta_i
                             & \quad \forall i \in \{1, \ldots, n\}      \\[1ex]
                           & v_i - y(\beta_i - w_i^u) \leq w_i^u        \\[1ex]
