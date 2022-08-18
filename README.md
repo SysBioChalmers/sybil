@@ -18,7 +18,7 @@ If you use _sybil_ in your work, please cite:
 
 ### Contact
 
-If you're facing any problems, please open an issue or a discussion or join the [![join the chat at https://gitter.im/SysBioChalmers/sybil](https://badges.gitter.im/SysBioChalmers/sybil.svg)](https://gitter.im/SysBioChalmers/RAVEN?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge).
+If you're facing any problems, please open an [issue](https://github.com/SysBioChalmers/sybil/issues/new) or a [discussion](https://github.com/SysBioChalmers/sybil/discussions/new) or join the [![join the chat at https://gitter.im/SysBioChalmers/sybil](https://badges.gitter.im/SysBioChalmers/sybil.svg)](https://gitter.im/SysBioChalmers/RAVEN?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge).
 
 <br>
 
