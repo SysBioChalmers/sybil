@@ -2,7 +2,7 @@ Package: sybil
 Type: Package
 Title: Efficient Constrained Based Modelling
 Version: 2.2.1
-Date: 2022-08-15
+Date: 2022-08-19
 Authors@R: c(
          person("Mihail", "Anton", role = "cre", email = "mihail.anton@chalmers.se"),
              person("Mayo", "Roettger", role = c("ctb"), email = "mayo.roettger@hhu.de"),
@@ -13,7 +13,7 @@ Authors@R: c(
              person("Benjamin", "Braasch", role = "ctb"),
              person("Abdelmoneim", "Desouki", role = "ctb"),
              person(c("Martin", "J."), "Lercher", role = "ctb"))
-Maintainer: Mayo Roettger <mayo.roettger@hhu.de>
+Maintainer: Mihail Anton <mihail.anton@chalmers.se>
 Depends: R (>= 3.2.0), Matrix, lattice
 Imports: methods
 Suggests: glpkAPI (>= 1.2.8), cplexAPI (>= 1.2.4), clpAPI (>= 1.2.4),
@@ -57,7 +57,7 @@ Collate: generics.R validmodelorg.R validoptsol.R validreactId.R validreact.R
         sysBiolAlg_mtfClass.R sysBiolAlg_mtfEasyConstraintClass.R
         sysBiolAlg_roomClass.R sybilLogClass.R upgradeModelorg.R
         mergeReact2Modelorg.R
-Packaged: 2022-08-15 13:14:00 UTC; mayo
+Packaged: 2022-08-19 09:14:00 UTC; mayo
 Author: Mihail Anton [cre],
   Mayo Roettger [ctb],
   Gabriel Gelius-Dietrich [aut],
