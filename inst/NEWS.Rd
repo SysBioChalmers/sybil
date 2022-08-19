@@ -7,7 +7,7 @@
 \newcommand{\CRANpkg}{\href{https://CRAN.R-project.org/package=#1}{\pkg{#1}}}
 % ---------------------------------------------------------------------------- %
 
-\section{Changes in version 2.2.1 2022-08-15}{
+\section{Changes in version 2.2.1 2022-08-19}{
   \itemize{
       \item Fix for CRAN issue with HTML version of manual, where LaTeX
       control sequence \code{\\boldmath} and environment minipage produced errors.
