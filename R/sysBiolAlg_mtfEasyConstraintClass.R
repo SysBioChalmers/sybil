@@ -1,31 +1,4 @@
-#  sysBiolAlg_mtfEasyConstraintClass.R
-#  FBA and friends with R.
-#
-#  Copyright (C) 2010-2014 Gabriel Gelius-Dietrich, Dpt. for Bioinformatics,
-#  Copyright (C) 2014-2015 Claus Jonathan Fritzemeier, Dpt. for Bioinformatics,
-#  Institute for Informatics, Heinrich-Heine-University, Duesseldorf, Germany.
-#  All right reserved.
-#  Email: clausjonathan.fritzemeier@hhu.de
-#
-#  This file is part of sybil.
-#
-#  Sybil is free software: you can redistribute it and/or modify
-#  it under the terms of the GNU General Public License as published by
-#  the Free Software Foundation, either version 3 of the License, or
-#  (at your option) any later version.
-#
-#  Sybil is distributed in the hope that it will be useful,
-#  but WITHOUT ANY WARRANTY; without even the implied warranty of
-#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#  GNU General Public License for more details.
-#
-#  You should have received a copy of the GNU General Public License
-#  along with sybil.  If not, see <http://www.gnu.org/licenses/>.
-
-
-#------------------------------------------------------------------------------#
 #           definition of the class sysBiolAlg_mtfEasyConstraint               #
-#------------------------------------------------------------------------------#
 
 setClass(Class = "sysBiolAlg_mtfEasyConstraint",
          representation(
@@ -35,11 +8,7 @@ setClass(Class = "sysBiolAlg_mtfEasyConstraint",
          contains = "sysBiolAlg"
 )
 
-
-#------------------------------------------------------------------------------#
 #                            default constructor                               #
-#------------------------------------------------------------------------------#
-
 # contructor for class sysBiolAlg_mtfEasyConstraint
 setMethod(f = "initialize",
           signature = "sysBiolAlg_mtfEasyConstraint",
@@ -146,28 +115,18 @@ setMethod(f = "initialize",
                   LHS[(nr+2*nc+1),1:nc] <- obj_coef(model)
 
 
-                  # ---------------------------------------------
                   # columns
-                  # ---------------------------------------------
-
                   lower  <- c(lowbnd(model), rep(0, 2*nc))
                   upper  <- c(uppbnd(model), rep(absMAX, 2*nc))
 
-
-                  # ---------------------------------------------
                   # rows
-                  # ---------------------------------------------
-
                   #rlower <- c(rhs(model), rep(0, 2*nc), currmo)
                   #rupper <- c(rhs(model), rep(absMAX, 2*nc + 1))
                   rlower <- c(rep(0, nr), rep(0, 2*nc), currmo)
                   rupper <- c(rep(0, nr), rep(absMAX, 2*nc + 1))
                   rtype  <- c(rep("E", nr), rep("L", 2*nc + 1))
 
-                  # ---------------------------------------------
                   # objective function
-                  # ---------------------------------------------
-
                   if (is.null(costcoeffw)) {
                       fw <- rep(1, nc)
                   }
@@ -176,7 +135,6 @@ setMethod(f = "initialize",
                                 (length(costcoeffw) == nc))
                       fw <- costcoeffw
                   }
-
                   if (is.null(costcoefbw)) {
                       bw <- fw
                   }
@@ -185,15 +143,9 @@ setMethod(f = "initialize",
                                 (length(costcoefbw) == nc))
                       bw <- costcoefbw
                   }
-
-
                   cobj <- c(rep(0, nc), bw, fw)
 
-
-                  # ---------------------------------------------
                   # row and column names for the problem object
-                  # ---------------------------------------------
-
                   if (isTRUE(useNames)) {
                       if (is.null(cnames)) {
                           cn <- c(react_id(model),
@@ -290,10 +242,7 @@ setMethod(f = "initialize",
                   	
                   }
 
-                  # ---------------------------------------------
                   # build problem object
-                  # ---------------------------------------------
-
                   .Object <- callNextMethod(.Object,
                                             sbalg      = "mtf",
                                             pType      = "lp",
@@ -325,66 +274,17 @@ setMethod(f = "initialize",
                       writeProb(problem(.Object),
                                 fname = as.character(writeProbToFileName))
                   }
-#
-#                  # ---------------------------------------------
-#                  # build problem object
-#                  # ---------------------------------------------
-#
-#                  lp <- optObj(solver = solver, method = method)
-#                  lp <- initProb(lp, nrows = nRows, ncols = nCols)
-#
-#                  # ---------------------------------------------
-#                  # set control parameters
-#                  # ---------------------------------------------
-#
-#                  if (!any(is.na(solverParm))) {
-#                      setSolverParm(lp, solverParm)
-#                  }
-#    
-#
-#                  loadLPprob(lp,
-#                             nCols = nCols,
-#                             nRows = nRows,
-#                             mat   = LHS,
-#                             ub    = upper,
-#                             lb    = lower,
-#                             obj   = cobj,
-#                             rlb   = rlower,
-#                             rub   = rupper,
-#                             rtype = rtype,
-#                             lpdir = "min"
-#                  )
-#                  
-#                  if (!is.null(scaling)) {
-#                      scaleProb(lp, scaling)
-#                  }
-#                  
-#                  .Object@problem   <- lp
-#                  .Object@algorithm <- "mtf"
-#                  .Object@nr        <- as.integer(nRows)
-#                  .Object@nc        <- as.integer(nCols)
-#                  .Object@fldind    <- as.integer(fi)
-#                  validObject(.Object)
-
               }
               return(.Object)
           }
 )
 
-
-#------------------------------------------------------------------------------#
-#                                other methods                                 #
-#------------------------------------------------------------------------------#
-
 setMethod("changeMaxObj", signature(object = "sysBiolAlg_mtf"),
     function(object, j) {
-
         if (!is.null(object@maxobj)) {
             changeRowsBnds(problem(object), i = nr(object),
                            lb = object@maxobj[j], ub = SYBIL_SETTINGS("MAXIMUM"))
         }
-
         return(invisible(TRUE))
     }
 )
-

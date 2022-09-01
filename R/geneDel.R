@@ -1,42 +1,10 @@
-#  geneDel.R
-#  FBA and friends with R.
-#
-#  Copyright (C) 2010-2014 Gabriel Gelius-Dietrich, Dpt. for Bioinformatics,
-#  Institute for Informatics, Heinrich-Heine-University, Duesseldorf, Germany.
-#  All right reserved.
-#  Email: geliudie@uni-duesseldorf.de
-#  
-#  This file is part of sybil.
-#
-#  Sybil is free software: you can redistribute it and/or modify
-#  it under the terms of the GNU General Public License as published by
-#  the Free Software Foundation, either version 3 of the License, or
-#  (at your option) any later version.
-#
-#  Sybil is distributed in the hope that it will be useful,
-#  but WITHOUT ANY WARRANTY; without even the implied warranty of
-#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#  GNU General Public License for more details.
-#
-#  You should have received a copy of the GNU General Public License
-#  along with sybil.  If not, see <http://www.gnu.org/licenses/>.
-
-
-################################################
-# Function: geneDel
-#
-#
 # The function geneDel() is inspired by the function
 # deleteModelGenes() contained in the COBRA Toolbox.
-
-
 geneDel <- function(model, genes, checkId = FALSE) {
 #geneDel <- function(model, genes, lpmodel, solver = SYBIL_SETTINGS("SOLVER")) {
-
   #if (missing(lpmodel)) {
   #    solver = "none"
   #}
-
   if (!is(model, "modelorg")) {
       stop("needs an object of class modelorg!")
   }
@@ -86,30 +54,15 @@ geneDel <- function(model, genes, checkId = FALSE) {
 #
 #                    ))
   reactInd <- apply(rxnGeneMat(model)[,geneInd, drop = FALSE], 2, function(x) which(x != 0) )
-
-                    
- #   print(reactInd)  
-  #print(unlist(reactInd))
-
   reactInd <- unlist(reactInd)
-#return(reactInd)  
 
-#print(reactInd)
-  
-  #x <- logical(length(allGenes(model)))
   xAll <- rep(TRUE, length(allGenes(model)))
-  #print(x)
   xAll[geneInd] <- FALSE
   names(xAll) <- allGenes(model)
   constReact <- logical(length(reactInd))
-#print(constReact)
-
-
-  # also do better here
 
   # Constrain a reaction if the corresponding gpr rule is FALSE.
   # If that's the case, the reaction needs gene bla.
-
   ru <- gprRules(model)[reactInd]
   ge <- genes(model)[reactInd]
   for(i in 1:length(reactInd)) {
@@ -144,27 +97,8 @@ geneDel <- function(model, genes, checkId = FALSE) {
       }
   }
 
-#  print(reactInd)
-#  print(constReact)
-#  print(reactInd[constReact])
-  
   if (any(constReact)) {
-     
-      #if (solver == "none") {
-      #    model <- changeBounds(model, reactInd[constReact])
-      #
-      #}
-
-      #if (solver == "glpkAPI") {
-      #     model <- changeBounds(lpmodel, reactInd[constReact], solver = solver)
-      #}
-
-      #return(model)
-
     return(unique(reactInd[constReact]))
   }
-
-  #return(as.numeric(NA))
   return(NULL)
-
 }

@@ -1,34 +1,4 @@
-#  summaryOptsolClass.R
-#  FBA and friends with R.
-#
-#  Copyright (C) 2010-2014 Gabriel Gelius-Dietrich, Dpt. for Bioinformatics,
-#  Institute for Informatics, Heinrich-Heine-University, Duesseldorf, Germany.
-#  All right reserved.
-#  Email: geliudie@uni-duesseldorf.de
-#
-#  This file is part of sybil.
-#
-#  Sybil is free software: you can redistribute it and/or modify
-#  it under the terms of the GNU General Public License as published by
-#  the Free Software Foundation, either version 3 of the License, or
-#  (at your option) any later version.
-#
-#  Sybil is distributed in the hope that it will be useful,
-#  but WITHOUT ANY WARRANTY; without even the implied warranty of
-#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#  GNU General Public License for more details.
-#
-#  You should have received a copy of the GNU General Public License
-#  along with sybil.  If not, see <http://www.gnu.org/licenses/>.
-
-
-# summaryOptsolClass
-
-
-#------------------------------------------------------------------------------#
 #                            class definitions                                 #
-#------------------------------------------------------------------------------#
-
 setClass("summaryOptsol",
     representation(
         mod_id        = "character",     # model id
@@ -43,11 +13,7 @@ setClass("summaryOptsol",
     )
 )
 
-
-#------------------------------------------------------------------------------#
 #                              user constructors                               #
-#------------------------------------------------------------------------------#
-
 summaryOptsol <- function(opt,
                           mod,
                           perc = 1,
@@ -96,11 +62,7 @@ summaryOptsol <- function(opt,
     return(os)
 }
 
-
-#------------------------------------------------------------------------------#
 #                            setters and getters                               #
-#------------------------------------------------------------------------------#
-
 # mod_id
 setMethod("mod_id", signature(object = "summaryOptsol"),
           function(object) {
@@ -114,7 +76,6 @@ setReplaceMethod("mod_id", signature(object = "summaryOptsol"),
                      return(object)
                  }
 )
-
 
 # mod_key
 setMethod("mod_key", signature(object = "summaryOptsol"),
@@ -130,7 +91,6 @@ setReplaceMethod("mod_key", signature(object = "summaryOptsol"),
                  }
 )
 
-
 # mod_obj
 setMethod("mod_obj", signature(object = "summaryOptsol"),
           function(object) {
@@ -144,7 +104,6 @@ setReplaceMethod("mod_obj", signature(object = "summaryOptsol"),
                      return(object)
                  }
 )
-
 
 # nzeros
 setMethod("nzeros", signature(object = "summaryOptsol"),
@@ -174,11 +133,7 @@ setMethod("ex_val", signature(object = "summaryOptsol"),
           }
 )
 
-
-#------------------------------------------------------------------------------#
 #                               other methods                                  #
-#------------------------------------------------------------------------------#
-
 # show
 setMethod("show", signature(object = "summaryOptsol"),
     function(object) {
@@ -229,7 +184,6 @@ setMethod("plot", signature(x = "summaryOptsol", y = "missing"),
           }
 )
 
-
 # printMetabolite
 setMethod("printReaction", signature(object = "summaryOptsol",
                                      mod = "modelorg"),
@@ -254,7 +208,6 @@ setMethod("printReaction", signature(object = "summaryOptsol",
               return(invisible(ltstr))
           }
 )
-
 
 # printExchange
 setMethod("printExchange", signature(object = "summaryOptsol"),
@@ -285,7 +238,6 @@ setMethod("printExchange", signature(object = "summaryOptsol"),
           }
 )
 
-
 # image
 setMethod("image", signature(x = "summaryOptsol"),
           function(x,
@@ -295,9 +247,7 @@ setMethod("image", signature(x = "summaryOptsol"),
                    useAbs = TRUE,
                    sub = NULL,
                    printOut = TRUE, ...) {
-
               mat <- .recodeMatrix(x@ex_val, signs = c(-1, 0, 1))
-
               imgmat <- image(Matrix(mat),
                               cuts = 2,
                               xlab = xlab,
@@ -308,7 +258,6 @@ setMethod("image", signature(x = "summaryOptsol"),
               if (isTRUE(printOut)) {
                   print(imgmat)
               }
-
               return(invisible(imgmat))
           }
 )

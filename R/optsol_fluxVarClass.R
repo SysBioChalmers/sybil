@@ -1,34 +1,4 @@
-#  optsol_fluxVarClass.R
-#  FBA and friends with R.
-#
-#  Copyright (C) 2010-2014 Gabriel Gelius-Dietrich, Dpt. for Bioinformatics,
-#  Institute for Informatics, Heinrich-Heine-University, Duesseldorf, Germany.
-#  All right reserved.
-#  Email: geliudie@uni-duesseldorf.de
-#  
-#  This file is part of sybil.
-#
-#  Sybil is free software: you can redistribute it and/or modify
-#  it under the terms of the GNU General Public License as published by
-#  the Free Software Foundation, either version 3 of the License, or
-#  (at your option) any later version.
-#
-#  Sybil is distributed in the hope that it will be useful,
-#  but WITHOUT ANY WARRANTY; without even the implied warranty of
-#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#  GNU General Public License for more details.
-#
-#  You should have received a copy of the GNU General Public License
-#  along with sybil.  If not, see <http://www.gnu.org/licenses/>.
-
-
-# optsol_fluxVarClass
-
-
-#------------------------------------------------------------------------------#
-#                  definition of the class optsol_fluxVar                      #
-#------------------------------------------------------------------------------#
-
+#                  definition of the class optsol_fluxVar                      
 setClass("optsol_fluxVar",
          representation(
               react    = "reactId"    # reactions to be analyzed
@@ -36,11 +6,7 @@ setClass("optsol_fluxVar",
          contains = "optsol_optimizeProb"
 )
 
-
-#------------------------------------------------------------------------------#
-#                            setters and getters                               #
-#------------------------------------------------------------------------------#
-
+#                            setters and getters                               
 # react
 setMethod("react", signature(object = "optsol_fluxVar"),
           function(object) {
@@ -55,11 +21,7 @@ setReplaceMethod("react", signature(object = "optsol_fluxVar"),
                  }
 )
 
-
-#------------------------------------------------------------------------------#
-#                               other methods                                  #
-#------------------------------------------------------------------------------#
-
+#                               other methods                                  
 ###
 # use barplot? or better hist allow user to set plot to false
 ###
@@ -82,7 +44,6 @@ setMethod("plotRangeVar", signature(object = "optsol_fluxVar"),
           }
 )
 
-
 setMethod("blReact", signature(object = "optsol_fluxVar"),
           function(object, tol = SYBIL_SETTINGS("TOLERANCE")) {
               
@@ -92,7 +53,6 @@ setMethod("blReact", signature(object = "optsol_fluxVar"),
               return(bl)
           }
 )
-
 
 setMethod("minSol", signature(object = "optsol_fluxVar"),
           function(object, slot) {
@@ -136,7 +96,6 @@ setMethod("minSol", signature(object = "optsol_fluxVar"),
           }
 )
 
-
 setMethod("maxSol", signature(object = "optsol_fluxVar"),
           function(object, slot) {
 
@@ -178,104 +137,6 @@ setMethod("maxSol", signature(object = "optsol_fluxVar"),
               return(maximalSolutions)
           }
 )
-
-
-#setMethod("[", signature = signature(x = "optsol_fluxVar"),
-#    function(x, i, j, ..., drop = FALSE) {
-#
-#        if ((missing(i)) || (length(i) == 0)) {
-#            return(x)
-#        }
-#
-#        if (max(i) > length(x)) {
-#            stop("subscript out of bounds")
-#        }
-#
-#        slots <- slotNames(x)
-#        
-#        isO <- is(x)[1]
-#        
-#        newClass <- paste(isO, "(",
-#                          "solver = \"", solver(x), "\"",
-#                          sep = "")
-#        
-#
-#        newClass <- paste(newClass, ", ",
-#                          "nprob = length(i)-1, ",
-#                          "lpdir = \"lp_dir(x)\", ",
-#                          "ncols = lp_num_cols(x), ",
-#                          "nrows = lp_num_rows(x), ",
-#                          "objf = \"obj_function(x)\", ",
-#                          "fld = ",
-#        sep = "")
-#
-#        NC_fl <- FALSE
-#        if (nfluxes(x) > 1) {
-#            NC_fl <- TRUE
-#            newClass <- paste(newClass, TRUE, sep = "")
-#        }
-#        else {
-#            newClass <- paste(newClass, FALSE, sep = "")
-#        }
-#
-#        if ("delmat" %in% slots) {
-#            dimdel <- dim(delmat(x))
-#            newClass <- paste(newClass, ", delrows = ", dimdel[1], ", delcols = ", dimdel[2], sep = "")
-#        }
-#        else {
-#            NC_delmat <- NA
-#        }
-#
-#        newClass <- paste(newClass, ")", sep = "")
-#
-#        newSol <- eval(parse(text = newClass))
-#
-#        method(newSol)    <- method(x)[i]
-#        algorithm(newSol) <- algorithm(x)
-#        lp_obj(newSol)    <- lp_obj(x)[i]
-#        lp_ok(newSol)     <- lp_ok(x)[i]
-#        lp_stat(newSol)   <- lp_stat(x)[i]
-#        react_id(newSol)  <- react_id(x)
-#        allGenes(newSol)  <- allGenes(x)
-#        chlb(newSol)      <- chlb(x)[i]
-#        chub(newSol)      <- chub(x)[i]
-#        dels(newSol)      <- dels(x)[i, , drop = FALSE]
-#
-#        if (isTRUE(NC_fl)) {
-#            fluxes(newSol) <- fluxes(x)[,i, drop = FALSE]
-#        }
-#
-#        if ("fluxdels" %in% slots) {
-#            fluxdels(newSol) <- fluxdels(x)[i]
-#        }
-#
-#        if ("hasEffect" %in% slots) {
-#            hasEffect(newSol) <- hasEffect(x)[i]
-#        }
-#
-#        if ("delmat" %in% slots) {
-#            if (all(is.na(dels(newSol)[1,]))) {
-#                delmi <- dels(newSol)[-1,1]
-#                delmj <- dels(newSol)[-1,2]
-#            }
-#            else {
-#                delmi <- dels(newSol)[,1]
-#                delmj <- dels(newSol)[,2]
-#            }
-#            
-#            delmat(newSol) <- delmat(x)[
-#                                        as.character(delmi),
-#                                        as.character(delmj),
-#                                        drop = FALSE
-#                                       ]
-#        }
-#
-#        return(newSol)
-#
-#
-#    }
-#)
-
 
 setMethod("plot", signature(x = "optsol_fluxVar", y = "missing"),
           function(x, y,

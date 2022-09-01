@@ -1,36 +1,6 @@
-#  addReact.R
-#  FBA and friends with R.
-#
-#  Copyright (C) 2010-2014 Gabriel Gelius-Dietrich, Dpt. for Bioinformatics,
-#  Institute for Informatics, Heinrich-Heine-University, Duesseldorf, Germany.
-#  All right reserved.
-#  Email: geliudie@uni-duesseldorf.de
-#  
-#  This file is part of sybil.
-#
-#  Sybil is free software: you can redistribute it and/or modify
-#  it under the terms of the GNU General Public License as published by
-#  the Free Software Foundation, either version 3 of the License, or
-#  (at your option) any later version.
-#
-#  Sybil is distributed in the hope that it will be useful,
-#  but WITHOUT ANY WARRANTY; without even the implied warranty of
-#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#  GNU General Public License for more details.
-#
-#  You should have received a copy of the GNU General Public License
-#  along with sybil.  If not, see <http://www.gnu.org/licenses/>.
-
-
-################################################
-# Function: addReact
-#
-#
 # The function addReact() is inspired by the function
 # addReaction() contained in the COBRA Toolbox.
 # The algorithm is (more or less) the same.
-
-
 setMethod("addReact", signature(model = "modelorg"),
 	function(model,
 			id,
@@ -46,11 +16,7 @@ setMethod("addReact", signature(model = "modelorg"),
 			metName = NA,
 			metComp = NA) {
 
-  
-    # ------------------------------------------------------------------------ #
     # check arguments
-    # ------------------------------------------------------------------------ #
-
     if (!is(model, "modelorg")) {
         stop("needs an object of class modelorg!")
     }
@@ -74,11 +40,7 @@ setMethod("addReact", signature(model = "modelorg"),
        Crev <- reversible
     }
 
-
-    # ------------------------------------------------------------------------ #
     # check, if we need to add columns and/or rows
-    # ------------------------------------------------------------------------ #
-
     # reaction
     colInd <- match(id, react_id(model))
     addCol <- FALSE
@@ -90,10 +52,8 @@ setMethod("addReact", signature(model = "modelorg"),
         nCols  <- nCols + 1
     }
 
-
     # metabolites
     rowInd <- match(met, met_id(model))
-    
     newM     <- which(is.na(rowInd))
     nRows    <- met_num(model)          # number of rows in the model
     nNewRows <- length(newM)            # number of new rows
@@ -104,16 +64,9 @@ setMethod("addReact", signature(model = "modelorg"),
         nRows    <- nRows + 1
         rowInd[newM[i]] <- nRows
     }
-    
 
     if ( (isTRUE(addCol)) || (isTRUE(addRow)) ) {    
-
-        # -------------------------------------------------------------------- #
         # make a new model
-        # -------------------------------------------------------------------- #
-
-        # -------------------------------------------------------------------- #
-        # data structures
 
         newmet_num      <- met_num(model)
         newmet_id       <- met_id(model)
@@ -310,14 +263,6 @@ setMethod("addReact", signature(model = "modelorg"),
                 newgenes <- append(genes(model), list(gene_rule$gene))
                 newrule  <- gene_rule$rule
 				
-				# not needed for modelorg version 2.0
-#                for (j in 1 : length(geneInd)) {
-#                    pat  <- paste("x(", j, ")", sep = "")
-#                    repl <- paste("x[", geneInd[j], "]", sep = "")
-#    
-#                    newrule <- gsub(pat, repl, newrule, fixed = TRUE)
-#                }
-
                 newgprRules <- append(gprRules(model), newrule)
             }
         }
@@ -326,13 +271,7 @@ setMethod("addReact", signature(model = "modelorg"),
         newS[ , colInd]      <- 0    
         newS[rowInd, colInd] <- Scoef    
         
-#        for (i in seq(along = rowInd)) {
-#            newS[rowInd[i], colInd] <- Scoef[i]
-#        }
-    
-        # -------------------------------------------------------------------- #
         # new model
-        # -------------------------------------------------------------------- #
         
         if (is(model, "modelorg_irrev")) {
             mod_out <- modelorg_irrev(mod_id(model), mod_name(model))
@@ -381,26 +320,17 @@ setMethod("addReact", signature(model = "modelorg"),
         met_attr(mod_out) <- newMetAttr
         comp_attr(mod_out) <- newCompAttr
         mod_attr(mod_out) <- newModAttr
-        
-
     }
     else {
-    
-        # -------------------------------------------------------------------- #
         # modify old model
-        # -------------------------------------------------------------------- #
-        
         mod_out <- model
-        
         react_rev(mod_out)[colInd] <- Crev
         lowbnd(mod_out)[colInd]    <- lb
         uppbnd(mod_out)[colInd]    <- ub
         obj_coef(mod_out)[colInd]  <- obj
         S(mod_out)[ , colInd]      <- 0
         S(mod_out)[rowInd, colInd] <- Scoef
-
     }
-    
     
     check <- validObject(mod_out, test = TRUE)
 
@@ -410,6 +340,4 @@ setMethod("addReact", signature(model = "modelorg"),
     }
 
     return(mod_out)
-
 })
-

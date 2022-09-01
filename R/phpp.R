@@ -1,35 +1,6 @@
-#  phpp.R
-#  FBA and friends with R.
-#
-#  Copyright (C) 2010-2014 Gabriel Gelius-Dietrich, Dpt. for Bioinformatics,
-#  Institute for Informatics, Heinrich-Heine-University, Duesseldorf, Germany.
-#  All right reserved.
-#  Email: geliudie@uni-duesseldorf.de
-#
-#  This file is part of sybil.
-#
-#  Sybil is free software: you can redistribute it and/or modify
-#  it under the terms of the GNU General Public License as published by
-#  the Free Software Foundation, either version 3 of the License, or
-#  (at your option) any later version.
-#
-#  Sybil is distributed in the hope that it will be useful,
-#  but WITHOUT ANY WARRANTY; without even the implied warranty of
-#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#  GNU General Public License for more details.
-#
-#  You should have received a copy of the GNU General Public License
-#  along with sybil.  If not, see <http://www.gnu.org/licenses/>.
-
-
-################################################
-# Function: phpp
-#
-#
 # The function phpp() is inspired by the function
 # phenotypePhasePlane() contained in the COBRA Toolbox.
 # The algorithm is the same.
-
 
 phpp <- function(model, ctrlreact, rng = c(0, 0, 20, 20),
                  numP = 50, setToZero = TRUE, redCosts = FALSE, ...) {
@@ -87,11 +58,7 @@ phpp <- function(model, ctrlreact, rng = c(0, 0, 20, 20),
                      setToZero = setToZero,
                      poCmd = rccmd, ...)
 
-
-#------------------------------------------------------------------------------#
 #                             save the results                                 #
-#------------------------------------------------------------------------------#
-
     optsol <- new("optsol_phpp")
     opt <- makeOptsolMO(model, sol)
     as(optsol, "optsol_optimizeProb") <- opt
@@ -120,6 +87,3 @@ phpp <- function(model, ctrlreact, rng = c(0, 0, 20, 20),
     return(optsol)
 
 }
-
-
-

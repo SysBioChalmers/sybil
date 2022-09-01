@@ -1,33 +1,3 @@
-#  modelorg2tsv.R
-#  FBA and friends with R.
-#
-#  Copyright (C) 2010-2014 Gabriel Gelius-Dietrich, Dpt. for Bioinformatics,
-#  Institute for Informatics, Heinrich-Heine-University, Duesseldorf, Germany.
-#  All right reserved.
-#  Email: geliudie@uni-duesseldorf.de
-#  
-#  This file is part of sybil.
-#
-#  Sybil is free software: you can redistribute it and/or modify
-#  it under the terms of the GNU General Public License as published by
-#  the Free Software Foundation, either version 3 of the License, or
-#  (at your option) any later version.
-#
-#  Sybil is distributed in the hope that it will be useful,
-#  but WITHOUT ANY WARRANTY; without even the implied warranty of
-#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#  GNU General Public License for more details.
-#
-#  You should have received a copy of the GNU General Public License
-#  along with sybil.  If not, see <http://www.gnu.org/licenses/>.
-
-
-################################################
-# Function: modelorg2tsv
-#
-# 
-# 
-
 modelorg2tsv <- function(model, prefix, suffix, extMetFlag = "b",
                          fielddelim = "\t", entrydelim = ", ",
                          makeClosedNetwork = FALSE,
@@ -36,7 +6,6 @@ modelorg2tsv <- function(model, prefix, suffix, extMetFlag = "b",
                          fpath = SYBIL_SETTINGS("PATH_TO_MODEL"),
                          ...) {
 
-    
     if (!is(model, "modelorg")) {
         stop("needs an object of class modelorg!")
     }
@@ -68,11 +37,7 @@ modelorg2tsv <- function(model, prefix, suffix, extMetFlag = "b",
     tsvfileM <- file.path(fpath, fnameM)
     tsvfileD <- file.path(fpath, fnameD)
 
-
-    #--------------------------------------------------------------------------#
     # reactions list
-    #--------------------------------------------------------------------------#
-
     # create reaction strings
     rstr <- .createReactionString(model,
                                           makeClosedNetwork,
@@ -132,11 +97,7 @@ modelorg2tsv <- function(model, prefix, suffix, extMetFlag = "b",
             row.names = FALSE, file = tsvfileR, sep = fielddelim, ...)
     }
 
-
-    #--------------------------------------------------------------------------#
     # metabolites list
-    #--------------------------------------------------------------------------#
-
     if ( (!isTRUE(onlyReactionList)) && (!isTRUE(minimalSet)) ) {
 
         metunq <- sort(unique(rstr$metab))
@@ -160,11 +121,7 @@ modelorg2tsv <- function(model, prefix, suffix, extMetFlag = "b",
 
     }
     
-
-    #--------------------------------------------------------------------------#
     # model description
-    #--------------------------------------------------------------------------#
-
     if ( (!isTRUE(onlyReactionList)) && (!isTRUE(minimalSet)) ) {
 
         # get id's of metabolites in different compartments
@@ -199,12 +156,5 @@ modelorg2tsv <- function(model, prefix, suffix, extMetFlag = "b",
             row.names = FALSE, file = tsvfileD, sep = fielddelim, ...)
 
     }
-
-
-    #--------------------------------------------------------------------------#
-    # end
-    #--------------------------------------------------------------------------#
-
     return(TRUE)
-
 }

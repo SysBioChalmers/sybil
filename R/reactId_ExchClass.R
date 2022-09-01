@@ -1,34 +1,4 @@
-#  reactId_ExchClass.R
-#  FBA and friends with R.
-#
-#  Copyright (C) 2010-2014 Gabriel Gelius-Dietrich, Dpt. for Bioinformatics,
-#  Institute for Informatics, Heinrich-Heine-University, Duesseldorf, Germany.
-#  All right reserved.
-#  Email: geliudie@uni-duesseldorf.de
-#  
-#  This file is part of sybil.
-#
-#  Sybil is free software: you can redistribute it and/or modify
-#  it under the terms of the GNU General Public License as published by
-#  the Free Software Foundation, either version 3 of the License, or
-#  (at your option) any later version.
-#
-#  Sybil is distributed in the hope that it will be useful,
-#  but WITHOUT ANY WARRANTY; without even the implied warranty of
-#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#  GNU General Public License for more details.
-#
-#  You should have received a copy of the GNU General Public License
-#  along with sybil.  If not, see <http://www.gnu.org/licenses/>.
-
-
-# reactId_ExchClass
-
-
-#------------------------------------------------------------------------------#
 #                   definition of the class reactId_Exch                       #
-#------------------------------------------------------------------------------#
-
 setClass("reactId_Exch",
          representation(
               uptake  = "logical",
@@ -41,11 +11,7 @@ setClass("reactId_Exch",
          validity = .validreactId_Exch
 )
 
-
-#------------------------------------------------------------------------------#
 #                            default constructor                               #
-#------------------------------------------------------------------------------#
-
 setMethod(f = "initialize",
           signature = "reactId_Exch",
           definition = function(.Object, mod_id, mod_key = "",
@@ -80,11 +46,7 @@ setMethod(f = "initialize",
           }
 )
 
-
-#------------------------------------------------------------------------------#
 #                            setters and getters                               #
-#------------------------------------------------------------------------------#
-
 # position
 setMethod("met_pos", signature(object = "reactId_Exch"),
           function(object) {
@@ -98,7 +60,6 @@ setReplaceMethod("met_pos", signature(object = "reactId_Exch"),
                      return(object)
                  }
 )
-
 
 # met_id
 setMethod("met_id", signature(object = "reactId_Exch"),
@@ -114,7 +75,6 @@ setReplaceMethod("met_id", signature(object = "reactId_Exch"),
                  }
 )
 
-
 # lowbnd
 setMethod("lowbnd", signature(object = "reactId_Exch"),
           function(object) {
@@ -128,7 +88,6 @@ setReplaceMethod("lowbnd", signature(object = "reactId_Exch"),
                      return(object)
                  }
 )
-
 
 # uppbnd
 setMethod("uppbnd", signature(object = "reactId_Exch"),
@@ -144,7 +103,6 @@ setReplaceMethod("uppbnd", signature(object = "reactId_Exch"),
                  }
 )
 
-
 # uptake
 setMethod("uptake", signature(object = "reactId_Exch"),
           function(object) {
@@ -158,11 +116,6 @@ setReplaceMethod("uptake", signature(object = "reactId_Exch"),
                      return(object)
                  }
 )
-
-
-#------------------------------------------------------------------------------#
-#                               other methods                                  #
-#------------------------------------------------------------------------------#
 
 setMethod("show", signature(object = "reactId_Exch"),
     function(object) {

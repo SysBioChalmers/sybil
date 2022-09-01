@@ -1,33 +1,3 @@
-#  readTSVmod.R
-#  FBA and friends with R.
-#
-#  Copyright (C) 2010-2014 Gabriel Gelius-Dietrich, Dpt. for Bioinformatics,
-#  Institute for Informatics, Heinrich-Heine-University, Duesseldorf, Germany.
-#  All right reserved.
-#  Email: geliudie@uni-duesseldorf.de
-#
-#  This file is part of sybil.
-#
-#  Sybil is free software: you can redistribute it and/or modify
-#  it under the terms of the GNU General Public License as published by
-#  the Free Software Foundation, either version 3 of the License, or
-#  (at your option) any later version.
-#
-#  Sybil is distributed in the hope that it will be useful,
-#  but WITHOUT ANY WARRANTY; without even the implied warranty of
-#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#  GNU General Public License for more details.
-#
-#  You should have received a copy of the GNU General Public License
-#  along with sybil.  If not, see <http://www.gnu.org/licenses/>.
-
-
-################################################
-# Function: readTSVmod
-#
-#
-# 2016-05-18 CJF: format of gprRules was changed.
-
 readTSVmod <- function(prefix, suffix,
                        reactList, metList = NA, modDesc = NA,
                        fielddelim = "\t", entrydelim = ", ", extMetFlag = "b",
@@ -47,9 +17,6 @@ readTSVmod <- function(prefix, suffix,
                        quoteChar = "",
                        commentChar = "",
                        ...) {
-
-
-    #--------------------------------------------------------------------------#
 
     if (missing(suffix)) {
         fnEXT <- switch(fielddelim,
@@ -101,9 +68,7 @@ readTSVmod <- function(prefix, suffix,
     }
 
 
-    #--------------------------------------------------------------------------#
     # some regular expressions
-    #--------------------------------------------------------------------------#
 
     # delimiter for the compartment flag (round or square bracket)
     #compartDelimL <- "\\["
@@ -136,9 +101,7 @@ readTSVmod <- function(prefix, suffix,
     }
 
 
-    #--------------------------------------------------------------------------#
     # some functions
-    #--------------------------------------------------------------------------#
 
     prepReact <- function(metabolites, educts, rowind) {
 
@@ -280,11 +243,7 @@ readTSVmod <- function(prefix, suffix,
 
     }
 
-
-    #--------------------------------------------------------------------------#
     # model description
-    #--------------------------------------------------------------------------#
-
     newModelName <- sub("(_react)?\\.[^.]+$", "", basename(fpRL), perl = TRUE)
 
     if (is.null(fpMD)) {
@@ -426,19 +385,12 @@ readTSVmod <- function(prefix, suffix,
 
     }
 
-
-    #--------------------------------------------------------------------------#
     # new instance of class modelorg
-    #--------------------------------------------------------------------------#
-
     model <- modelorg(modID[1], modNM[1])
     mod_desc(model) <- as.character(modDC[1])
 
 
-    #--------------------------------------------------------------------------#
     # metabolites list
-    #--------------------------------------------------------------------------#
-
     if (is.null(fpML)) {
         metABBR <- NULL
         metNAME <- NULL
@@ -503,10 +455,7 @@ readTSVmod <- function(prefix, suffix,
     }
 
 
-    #--------------------------------------------------------------------------#
     # reactions list
-    #--------------------------------------------------------------------------#
-
     message("parsing reaction list ... ", appendLF = FALSE)
 
     rl <- read.table(fpRL,
@@ -657,9 +606,7 @@ readTSVmod <- function(prefix, suffix,
     remove(rl)
 
 
-    #--------------------------------------------------------------------------#
     # parse reactions
-    #--------------------------------------------------------------------------#
 
     # data structures
     Rrev   <- logical(nreact)
@@ -922,9 +869,7 @@ readTSVmod <- function(prefix, suffix,
     message("OK")
 
 
-    #--------------------------------------------------------------------------#
     # gene to reaction mapping
-    #--------------------------------------------------------------------------#
 
     message("GPR mapping ... ", appendLF = FALSE)
 
@@ -964,9 +909,7 @@ readTSVmod <- function(prefix, suffix,
     message("OK")
 
 
-    #--------------------------------------------------------------------------#
     # subsystems
-    #--------------------------------------------------------------------------#
 
     message("sub systems ... ", appendLF = FALSE)
 
@@ -978,9 +921,7 @@ readTSVmod <- function(prefix, suffix,
     message("OK")
 
 
-    #--------------------------------------------------------------------------#
     # prepare modelorg
-    #--------------------------------------------------------------------------#
 
     message("prepare modelorg object ... ", appendLF = FALSE)
 
@@ -1004,7 +945,6 @@ readTSVmod <- function(prefix, suffix,
     }
 
 
-    #--------------------------------------------------------------------------#
     # stoichiometric matrix
 
     ## this takes long, try to improve that!! ##
@@ -1033,7 +973,6 @@ readTSVmod <- function(prefix, suffix,
     }
 
 
-    #--------------------------------------------------------------------------#
     # search for unused metabolites and unused reactions
 
     # binary matrix
@@ -1051,7 +990,6 @@ readTSVmod <- function(prefix, suffix,
     }
 
 
-    #--------------------------------------------------------------------------#
     # empty rows
 
     if (any(SKIP_METABOLITE == FALSE)) {
@@ -1066,7 +1004,6 @@ readTSVmod <- function(prefix, suffix,
     }
 
 
-    #--------------------------------------------------------------------------#
     # empty columns
 
     if (sum(!UNUSED_REACTION) > 0) {
@@ -1082,7 +1019,6 @@ readTSVmod <- function(prefix, suffix,
     }
 
 
-    #--------------------------------------------------------------------------#
     # correct SKIP...
 
     if (!isTRUE(remUnusedMetReact)) {
@@ -1095,7 +1031,6 @@ readTSVmod <- function(prefix, suffix,
     }
 
 
-    #--------------------------------------------------------------------------#
     # single metabolites
 
     sing_met   <- rep(NA, nrow(RmatM))
@@ -1173,7 +1108,6 @@ readTSVmod <- function(prefix, suffix,
     }
 
 
-    #--------------------------------------------------------------------------#
     # dead end metabolites
 
     de_met   <- rep(NA, nrow(RmatM))
@@ -1255,7 +1189,6 @@ readTSVmod <- function(prefix, suffix,
     }
 
 
-    #--------------------------------------------------------------------------#
     # S
 
     RmatM <- RmatM[SKIP_METABOLITE, , drop = FALSE]
@@ -1264,7 +1197,6 @@ readTSVmod <- function(prefix, suffix,
     S(model) <- RmatM
 
 
-    #--------------------------------------------------------------------------#
     # metabolites
 
     NRmet <- NRmet - sum(!SKIP_METABOLITE)
@@ -1308,7 +1240,6 @@ readTSVmod <- function(prefix, suffix,
     }
 
 
-    #--------------------------------------------------------------------------#
     # reactions
 
     react_id(model)   <- as.character(reactABBR[SKIP_REACTION])
@@ -1337,7 +1268,6 @@ readTSVmod <- function(prefix, suffix,
     obj_coef(model)   <- as.numeric(reactQBJ[SKIP_REACTION])
 
 
-    #--------------------------------------------------------------------------#
     # genes
 
     allGenes(model)   <- allGenes
@@ -1349,31 +1279,16 @@ readTSVmod <- function(prefix, suffix,
     #subSys(model)     <- as.character(reactSUBS[SKIP_REACTION])
     subSys(model)     <- ssys[SKIP_REACTION, , drop = FALSE]
 
-
     message("OK")
 
-
-    #--------------------------------------------------------------------------#
     # validate model
-    #--------------------------------------------------------------------------#
-
     message("validating object ... ", appendLF = FALSE)
-
     check <- validObject(model, test = TRUE)
-
     if (check != TRUE) {
         msg <- paste("Validity check failed:", check, sep = "\n    ")
         warning(msg)
     }
-
     message("OK")
-
-
-    #--------------------------------------------------------------------------#
     # return model
-    #--------------------------------------------------------------------------#
-
-
     return(model)
-
 }

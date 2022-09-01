@@ -1,39 +1,6 @@
-#  sysBiolAlg_lmomaClass.R
-#  FBA and friends with R.
-#
-#  Copyright (C) 2010-2014 Gabriel Gelius-Dietrich, Dpt. for Bioinformatics,
-#  Institute for Informatics, Heinrich-Heine-University, Duesseldorf, Germany.
-#  All right reserved.
-#  Email: geliudie@uni-duesseldorf.de
-#
-#  This file is part of sybil.
-#
-#  Sybil is free software: you can redistribute it and/or modify
-#  it under the terms of the GNU General Public License as published by
-#  the Free Software Foundation, either version 3 of the License, or
-#  (at your option) any later version.
-#
-#  Sybil is distributed in the hope that it will be useful,
-#  but WITHOUT ANY WARRANTY; without even the implied warranty of
-#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#  GNU General Public License for more details.
-#
-#  You should have received a copy of the GNU General Public License
-#  along with sybil.  If not, see <http://www.gnu.org/licenses/>.
-
-
-#------------------------------------------------------------------------------#
-#                 definition of the class sysBiolAlg_lmoma                     #
-#------------------------------------------------------------------------------#
-
 setClass(Class = "sysBiolAlg_lmoma",
          contains = "sysBiolAlg"
 )
-
-
-#------------------------------------------------------------------------------#
-#                            default constructor                               #
-#------------------------------------------------------------------------------#
 
 # contructor for class sysBiolAlg_lmoma
 setMethod(f = "initialize",
@@ -93,10 +60,7 @@ setMethod(f = "initialize",
                   #  obj    0  |  0   |  1   |
 
 
-                  # ---------------------------------------------
                   # problem dimensions
-                  # ---------------------------------------------
-
                   nc     <- react_num(model)
                   nr     <- met_num(model)
 
@@ -114,10 +78,7 @@ setMethod(f = "initialize",
                   }
                   
 
-                  # ---------------------------------------------
                   # constraint matrix
-                  # ---------------------------------------------
-
                   # the initial matrix dimensions
                   LHS <- Matrix::Matrix(0, 
                                         nrow = nr + 2*nc,
@@ -162,11 +123,7 @@ setMethod(f = "initialize",
                       subalg <- "lmoma"
                   }
 
-
-                  # ---------------------------------------------
                   # lower and upper bounds
-                  # ---------------------------------------------
-
                   if (isTRUE(COBRAflag)) {
                       # Here we calculate wild type and deletion strain
                       # simultaineously, so we need upper and lower bounds
@@ -193,10 +150,7 @@ setMethod(f = "initialize",
                       rupper <- c(rep(0, nr), rep(absMAX, 2*nc))
                   }
 
-                  # ---------------------------------------------
                   # constraint type
-                  # ---------------------------------------------
-
                   if (isTRUE(COBRAflag)) {
                       rtype <- c(rep("E", 2*nr), rep("L", 2*nc))
                       if (isTRUE(wtobjLB)) {
@@ -210,18 +164,10 @@ setMethod(f = "initialize",
                       rtype  <- c(rep("E", nr), rep("L", 2*nc))
                   }
 
-
-                  # ---------------------------------------------
                   # objective function
-                  # ---------------------------------------------
-
                   cobj <- c(rep(0, 2*nc), deltaobj)
 
-
-                  # ---------------------------------------------
                   # row and column names for the problem object
-                  # ---------------------------------------------
-
                   if (isTRUE(useNames)) {
                       if (is.null(cnames)) {
                           cn <- c(paste("wt",  react_id(model), sep = "_"),
@@ -279,11 +225,7 @@ setMethod(f = "initialize",
                       probName <- NULL
                   }
 
-
-                  # ---------------------------------------------
                   # build problem object
-                  # ---------------------------------------------
-
                   .Object <- callNextMethod(.Object,
                                             sbalg      = subalg,
                                             pType      = "lp",
@@ -312,51 +254,7 @@ setMethod(f = "initialize",
                                 fname = as.character(writeProbToFileName))
                   }
 
-
-#                  # ---------------------------------------------
-#                  # build problem object
-#                  # ---------------------------------------------
-#
-#                  lp <- optObj(solver = solver, method = method)
-#                  lp <- initProb(lp, nrows = nRows, ncols = nCols)
-#
-#                  # ---------------------------------------------
-#                  # set control parameters
-#                  # ---------------------------------------------
-#
-#                  if (!any(is.na(solverParm))) {
-#                      setSolverParm(lp, solverParm)
-#                  }
-#    
-#
-#                  loadLPprob(lp,
-#                             nCols = nCols,
-#                             nRows = nRows,
-#                             mat   = LHS,
-#                             ub    = upper,
-#                             lb    = lower,
-#                             obj   = cobj,
-#                             rlb   = rlower,
-#                             rub   = rupper,
-#                             rtype = rtype,
-#                             lpdir = "min"
-#                  )
-#                  
-#                  if (!is.null(scaling)) {
-#                      scaleProb(lp, scaling)
-#                  }
-#
-#                  .Object@problem   <- lp
-#                  .Object@algorithm <- subalg
-#                  .Object@nr        <- as.integer(nRows)
-#                  .Object@nc        <- as.integer(nCols)
-#                  .Object@fldind    <- as.integer(fi)
-#                  validObject(.Object)
-                  
               }
               return(.Object)
           }
 )
-
-
-#------------------------------------------------------------------------------#

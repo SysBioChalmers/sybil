@@ -1,30 +1,3 @@
-#  ypd.R
-#  FBA and friends with R.
-#
-#  Copyright (C) 2010-2014 Gabriel Gelius-Dietrich, Dpt. for Bioinformatics,
-#  Institute for Informatics, Heinrich-Heine-University, Duesseldorf, Germany.
-#  All right reserved.
-#  Email: geliudie@uni-duesseldorf.de
-#  
-#  This file is part of sybil.
-#
-#  Sybil is free software: you can redistribute it and/or modify
-#  it under the terms of the GNU General Public License as published by
-#  the Free Software Foundation, either version 3 of the License, or
-#  (at your option) any later version.
-#
-#  Sybil is distributed in the hope that it will be useful,
-#  but WITHOUT ANY WARRANTY; without even the implied warranty of
-#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#  GNU General Public License for more details.
-#
-#  You should have received a copy of the GNU General Public License
-#  along with sybil.  If not, see <http://www.gnu.org/licenses/>.
-
-
-################################################
-# Function: ypd
-#
 # There are currently two different versions of an
 # in sillico YPD medium:
 #
@@ -41,11 +14,9 @@
 #
 # One can choose between the two by changing the "ver" option.
 
-
 ypd <- function(model,
                 def_bnd = SYBIL_SETTINGS("MAXIMUM"),
                 ver = "harrison2007") {
-
   if (!is(model, "modelorg")) {
       stop("needs an object of class modelorg!")
   }
@@ -129,6 +100,4 @@ ypd <- function(model,
                            rep(def_bnd, num_med))
 
   return(modelNEW)
-
 }
-

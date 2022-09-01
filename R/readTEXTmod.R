@@ -1,33 +1,3 @@
-#  readTEXTmod.R
-#  FBA and friends with R.
-#
-#  Copyright (C) 2010-2014 Gabriel Gelius-Dietrich, Dpt. for Bioinformatics,
-#  Institute for Informatics, Heinrich-Heine-University, Duesseldorf, Germany.
-#  All right reserved.
-#  Email: geliudie@uni-duesseldorf.de
-#  
-#  This file is part of sybil.
-#
-#  Sybil is free software: you can redistribute it and/or modify
-#  it under the terms of the GNU General Public License as published by
-#  the Free Software Foundation, either version 3 of the License, or
-#  (at your option) any later version.
-#
-#  Sybil is distributed in the hope that it will be useful,
-#  but WITHOUT ANY WARRANTY; without even the implied warranty of
-#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#  GNU General Public License for more details.
-#
-#  You should have received a copy of the GNU General Public License
-#  along with sybil.  If not, see <http://www.gnu.org/licenses/>.
-
-
-################################################
-# Function: readTEXTmod
-# 
-# 2016-05-18 CJF: format of gprRules was changed.
-
-
 readTEXTmod <- function(filename,
                         description,
                         def_bnd = SYBIL_SETTINGS("MAXIMUM")) {
@@ -39,11 +9,6 @@ if ( file.exists(filename) == FALSE ) {
 if (missing(description)) {
     description <- filename
 }
-
-
-#------------------------------------------------------------------------------#
-#                              some functions                                  #
-#------------------------------------------------------------------------------#
 
 parse_metabolites <- function(reactands, fwbw) {
 
@@ -103,7 +68,6 @@ parse_metabolites <- function(reactands, fwbw) {
 
 }
 
-#------------------------------------------------------------------------------#
 
 parse_genes <- function(gene) {
 
@@ -131,7 +95,6 @@ parse_genes <- function(gene) {
 
 }
 
-#------------------------------------------------------------------------------#
 
 get_stoich_met <- function(reactand) {
 
@@ -158,11 +121,7 @@ get_stoich_met <- function(reactand) {
 
 }
 
-
-#------------------------------------------------------------------------------#
 #                            reading the model                                 #
-#------------------------------------------------------------------------------#
-
 message("reading the model ...", appendLF = FALSE)
 
 ModelTmp <- readLines(filename)
@@ -205,12 +164,6 @@ reactions <- strsplit(ModelTmp, "\t|[ ]{4}")
 #reactions <- strsplit(ModelTmp, "\t")
 
 for (i in 1 : num_lines) {
-
-# print(i)
-# print(length(gpr))
-# print(length(genes))
-# print("")
-
     current_genes <- character(0)
 
     # ignore empty lines
@@ -220,12 +173,6 @@ for (i in 1 : num_lines) {
     if (substr(reactions[[i]][1], 0, 1) == "#") {next}
 
     # Do here somethin with the first line
-    
-    
-    #print(reactions[[i]][3])
-    #print("last")
-    #print(last_reactions)
-
 
     # reactions we already have
     # We should do here the same as in doubleGenes(): check S for that task.
@@ -466,9 +413,7 @@ for (i in 1 : num_lines) {
 
 message(" OK.")
 
-
 # exchange reactions
-
 if (length(ext_met) > 0) {
 
     message("exchange reactions ...", appendLF = FALSE)
@@ -502,10 +447,7 @@ if (length(ext_met) > 0) {
 
 }
 
-
-
 # rxnGeneMat
-
 message("GPR mapping ...", appendLF = FALSE)
 genes_ind <- lapply(genes, function(x) allGenes %in% x)
 
@@ -515,9 +457,6 @@ for (i in seq(along = genes_ind)) {
     rxnGeneMat[i, genes_ind[[i]]] <- 1
 }
 message(" Ok.")
-
-
-
 
 met_id(Model)     <- met_id
 react_id(Model)   <- react_id
@@ -543,7 +482,4 @@ lowbnd(Model)     <- lowbnd
 # lowbnd(Model)[react_rev] <- def_bnd * -1
 
 return(Model)
-
-
-
 }

@@ -1,53 +1,18 @@
-#  validmodelorg.R
-#  FBA and friends with R.
-#
-#  Copyright (C) 2010-2014 Gabriel Gelius-Dietrich, Dpt. for Bioinformatics,
-#  Institute for Informatics, Heinrich-Heine-University, Duesseldorf, Germany.
-#  All right reserved.
-#  Email: geliudie@uni-duesseldorf.de
-#
-#  This file is part of sybil.
-#
-#  Sybil is free software: you can redistribute it and/or modify
-#  it under the terms of the GNU General Public License as published by
-#  the Free Software Foundation, either version 3 of the License, or
-#  (at your option) any later version.
-#
-#  Sybil is distributed in the hope that it will be useful,
-#  but WITHOUT ANY WARRANTY; without even the implied warranty of
-#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#  GNU General Public License for more details.
-#
-#  You should have received a copy of the GNU General Public License
-#  along with sybil.  If not, see <http://www.gnu.org/licenses/>.
-
-
-################################################
-# Function: .validmodelorg
-#
 # Validity checking of an object of class modelorg.
-#
 # Returns TRUE if the model is valid, otherwise
 # a character String containing a description of
 # the error.
-
-
 .validmodelorg <- function(object) {
-
     if (!is(object, "modelorg")) {
         return("needs an object of class modelorg!")
     }
-    
     versionCheck <- checkVersion(object)
-    
     if(!isTRUE(versionCheck)){
     	return(versionCheck)
     }
-    
     if ((length(mod_id(object)) != 1) || (length(mod_name(object)) != 1)) {
         return("mod_id and mod_name must have a length of 1!")
     }
-    
     if (length(mod_desc(object)) == 0) {
     
         if (length(mod_name(object)) != 1) {
@@ -59,7 +24,6 @@
     
     }
     else {
-    
         # model describing stuff
         if (length(mod_desc(object)) != 1) {
             return("description must have a length of 1!")
@@ -171,7 +135,6 @@
         }
         
         # attributes
-        
         if(0 < ncol(met_attr(object))){
         	if(nrow(met_attr(object)) != met){
         		return("Wrong nrow of metabolite attributes")

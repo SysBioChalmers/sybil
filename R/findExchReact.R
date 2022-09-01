@@ -1,37 +1,7 @@
-#  findExchReact.R
-#  FBA and friends with R.
-#
-#  Copyright (C) 2010-2014 Gabriel Gelius-Dietrich, Dpt. for Bioinformatics,
-#  Institute for Informatics, Heinrich-Heine-University, Duesseldorf, Germany.
-#  All right reserved.
-#  Email: geliudie@uni-duesseldorf.de
-#
-#  This file is part of sybil.
-#
-#  Sybil is free software: you can redistribute it and/or modify
-#  it under the terms of the GNU General Public License as published by
-#  the Free Software Foundation, either version 3 of the License, or
-#  (at your option) any later version.
-#
-#  Sybil is distributed in the hope that it will be useful,
-#  but WITHOUT ANY WARRANTY; without even the implied warranty of
-#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#  GNU General Public License for more details.
-#
-#  You should have received a copy of the GNU General Public License
-#  along with sybil.  If not, see <http://www.gnu.org/licenses/>.
-
-
-################################################
-# Function: findExchReact
-#
 # The function findExchReact() is inspired by the function
 # findExcRxns() contained in the COBRA Toolbox.
 # The algorithm is the same.
-
-
 findExchReact <- function(model) {
-
     if ( (!is(model, "modelorg")) &&
         !( (is(model, "Matrix")) || (is(model, "matrix")) ) ) {
         stop("needs an object of class modelorg, Matrix or matrix!")
@@ -51,7 +21,6 @@ findExchReact <- function(model) {
     else{
     	oneEntry <- apply(St, 2, function(x) sum(x != 0) == 1)
     }
-    
 
     if (sum(oneEntry) > 0) {
         # exchange reactions -- with a -1 or 1
@@ -111,7 +80,5 @@ findExchReact <- function(model) {
         warning("no exchange reaction found")
         react <- NULL
     }
-
     return(react)
-
 }

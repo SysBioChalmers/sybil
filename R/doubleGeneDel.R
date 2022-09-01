@@ -1,50 +1,18 @@
-#  doubleGeneDel.R
-#  FBA and friends with R.
-#
-#  Copyright (C) 2010-2014 Gabriel Gelius-Dietrich, Dpt. for Bioinformatics,
-#  Institute for Informatics, Heinrich-Heine-University, Duesseldorf, Germany.
-#  All right reserved.
-#  Email: geliudie@uni-duesseldorf.de
-#  
-#  This file is part of sybil.
-#
-#  Sybil is free software: you can redistribute it and/or modify
-#  it under the terms of the GNU General Public License as published by
-#  the Free Software Foundation, either version 3 of the License, or
-#  (at your option) any later version.
-#
-#  Sybil is distributed in the hope that it will be useful,
-#  but WITHOUT ANY WARRANTY; without even the implied warranty of
-#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#  GNU General Public License for more details.
-#
-#  You should have received a copy of the GNU General Public License
-#  along with sybil.  If not, see <http://www.gnu.org/licenses/>.
-
-
-################################################
-# Function: doubleGeneDel
-#
 # This function performs a "double gene deletion analysis".
 # In each iteration one gene is switched of (vi = 0)
 # and the objective function will be computed.
-#
 # The function doubleGeneDel() is inspired by the function
 # doubleGeneDeletion() contained in the COBRA Toolbox.
-
 
 doubleGeneDel <- function(model, geneList1, geneList2, lb = NULL, ub = NULL,
                           allComb = FALSE, exLethal = TRUE,
                           tol = SYBIL_SETTINGS("TOLERANCE"),
                           checkOptSolObj = FALSE, ...) {
-
     if (!is(model, "modelorg")) {
         stop("needs an object of class modelorg!")
     }
 
-
     # maybe we need here something like checkGeneId
-
     if (missing(geneList1)) {
         geneList1 <- allGenes(model)
     }
@@ -85,11 +53,7 @@ doubleGeneDel <- function(model, geneList1, geneList2, lb = NULL, ub = NULL,
 
     num_genes <- length(allGenes(model))
 
-
-#------------------------------------------------------------------------------#
 #                           remove lethal genes                                #
-#------------------------------------------------------------------------------#
-
     if (isTRUE(exLethal)) {
     
         # all different genes from list1 and list2
@@ -159,16 +123,7 @@ doubleGeneDel <- function(model, geneList1, geneList2, lb = NULL, ub = NULL,
      }
 
 
-#------------------------------------------------------------------------------#
 #               calculate the number of optimizations (num_opt)                #
-#------------------------------------------------------------------------------#
-
-    # m <- outer(mystring, mystring, paste, sep="")
-    # m[upper.tri(m)]
-
-    
-    # use merge() or expand.grid() or combn() here!!
-
     if (isTRUE(allComb)) {
   
         # Compute Boolean matrix with TRUE in the upper triangonal
@@ -214,23 +169,10 @@ doubleGeneDel <- function(model, geneList1, geneList2, lb = NULL, ub = NULL,
 							geneList2[deletions[,"col"]])
 	}
 	else {
-
-#		tmpMAT <- matrix(FALSE, nrow = num_genes, ncol = num_genes)
-#		#diag(tmpMAT) <- TRUE
-#		for (i in seq(along = geneList1)) {
-#			tmpMAT[geneList1[i], geneList2[i]] <- TRUE
-#		}
-		
 		kogenesID <- cbind(geneList1, geneList2)
-		
     }
 
-
-#------------------------------------------------------------------------------#
 #                               run optimization                               #
-#------------------------------------------------------------------------------#
-
-    
     kogenes   <- lapply(seq_len(nrow(kogenesID)), function(x) kogenesID[x, ])
 
     fd <- .generateFluxdels(model, kogenes)
@@ -258,9 +200,6 @@ doubleGeneDel <- function(model, geneList1, geneList2, lb = NULL, ub = NULL,
                      ub    = ub,
                      ...)
 
-
-    # ------------------------------------------------------------------------ #
-
     optsol <- new("optsol_genedel")
     opt <- makeOptsolMO(model, sol)
     as(optsol, "optsol_optimizeProb") <- opt
@@ -274,8 +213,6 @@ doubleGeneDel <- function(model, geneList1, geneList2, lb = NULL, ub = NULL,
     if (isTRUE(checkOptSolObj)) {
         checkOptSol(optsol, onlywarn = TRUE)
     }
-
     return(optsol)
-
 }
 

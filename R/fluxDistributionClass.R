@@ -1,33 +1,4 @@
-#  fluxDistributionClass.R
-#  FBA and friends with R.
-#
-#  Copyright (C) 2010-2014 Gabriel Gelius-Dietrich, Dpt. for Bioinformatics,
-#  Institute for Informatics, Heinrich-Heine-University, Duesseldorf, Germany.
-#  All right reserved.
-#  Email: geliudie@uni-duesseldorf.de
-#  
-#  This file is part of sybil.
-#
-#  Sybil is free software: you can redistribute it and/or modify
-#  it under the terms of the GNU General Public License as published by
-#  the Free Software Foundation, either version 3 of the License, or
-#  (at your option) any later version.
-#
-#  Sybil is distributed in the hope that it will be useful,
-#  but WITHOUT ANY WARRANTY; without even the implied warranty of
-#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#  GNU General Public License for more details.
-#
-#  You should have received a copy of the GNU General Public License
-#  along with sybil.  If not, see <http://www.gnu.org/licenses/>.
-
-
-# fluxDistributionClass
-
-#------------------------------------------------------------------------------#
 #                  definition of the class fluxDistribution                    #
-#------------------------------------------------------------------------------#
-
 setClass("fluxDistribution",
          representation(
               fluxes = "Matrix",
@@ -35,11 +6,7 @@ setClass("fluxDistribution",
          )
 )
 
-
-#------------------------------------------------------------------------------#
 #                              user constructor                                #
-#------------------------------------------------------------------------------#
-
 fluxDistribution <- function(fluxes = NA, nrow = 1, ncol = 1) {
 
     if (is(fluxes, "matrix")) {
@@ -60,11 +27,7 @@ fluxDistribution <- function(fluxes = NA, nrow = 1, ncol = 1) {
     return(obj)
 }
 
-
-#------------------------------------------------------------------------------#
 #                            setters and getters                               #
-#------------------------------------------------------------------------------#
-
 # fluxes
 setMethod("fluxes", signature(object = "fluxDistribution"),
           function(object) {
@@ -79,7 +42,6 @@ setReplaceMethod("fluxes", signature(object = "fluxDistribution"),
                  }
 )
 
-
 # number of fluxes
 setMethod("num_of_fluxes", signature(object = "fluxDistribution"),
           function(object) {
@@ -87,37 +49,25 @@ setMethod("num_of_fluxes", signature(object = "fluxDistribution"),
           }
 )
 
-
-#------------------------------------------------------------------------------#
 #                               other methods                                  #
-#------------------------------------------------------------------------------#
-
 # nnzero
 setMethod("nnzero", signature(x = "fluxDistribution"),
     function(x) {
-
         nnz <- Matrix::nnzero(fluxes(x))
         return(nnz)
-
     }
 )
-
 
 # nvar
 setMethod("nvar", signature(object = "fluxDistribution"),
     function(object) {
-
         nr <- nrow(fluxes(object))
         return(nr)
-
     }
 )
 
-
-# [
 setMethod("[", signature(x = "fluxDistribution"),
     function(x, i, j, ..., drop = FALSE) {
-
         if (missing(i)) {
             i <- c(1:nrow(x@fluxes))
         }
@@ -126,17 +76,12 @@ setMethod("[", signature(x = "fluxDistribution"),
             j <- c(1:ncol(x@fluxes))
         }
 
-
         newfld <- fluxDistribution(x@fluxes[i,j],
                                    nrow = length(i),
                                    ncol = length(j))
-
         return(newfld)
-
     }
-
 )
-
 
 setMethod("plot", signature(x = "fluxDistribution", y = "missing"),
           function(x, y, ordReact, ordMut, todo = "absdev", ...) {
@@ -153,9 +98,6 @@ setMethod("plot", signature(x = "fluxDistribution", y = "missing"),
               if(!isTRUE(checkPackage)) {
                   stop("Package grid not found.")
               }
-
-#g <- apply(subSys(bla), 1, function(x) colnames(subSys(bla))[x])
-#order(g)
 
               # Arguments ordReact and ordMut can be numeric vectors or lists:
               #
@@ -207,7 +149,6 @@ setMethod("plot", signature(x = "fluxDistribution", y = "missing"),
                   }
               )
 
-              
               #nz <- abs(mat) < SYBIL_SETTINGS("TOLERANCE")
               #mat[nz] <- 0
               
@@ -217,8 +158,6 @@ setMethod("plot", signature(x = "fluxDistribution", y = "missing"),
                        #0e+00,
                        1e-06,  1e-05,  1e-04,  1e-03,  1e-02,  1e-01,
                        1e+00,  1e+01,  1e+02,  1e+03)
-              
-              
               
               ylabels = c(expression(-10^3),
                           expression(-10^2),
@@ -242,8 +181,6 @@ setMethod("plot", signature(x = "fluxDistribution", y = "missing"),
                           expression(~~10^3)
                           )
 
-
-              #
               ## colors are from RColorBrewer:
               ## rev(brewer.pal(9, "Blues")) for negative values
               ## brewer.pal(9, "Reds")  for positive values
@@ -260,7 +197,6 @@ setMethod("plot", signature(x = "fluxDistribution", y = "missing"),
                        "#EF3B2C", "#CB181D", "#A50F15", "#67000D")
               
               colors <- c(neg, "#FFFFFF", pos)
-
 
               #layout(matrix(c(1, 2), ncol = 2), widths = c(1,4))
               #image(z = t(ref), axes = FALSE, breaks = br, col = colors, ...)
@@ -282,14 +218,9 @@ setMethod("plot", signature(x = "fluxDistribution", y = "missing"),
                             
                             grid::grid.points(5, 5, pch = 16, size=grid::unit(5, "mm"))
 #                            default.units = "native")
-                            
                             panel.levelplot(...)
 
                         },
-                        
-                        
                         ...)
-                        
-            
           }
 )

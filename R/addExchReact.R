@@ -1,48 +1,12 @@
-#  addExchReact.R
-#  FBA and friends with R.
-#
-#  Copyright (C) 2010-2014 Gabriel Gelius-Dietrich, Dpt. for Bioinformatics,
-#  Institute for Informatics, Heinrich-Heine-University, Duesseldorf, Germany.
-#  All right reserved.
-#  Email: geliudie@uni-duesseldorf.de
-#  
-#  This file is part of sybil.
-#
-#  Sybil is free software: you can redistribute it and/or modify
-#  it under the terms of the GNU General Public License as published by
-#  the Free Software Foundation, either version 3 of the License, or
-#  (at your option) any later version.
-#
-#  Sybil is distributed in the hope that it will be useful,
-#  but WITHOUT ANY WARRANTY; without even the implied warranty of
-#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#  GNU General Public License for more details.
-#
-#  You should have received a copy of the GNU General Public License
-#  along with sybil.  If not, see <http://www.gnu.org/licenses/>.
-
-
-################################################
-# Function: addExchReact
-#
-#
 # The function addExchReact() is inspired by the function
 # addExchangeRxn() contained in the COBRA Toolbox.
 # The algorithm is (more or less) the same.
-
-
 addExchReact <- function(model, met, lb, ub) {
-
-  
-    # ------------------------------------------------------------------------ #
     # check arguments
-    # ------------------------------------------------------------------------ #
-
     if (!is(model, "modelorg")) {
         stop("needs an object of class modelorg")
     }
 
-    #if ( (length(met) < 1) || (met == "") ) {
     if ( (length(met) < 1) || (any(met == "")) ) {
         stop("at least one metabolite is required and all metabolite character strings required to be non-empty")
     }
@@ -84,4 +48,3 @@ addExchReact <- function(model, met, lb, ub) {
 
     return(mod_out)
 }
-

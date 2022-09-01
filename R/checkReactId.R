@@ -1,34 +1,3 @@
-#  checkReactId.R
-#  FBA and friends with R.
-#
-#  Copyright (C) 2010-2014 Gabriel Gelius-Dietrich, Dpt. for Bioinformatics,
-#  Institute for Informatics, Heinrich-Heine-University, Duesseldorf, Germany.
-#  All right reserved.
-#  Email: geliudie@uni-duesseldorf.de
-#  
-#  This file is part of sybil.
-#
-#  Sybil is free software: you can redistribute it and/or modify
-#  it under the terms of the GNU General Public License as published by
-#  the Free Software Foundation, either version 3 of the License, or
-#  (at your option) any later version.
-#
-#  Sybil is distributed in the hope that it will be useful,
-#  but WITHOUT ANY WARRANTY; without even the implied warranty of
-#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#  GNU General Public License for more details.
-#
-#  You should have received a copy of the GNU General Public License
-#  along with sybil.  If not, see <http://www.gnu.org/licenses/>.
-
-
-################################################
-# Function: checkReactId
-#
-# 
-# 
-#
-
 checkReactId <- function(model, react) {
 
   if (is(react, "reactId")) {
@@ -42,13 +11,8 @@ checkReactId <- function(model, react) {
   checkedIds <- NULL
 
  
-#------------------------------------------------------------------------------#
-#                           if "react" is numeric                              #
-#------------------------------------------------------------------------------#
-
 # If react is numeric (or integer), we only need to check, whether no element of
 # react is larger than the number of reactions and if all elements are positive.
-
   if (is.numeric(react) || is.integer(react)) {
 
       if ( (max(react) > react_num(model)) || (min(react) < 1) ) {
@@ -62,14 +26,9 @@ checkReactId <- function(model, react) {
                             pnt     = react,
                             id      = react_id(model)[react])
       }
-      #return(checkedIds)
-
   }
 
-#------------------------------------------------------------------------------#
 #                          if "react" is character                             #
-#------------------------------------------------------------------------------#
-
   if (is(react, "character")) {
       reaction_ids <- react_id(model)
     
@@ -134,5 +93,4 @@ checkReactId <- function(model, react) {
   }
   
   return(checkedIds)                            
-
 }

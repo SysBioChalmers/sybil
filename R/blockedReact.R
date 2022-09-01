@@ -1,35 +1,4 @@
-#  blockedReact.R
-#  FBA and friends with R.
-#
-#  Copyright (C) 2010-2014 Gabriel Gelius-Dietrich, Dpt. for Bioinformatics,
-#  Institute for Informatics, Heinrich-Heine-University, Duesseldorf, Germany.
-#  All right reserved.
-#  Email: geliudie@uni-duesseldorf.de
-#  
-#  This file is part of sybil.
-#
-#  Sybil is free software: you can redistribute it and/or modify
-#  it under the terms of the GNU General Public License as published by
-#  the Free Software Foundation, either version 3 of the License, or
-#  (at your option) any later version.
-#
-#  Sybil is distributed in the hope that it will be useful,
-#  but WITHOUT ANY WARRANTY; without even the implied warranty of
-#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#  GNU General Public License for more details.
-#
-#  You should have received a copy of the GNU General Public License
-#  along with sybil.  If not, see <http://www.gnu.org/licenses/>.
-
-
-################################################
-# Function: blockedReact
-#
 # This function finds blocked reactions in a specified IO-environment.
-#
-#
-
-
 blockedReact <- function(model,
                          tol = SYBIL_SETTINGS("TOLERANCE"),
                          exex = TRUE,
@@ -85,11 +54,7 @@ blockedReact <- function(model,
 
 	lpmod <- sysBiolAlg(model, algorithm = "fv", tol = tol, ...)
 
-  
-#------------------------------------------------------------------------------#
 #                        finding blocked reactions                             #
-#------------------------------------------------------------------------------#
-
     if (verboseMode > 0) { message("calculating blocked reactions ...") }
 
     obj_max <- 0
@@ -115,20 +80,6 @@ blockedReact <- function(model,
                     flux[,(solpl-1)] <- sol$fluxes
                 }
             }
-#         }
-#         else {
-#             obj_max <- 0
-#             if (isTRUE(retOptSol)) {
-#                 obj[(i*2-1)]   <- 0
-#                 ok[(i*2-1)]    <- NA
-#                 stat[(i*2-1)]  <- NA
-#                 if (isTRUE(fld)) {
-#                     flux[,(i*2-1)] <- NA
-#                 }
-#             }
-#         }
-
-#         if (lowbnd(model)[intReact[i]] < 0) {
         if (!is(model, "modelorg_irrev")) {
         
             sol <- optimizeProb(lpmod, lpdir = "min",
@@ -143,23 +94,6 @@ blockedReact <- function(model,
                 }
             }
         }
-#         }
-#         else {
-#             obj_min <- 0
-#             if (isTRUE(retOptSol)) {
-#                 obj[(i*2)]   <- 0
-#                 ok[(i*2)]    <- NA
-#                 stat[(i*2)]  <- NA
-#                 if (isTRUE(fld)) {
-#                     flux[,(i*2)] <- NA
-#                 }
-#             }
-#         }
-
-        #print(paste("i", i))
-        #print(paste("max", obj_max))
-        #print(paste("min", obj_min))
-        #print(" ")
 
         if (is(model, "modelorg_irrev")) {
             blocked_react[intReact[i]] <- ifelse(abs(obj_max) < tol, TRUE, FALSE)
@@ -178,11 +112,6 @@ blockedReact <- function(model,
         }
 
     }
-
-    #print(nObj)
-    #print(obj)
-    #print(ok)
-    #print(blocked_react)
 
     if (isTRUE(retOptSol)) {
         optsol <- new("optsol_blockedReact",
@@ -213,8 +142,5 @@ blockedReact <- function(model,
     else {
         optsol <- blocked_react
     }
-
     return(optsol)
-
 }
-

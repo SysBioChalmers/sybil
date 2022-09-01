@@ -1,30 +1,3 @@
-#  doubleReact.R
-#  FBA and friends with R.
-#
-#  Copyright (C) 2010-2014 Gabriel Gelius-Dietrich, Dpt. for Bioinformatics,
-#  Institute for Informatics, Heinrich-Heine-University, Duesseldorf, Germany.
-#  All right reserved.
-#  Email: geliudie@uni-duesseldorf.de
-#  
-#  This file is part of sybil.
-#
-#  Sybil is free software: you can redistribute it and/or modify
-#  it under the terms of the GNU General Public License as published by
-#  the Free Software Foundation, either version 3 of the License, or
-#  (at your option) any later version.
-#
-#  Sybil is distributed in the hope that it will be useful,
-#  but WITHOUT ANY WARRANTY; without even the implied warranty of
-#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#  GNU General Public License for more details.
-#
-#  You should have received a copy of the GNU General Public License
-#  along with sybil.  If not, see <http://www.gnu.org/licenses/>.
-
-
-################################################
-# Function: doubleReact
-#
 # Returns a list with identical reactions:
 # The every list element contains two entries:
 #     1) the number of metabolites of the reactions,
@@ -33,8 +6,6 @@
 # So the final result is grouped in classes of reactions;
 # a class is defined by the number of corresponding
 # metabolites.
-
-
 doubleReact <- function(model, checkRev = TRUE, linInd = FALSE) {
 
   if (!is(model, "modelorg")) {
@@ -54,19 +25,8 @@ doubleReact <- function(model, checkRev = TRUE, linInd = FALSE) {
 #      nnzpc <- mat@p[-1] - mat@p[-length(mat@p)]
 #      remc  <- sort(unique(nnzpc[dup]))
 #  }
-#  
-#  print(sum(dup))
-#  #print(nnzpc)
-#  print(remc)
-#  print(nnzpc[dup])
-#
-#  return(shrinkMatrix(model, j = (1:react_num(model))[dup]))
-#
-#  return(TRUE)
-#------------------------------------------------------------------------------#
-#                        reaction adjacency matrix                             #
-#------------------------------------------------------------------------------#
 
+#                        reaction adjacency matrix                             #
   # binary matrix of S
   Sbin <- S(model) != 0
 
@@ -75,28 +35,20 @@ doubleReact <- function(model, checkRev = TRUE, linInd = FALSE) {
   Sbindiag <- diag(crossprod(Sbin))
 
 
-#------------------------------------------------------------------------------#
 # Next, we compute a vector containing all different numbers of compunds in the
 # reactions, e.g.:
 #     Sbindiag <- c(3, 6, 3, 4, 4, 3)
 # so recatlength will be
 #     reactlength <- c(3, 4, 6)
-#------------------------------------------------------------------------------#
-  
   # vector with all different reaction length
   # (length in the meaning of "number of metabolites")
   reactlength <- sort(unique(Sbindiag))
-
 
   # columns in S corresponding to reactlength
   # get the columns of S having a unique reactlength[i] <- j
   columns <- sapply(reactlength, function(x) which(x == Sbindiag))
 
-  
-#------------------------------------------------------------------------------#
 #                         compare the columns of S                             #
-#------------------------------------------------------------------------------#
-
   double_tmp  <- integer(0)  # a vector where all identical reactions are stored
   double      <- list()      # the main list
   clm         <- integer(1)  # counter for the main list (reactions with m metabolites)
@@ -134,7 +86,6 @@ doubleReact <- function(model, checkRev = TRUE, linInd = FALSE) {
                                     )
                               , nrow = reactlength[i]
                               )
-          #print(Stmp_rows)
           
           # A (temporary) list for identical reactions with
           # reactlength[i] metabolites
@@ -246,5 +197,4 @@ doubleReact <- function(model, checkRev = TRUE, linInd = FALSE) {
   else {
       return(FALSE)
   }
-
 }

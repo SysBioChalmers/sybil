@@ -1,38 +1,8 @@
-#  optObj_cplexAPIClass.R
-#  FBA and friends with R.
-#
-#  Copyright (C) 2010-2014 Gabriel Gelius-Dietrich, Dpt. for Bioinformatics,
-#  Institute for Informatics, Heinrich-Heine-University, Duesseldorf, Germany.
-#  All right reserved.
-#  Email: geliudie@uni-duesseldorf.de
-#  
-#  This file is part of sybil.
-#
-#  Sybil is free software: you can redistribute it and/or modify
-#  it under the terms of the GNU General Public License as published by
-#  the Free Software Foundation, either version 3 of the License, or
-#  (at your option) any later version.
-#
-#  Sybil is distributed in the hope that it will be useful,
-#  but WITHOUT ANY WARRANTY; without even the implied warranty of
-#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#  GNU General Public License for more details.
-#
-#  You should have received a copy of the GNU General Public License
-#  along with sybil.  If not, see <http://www.gnu.org/licenses/>.
 
-
-#------------------------------------------------------------------------------#
-#                  definition of the class optObj_cplexAPI                     #
-#------------------------------------------------------------------------------#
-
+#                  definition of the class optObj_cplexAPI                     
 setClass(Class = "optObj_cplexAPI", contains = "optObj")
 
-
-#------------------------------------------------------------------------------#
-#                                  methods                                     #
-#------------------------------------------------------------------------------#
-
+#                                  methods                                     
 setMethod("delProb", signature(lp = "optObj_cplexAPI"),
 
     function(lp, closeEnv = TRUE) {
@@ -47,13 +17,8 @@ setMethod("delProb", signature(lp = "optObj_cplexAPI"),
     }
 )
 
-
-#------------------------------------------------------------------------------#
-
 setMethod("initProb", signature(lp = "optObj_cplexAPI"),
-
     function(lp, to = FALSE, ...) {
-
         #lp@oobj <- cplexAPI::openProbCPLEX()
         tmp <- cplexAPI::openProbCPLEX()
         lp@oobj <- new("cplexPointer",
@@ -77,21 +42,15 @@ setMethod("initProb", signature(lp = "optObj_cplexAPI"),
                                       cplexAPI::CPX_PARAM_SCRIND,
                                       cplexAPI::CPX_OFF)
         }
-
         return(lp)
     }
 )
 
 
-#------------------------------------------------------------------------------#
-
 setMethod("backupProb", signature(lp = "optObj_cplexAPI"),
-
     function(lp) {
-
         out <- FALSE
         np  <- FALSE
-
         np <- cplexAPI::cloneProbCPLEX(lp@oobj@env, lp@oobj@lp)
 
         # create new optObj object
@@ -105,19 +64,13 @@ setMethod("backupProb", signature(lp = "optObj_cplexAPI"),
 )
 
 
-#------------------------------------------------------------------------------#
-
 
 setMethod("setSolverParm", signature(lp = "optObj_cplexAPI"),
-
     function(lp, solverParm) {
-
         out <- FALSE
-
         if ( ! ((is.data.frame(solverParm)) || (is.list(solverParm))) ) {
             stop(sQuote(solverParm), " must be list or data.frame")
         }
-
         if (any(is.na(solverParm))) {
             stop(sQuote(solverParm), " contains NA values")
         }
@@ -156,33 +109,23 @@ setMethod("setSolverParm", signature(lp = "optObj_cplexAPI"),
                                                   charp[i], charv[i])
             }
         }
-
         return(out)
     }
 )
 
 
-#------------------------------------------------------------------------------#
-
 setMethod("getSolverParm", signature(lp = "optObj_cplexAPI"),
-
     function(lp) {
-
         out <- cplexAPI::writeParmCPLEX(lp@oobj@env,
                                         "cplex_parameters.prm")
         message("Wrote the file 'cplex_parameters.prm'.")
-
         return(out)
     }
 )
 
 
-#------------------------------------------------------------------------------#
-
 setMethod("setObjDir", signature(lp = "optObj_cplexAPI", lpdir = "character"),
-
     function(lp, lpdir) {
-
         dr <- ifelse(lpdir == "max",
                      cplexAPI::CPX_MAX,
                      cplexAPI::CPX_MIN)
@@ -190,8 +133,6 @@ setMethod("setObjDir", signature(lp = "optObj_cplexAPI", lpdir = "character"),
     }
 )
 
-
-#------------------------------------------------------------------------------#
 
 setMethod("setObjDir", signature(lp = "optObj_cplexAPI", lpdir = "integer"),
 
@@ -205,12 +146,8 @@ setMethod("setObjDir", signature(lp = "optObj_cplexAPI", lpdir = "integer"),
 )
 
 
-#------------------------------------------------------------------------------#
-
 setMethod("setObjDir", signature(lp = "optObj_cplexAPI", lpdir = "numeric"),
-
     function(lp, lpdir) {
-
         dr <- ifelse(lpdir == -1,
                      cplexAPI::CPX_MAX,
                      cplexAPI::CPX_MIN)
@@ -218,12 +155,8 @@ setMethod("setObjDir", signature(lp = "optObj_cplexAPI", lpdir = "numeric"),
     }
 )
 
-#------------------------------------------------------------------------------#
-
 setMethod("getObjDir", signature(lp = "optObj_cplexAPI"),
-
     function(lp) {
-
         dr <- cplexAPI::getObjDirCPLEX(lp@oobj@env, lp@oobj@lp)
         if (dr == cplexAPI::CPX_MAX) {
             out <- "max"
@@ -234,55 +167,38 @@ setMethod("getObjDir", signature(lp = "optObj_cplexAPI"),
         else {
             out <- FALSE
         }
-
         return(out)
     }
 )
 
-
-#------------------------------------------------------------------------------#
 
 setMethod("addRows", signature(lp = "optObj_cplexAPI", nrows = "numeric"),
-
     function(lp, nrows) {
-
         out <- cplexAPI::newRowsCPLEX(lp@oobj@env, lp@oobj@lp, nrows)
-
         return(out)
     }
 )
 
-
-#------------------------------------------------------------------------------#
 
 setMethod("addCols", signature(lp = "optObj_cplexAPI", ncols = "numeric"),
-
     function(lp, ncols) {
-
         out <- cplexAPI::newColsCPLEX(lp@oobj@env, lp@oobj@lp, ncols)
-
         return(out)
     }
 )
 
-
-#------------------------------------------------------------------------------#
 
 setMethod("addRowsCols", signature(lp = "optObj_cplexAPI",
                                    nrows = "numeric", ncols = "numeric"),
 
     function(lp, nrows, ncols) {
-
         outi <- cplexAPI::newRowsCPLEX(lp@oobj@env, lp@oobj@lp, nrows)
         outj <- cplexAPI::newColsCPLEX(lp@oobj@env, lp@oobj@lp, ncols)
         out  <- c(outi, outj)
-
         return(out)
     }
 )
 
-
-#------------------------------------------------------------------------------#
 
 setMethod("getNumRows", signature(lp = "optObj_cplexAPI"),
 
@@ -295,8 +211,6 @@ setMethod("getNumRows", signature(lp = "optObj_cplexAPI"),
 )
 
 
-#------------------------------------------------------------------------------#
-
 setMethod("getNumCols", signature(lp = "optObj_cplexAPI"),
 
     function(lp) {
@@ -307,8 +221,6 @@ setMethod("getNumCols", signature(lp = "optObj_cplexAPI"),
     }
 )
 
-
-#------------------------------------------------------------------------------#
 
 setMethod("addColsToProb", signature(lp = "optObj_cplexAPI"),
 
@@ -329,53 +241,6 @@ setMethod("addColsToProb", signature(lp = "optObj_cplexAPI"),
         return(out)
     }
 )
-
-
-#------------------------------------------------------------------------------#
-
-#setMethod("addRowsToProb", signature(lp = "optObj_cplexAPI"),
-#
-#    # i: vector containing the new row indices (must be ascending)
-#    # cind: list, containing the column indices of the new nz elements
-#    # nzval: list, containing the new nz elements
-#    #
-#    # i, type, lb, cind and nzval must have the same length
-#    #
-#    # type can be one of the following:
-#    # "F" = free variable                -INF <  x <  INF
-#    # "L" = variable with lower bound      lb <= x <  INF
-#    # "U" = variable with upper bound    -INF <  x <= ub
-#    # "D" = double-bounded variable        lb <= x <= ub
-#    # "E" = fixed variable                 lb  = x  = ub
-#    # "R" = ranged constraint
-#
-#    function(lp, i, type, lb, ub, cind, nzval, rnames = NULL) {
-#
-#        cptype = character(length(type))
-#        for (l in seq(along = type)) {
-#            cptype[l] <- switch(type[l],
-#                "L" = { "G" },
-#                "U" = { "L" },
-#                "E" = { "E" },
-#                "R" = { "R" },
-#                      { "E" }
-#            )
-#        }
-#
-#        beg <- c(0, cumsum(unlist(lapply(cind, length))))
-#        out <- cplexAPI::addRowsCPLEX(env = lp@oobj@env, lp = lp@oobj@lp,
-#                                      ncols = 0, nrows = length(i),
-#                                      nnz = length(unlist(nzval)),
-#                                      matbeg = beg, matind = unlist(cind)-1,
-#                                      matval = unlist(nzval), rhs = lb,
-#                                      sense = cptype, rnames = rnames)
-#
-#        return(out)
-#    }
-#)
-
-
-#------------------------------------------------------------------------------#
 
 setMethod("addRowsToProb", signature(lp = "optObj_cplexAPI"),
 
@@ -434,26 +299,16 @@ setMethod("addRowsToProb", signature(lp = "optObj_cplexAPI"),
     }
 )
 
-
-#------------------------------------------------------------------------------#
-
 setMethod("changeColsBnds", signature(lp = "optObj_cplexAPI"),
-
     function(lp, j, lb, ub) {
-
         out <- cplexAPI::chgColsBndsCPLEX(lp@oobj@env,
                                           lp@oobj@lp, j-1, lb, ub)
         return(out)
     }
 )
 
-
-#------------------------------------------------------------------------------#
-
 setMethod("changeColsBndsObjCoefs", signature(lp = "optObj_cplexAPI"),
-
     function(lp, j, lb, ub, obj_coef) {
-
         outb <- cplexAPI::chgColsBndsCPLEX(lp@oobj@env,
                                            lp@oobj@lp, j-1, lb, ub)
         outo <- cplexAPI::chgObjCPLEX(lp@oobj@env, lp@oobj@lp,
@@ -467,39 +322,24 @@ setMethod("changeColsBndsObjCoefs", signature(lp = "optObj_cplexAPI"),
     }
 )
 
-
-#------------------------------------------------------------------------------#
-
 setMethod("getColsLowBnds", signature(lp = "optObj_cplexAPI", j = "numeric"),
-
     function(lp, j) {
-
         out <- cplexAPI::getLowBndsIdsCPLEX(lp@oobj@env, lp@oobj@lp, j-1)
-
         return(out)
     }
 )
 
-
-#------------------------------------------------------------------------------#
 
 setMethod("getColsUppBnds", signature(lp = "optObj_cplexAPI", j = "numeric"),
-
     function(lp, j) {
-
         out <- cplexAPI::getUppBndsIdsCPLEX(lp@oobj@env, lp@oobj@lp, j-1)
-
         return(out)
     }
 )
 
 
-#------------------------------------------------------------------------------#
-
 setMethod("changeRowsBnds", signature(lp = "optObj_cplexAPI"),
-
     function(lp, i, lb, ub) {
-
 #        out <- cplexAPI::chgRhsCPLEX(lp@oobj@env, lp@oobj@lp,
 #                                     length(i), i-1, lb)
 
@@ -525,18 +365,13 @@ setMethod("changeRowsBnds", signature(lp = "optObj_cplexAPI"),
             out  <- cplexAPI::chgRngValCPLEX(lp@oobj@env, lp@oobj@lp,
                                    sum(rng), i[rng]-1, rngv)
         }
-        
         return(out)
     }
 )
 
 
-#------------------------------------------------------------------------------#
-
 setMethod("setRhsZero", signature(lp = "optObj_cplexAPI"),
-
     function(lp) {
-
         nrows  <- cplexAPI::getNumRowsCPLEX(lp@oobj@env, lp@oobj@lp)
         zeros  <- rep(0, nrows)
         indic  <- c(0:(nrows-1))
@@ -549,42 +384,29 @@ setMethod("setRhsZero", signature(lp = "optObj_cplexAPI"),
         # ( Variable nrows has to be argument of setRhsZero()! )
         # out <- cplexAPI::newRowsCPLEX(lp@oobj@env, lp@oobj@lp, nrows,
         #                               rep(0, nrows), rep("E", nrows))
-
         return(out)
     }
 )
 
 
-#------------------------------------------------------------------------------#
-
 setMethod("getRowsLowBnds", signature(lp = "optObj_cplexAPI", i = "numeric"),
-
     function(lp, i) {
-
         wrong_solver_msg(lp, "getRowsLowBnds", printOut = TRUE)
         return(FALSE)
     }
 )
 
 
-#------------------------------------------------------------------------------#
-
 setMethod("getRowsUppBnds", signature(lp = "optObj_cplexAPI", i = "numeric"),
-
     function(lp, i) {
-
         wrong_solver_msg(lp, "getRowsUppBnds", printOut = TRUE)
         return(FALSE)
     }
 )
 
 
-#------------------------------------------------------------------------------#
-
 setMethod("changeObjCoefs", signature(lp = "optObj_cplexAPI"),
-
     function(lp, j, obj_coef) {
-
         out <- cplexAPI::chgObjCPLEX(lp@oobj@env, lp@oobj@lp,
                                      length(j), j-1, obj_coef)
 
@@ -593,10 +415,7 @@ setMethod("changeObjCoefs", signature(lp = "optObj_cplexAPI"),
 )
 
 
-#------------------------------------------------------------------------------#
-
 setMethod("getObjCoefs", signature(lp = "optObj_cplexAPI", j = "numeric"),
-
     function(lp, j) {
 
         if (length(j) > 1) {
@@ -613,124 +432,13 @@ setMethod("getObjCoefs", signature(lp = "optObj_cplexAPI", j = "numeric"),
     }
 )
 
-
-#------------------------------------------------------------------------------#
-
 setMethod("changeMatrixRow", signature(lp = "optObj_cplexAPI"),
-
     function(lp, i, j, val) {
-
         cplexAPI::chgCoefListCPLEX(lp@oobj@env, lp@oobj@lp,
                                    length(val), rep(i-1, length(val)), j-1, val)
 
     }
 )
-
-
-#------------------------------------------------------------------------------#
-
-#setMethod("loadLPprob", signature(lp = "optObj_cplexAPI"),
-#
-#    function(lp, nCols, nRows, mat, ub, lb, obj, rlb, rtype,
-#             lpdir = "max", rub = NULL, ctype = NULL,
-#             cnames = NULL, rnames = NULL) {
-#
-#        stopifnot(is(mat, "Matrix"))
-#
-#        crtype <- sapply(rtype,
-#                         function(x) switch(x,
-#                                            "L" = { "G" },
-#                                            "U" = { "L" },
-#                                            "E" = { "E" },
-#                                            "R" = { "R" },
-#                                                  { "E" }))
-#
-#        # ranged constraints
-#        if (is.null(rub)) {
-#            crub <- NULL
-#        }
-#        else {
-#            #rng        <- rtype == "R"
-#            rng        <- rtype %in% "R"
-#            crub       <- numeric(nRows)
-#            crub[rng]  <- rlb[rng] - rlb[rng]
-#            crub[!rng] <- 0
-#        }
-#
-##
-##        # problem type
-##         ptype <- switch(lp@probType,
-##             "lp"  = { CPXPROB_LP },
-##             "mip" = { CPXPROB_MILP },
-##                     { CPXPROB_LP }
-##         )
-##         cplexAPI::chgProbTypeCPLEX(lp@oobj@env, lp@oobj@lp, ptype)
-#
-#
-##
-##        # load problem
-##        TMPmat <- as(mat, "CsparseMatrix")
-##        cplexAPI::copyLpCPLEX(lp@oobj@env, lp@oobj@lp,
-##                              nCols  = nCols,
-##                              nRows  = nRows,
-##                              lpdir  = ifelse(lpdir == "max",
-##                                              cplexAPI::CPX_MAX,
-##                                              cplexAPI::CPX_MIN),
-##                              objf   = obj,
-##                              rhs    = rlb,
-##                              sense  = crtype,
-##                              matbeg = TMPmat@p,
-##                              matcnt = colSums(mat != 0),
-##                              matind = TMPmat@i,
-##                              matval = TMPmat@x,
-##                              lb     = lb,
-##                              ub     = ub,
-##                              rngval = crub)
-##
-##        if (!is.null(ctype)) {
-##            cplexAPI::chgColTypeCPLEX(lp@oobj@env, lp@oobj@lp,
-##                                      ncols  = nCols,
-##                                      ind    = c(1:nCols),
-##                                      xctype = ctype)
-##        }
-##
-#
-#        # optimization direction
-#        setObjDir(lp, lpdir = lpdir)
-#
-#        # constraints and right hand side
-#        cplexAPI::newRowsCPLEX(lp@oobj@env, lp@oobj@lp,
-#                               nrows  = nRows,
-#                               rhs    = rlb,
-#                               sense  = crtype,
-#                               rngval = crub,
-#                               rnames = rnames)
-#
-#        # variables, bounds and objective function
-#        cplexAPI::newColsCPLEX(lp@oobj@env, lp@oobj@lp,
-#                               ncols  = nCols,
-#                               obj    = obj,
-#                               lb     = lb,
-#                               ub     = ub,
-#                               cnames = cnames)
-#
-#        # constraint matrix
-#        TMPmat <- as(mat, "TsparseMatrix")
-#        cplexAPI::chgCoefListCPLEX(lp@oobj@env, lp@oobj@lp,
-#                                   nnz = length(TMPmat@x),
-#                                   ia  = TMPmat@i,
-#                                   ja  = TMPmat@j,
-#                                   ra  = TMPmat@x)
-#
-#        if (!is.null(ctype)) {
-#            cplexAPI::copyColTypeCPLEX(lp@oobj@env, lp@oobj@lp,
-#                                       xctype = ctype)
-#        }
-#    }
-#)
-
-
-#------------------------------------------------------------------------------#
 
 setMethod("loadLPprob", signature(lp = "optObj_cplexAPI"),
 
@@ -771,44 +479,6 @@ setMethod("loadLPprob", signature(lp = "optObj_cplexAPI"),
             crlb       <- rlb
             crlb[ubc]  <- rub[ubc]
         }
-
-#
-#        # problem type
-#         ptype <- switch(lp@probType,
-#             "lp"  = { CPXPROB_LP },
-#             "mip" = { CPXPROB_MILP },
-#                     { CPXPROB_LP }
-#         )
-#         cplexAPI::chgProbTypeCPLEX(lp@oobj@env, lp@oobj@lp, ptype)
-
-
-#
-#        # load problem
-#        TMPmat <- as(mat, "CsparseMatrix")
-#        cplexAPI::copyLpCPLEX(lp@oobj@env, lp@oobj@lp,
-#                              nCols  = nCols,
-#                              nRows  = nRows,
-#                              lpdir  = ifelse(lpdir == "max",
-#                                              cplexAPI::CPX_MAX,
-#                                              cplexAPI::CPX_MIN),
-#                              objf   = obj,
-#                              rhs    = rlb,
-#                              sense  = crtype,
-#                              matbeg = TMPmat@p,
-#                              matcnt = colSums(mat != 0),
-#                              matind = TMPmat@i,
-#                              matval = TMPmat@x,
-#                              lb     = lb,
-#                              ub     = ub,
-#                              rngval = crub)
-#
-#        if (!is.null(ctype)) {
-#            cplexAPI::chgColTypeCPLEX(lp@oobj@env, lp@oobj@lp,
-#                                      ncols  = nCols,
-#                                      ind    = c(1:nCols),
-#                                      xctype = ctype)
-#        }
-#
 
         # optimization direction
         setObjDir(lp, lpdir = lpdir)
@@ -852,8 +522,6 @@ setMethod("loadLPprob", signature(lp = "optObj_cplexAPI"),
 )
 
 
-#------------------------------------------------------------------------------#
-
 setMethod("loadQobj", signature(lp = "optObj_cplexAPI", mat = "Matrix"),
 
     function(lp, mat) {
@@ -868,25 +536,14 @@ setMethod("loadQobj", signature(lp = "optObj_cplexAPI", mat = "Matrix"),
     }
 )
 
-
-#------------------------------------------------------------------------------#
-
 setMethod("loadQobj", signature(lp = "optObj_cplexAPI", mat = "numeric"),
-
     function(lp, mat) {
-
         cplexAPI::copyQPsepCPLEX(lp@oobj@env, lp@oobj@lp, qsepvec = mat)
-
     }
 )
 
-
-#------------------------------------------------------------------------------#
-
 setMethod("scaleProb", signature(lp = "optObj_cplexAPI"),
-
     function(lp, opt) {
-
         out <- cplexAPI::setIntParmCPLEX(lp@oobj@env,
                                          cplexAPI::CPX_PARAM_REDUCE,
                                          opt)
@@ -894,11 +551,7 @@ setMethod("scaleProb", signature(lp = "optObj_cplexAPI"),
     }
 )
 
-
-#------------------------------------------------------------------------------#
-
 setMethod("solveLp", signature(lp = "optObj_cplexAPI"),
-
     function(lp) {
 
         out <- FALSE
@@ -938,11 +591,7 @@ setMethod("solveLp", signature(lp = "optObj_cplexAPI"),
     }
 )
 
-
-#------------------------------------------------------------------------------#
-
 setMethod("getObjVal", signature(lp = "optObj_cplexAPI"),
-
     function(lp) {
 
         obj <- cplexAPI::getObjValCPLEX(lp@oobj@env, lp@oobj@lp)
@@ -965,8 +614,6 @@ setMethod("getObjVal", signature(lp = "optObj_cplexAPI"),
 )
 
 
-#------------------------------------------------------------------------------#
-
 setMethod("getRedCosts", signature(lp = "optObj_cplexAPI"),
 
     function(lp) {
@@ -979,8 +626,6 @@ setMethod("getRedCosts", signature(lp = "optObj_cplexAPI"),
 )
 
 
-#------------------------------------------------------------------------------#
-
 setMethod("getSolStat", signature(lp = "optObj_cplexAPI"),
 
     function(lp) {
@@ -991,8 +636,6 @@ setMethod("getSolStat", signature(lp = "optObj_cplexAPI"),
     }
 )
 
-
-#------------------------------------------------------------------------------#
 
 setMethod("getFluxDist", signature(lp = "optObj_cplexAPI"),
 
@@ -1013,8 +656,6 @@ setMethod("getFluxDist", signature(lp = "optObj_cplexAPI"),
 )
 
 
-#------------------------------------------------------------------------------#
-
 setMethod("getColPrim", signature(lp = "optObj_cplexAPI", j = "numeric"),
 
     function(lp, j) {
@@ -1025,8 +666,6 @@ setMethod("getColPrim", signature(lp = "optObj_cplexAPI", j = "numeric"),
     }
 )
 
-
-#------------------------------------------------------------------------------#
 
 setMethod("getNumNnz", signature(lp = "optObj_cplexAPI"),
 
@@ -1039,44 +678,30 @@ setMethod("getNumNnz", signature(lp = "optObj_cplexAPI"),
 )
 
 
-#------------------------------------------------------------------------------#
-
 setMethod("writeProb", signature(lp = "optObj_cplexAPI", fname = "character"),
-
     function(lp, fname, ff = "lp") {
-
         tp  <- ifelse(is.null(ff), NULL, toupper(ff))
         fl  <- cplexAPI::writeProbCPLEX(lp@oobj@env, lp@oobj@lp,
                                         fname = fname, ftype = tp)
         out <- ifelse(fl == 0, TRUE, fl)
-
         return(out)
     }
 )
 
 
-#------------------------------------------------------------------------------#
-
 setMethod("readProb", signature(lp = "optObj_cplexAPI", fname = "character"),
-
     function(lp, fname, ff = "lp") {
-
         tp  <- ifelse(is.null(ff), NULL, toupper(ff))
         fl  <- cplexAPI::readCopyProbCPLEX(lp@oobj@env, lp@oobj@lp,
                                            fname = fname, ftype = tp)
         out <- ifelse(fl == 0, TRUE, fl)
-
         return(out)
     }
 )
 
 
-#------------------------------------------------------------------------------#
-
 setMethod("sensitivityAnalysis", signature(lp = "optObj_cplexAPI"),
-
     function(lp, ...) {
-
         # number of columns and rows
         nc <- cplexAPI::getNumColsCPLEX(lp@oobj@env, lp@oobj@lp)
         nr <- cplexAPI::getNumRowsCPLEX(lp@oobj@env, lp@oobj@lp)
@@ -1090,69 +715,44 @@ setMethod("sensitivityAnalysis", signature(lp = "optObj_cplexAPI"),
                                                lp@oobj@lp, 0, nc-1)
         out[["rhs"]]   <- cplexAPI::rhsSaCPLEX(lp@oobj@env,
                                                lp@oobj@lp, 0, nr-1)
-
         return(out)
     }
 )
 
-#------------------------------------------------------------------------------#
-
 
 setMethod("setRowsNames", signature(lp = "optObj_cplexAPI",
                                     i = "numeric", names = "character"),
-
     function(lp, i, names) {
-
         invisible(cplexAPI::chgRowNameCPLEX(lp@oobj@env, lp@oobj@lp,
                                             length(i), i-1, names))
-
     }
 )
 
-
-#------------------------------------------------------------------------------#
 
 setMethod("setColsNames", signature(lp = "optObj_cplexAPI",
                                     j = "numeric", names = "character"),
-
     function(lp, j, names) {
-
         invisible(cplexAPI::chgColNameCPLEX(lp@oobj@env, lp@oobj@lp,
                                             length(j), j-1, names))
-
     }
 )
 
 
-#------------------------------------------------------------------------------#
-
 setMethod("getRowsNames", signature(lp = "optObj_cplexAPI", i = "numeric"),
-
     function(lp, i) {
-
         rn <- mapply(cplexAPI::getRowNameCPLEX, begin = i-1, end = i-1,
                      MoreArgs = list(env = lp@oobj@env, lp = lp@oobj@lp),
                      SIMPLIFY = TRUE, USE.NAMES = FALSE)
         return(unlist(rn))
-
     }
 )
 
 
-#------------------------------------------------------------------------------#
-
 setMethod("getColsNames", signature(lp = "optObj_cplexAPI", j = "numeric"),
-
     function(lp, j) {
-
         cn <- mapply(cplexAPI::getColNameCPLEX, begin = j-1, end = j-1,
                      MoreArgs = list(env = lp@oobj@env, lp = lp@oobj@lp),
                      SIMPLIFY = TRUE, USE.NAMES = FALSE)
         return(unlist(cn))
-
     }
 )
-
-
-#------------------------------------------------------------------------------#
-

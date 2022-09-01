@@ -1,31 +1,3 @@
-#  sysBiolAlgClass.R
-#  FBA and friends with R.
-#
-#  Copyright (C) 2010-2014 Gabriel Gelius-Dietrich, Dpt. for Bioinformatics,
-#  Institute for Informatics, Heinrich-Heine-University, Duesseldorf, Germany.
-#  All right reserved.
-#  Email: geliudie@uni-duesseldorf.de
-#
-#  This file is part of sybil.
-#
-#  Sybil is free software: you can redistribute it and/or modify
-#  it under the terms of the GNU General Public License as published by
-#  the Free Software Foundation, either version 3 of the License, or
-#  (at your option) any later version.
-#
-#  Sybil is distributed in the hope that it will be useful,
-#  but WITHOUT ANY WARRANTY; without even the implied warranty of
-#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#  GNU General Public License for more details.
-#
-#  You should have received a copy of the GNU General Public License
-#  along with sybil.  If not, see <http://www.gnu.org/licenses/>.
-
-
-#------------------------------------------------------------------------------#
-#                    definition of the class sysBiolAlg                        #
-#------------------------------------------------------------------------------#
-
 setClass(Class = "sysBiolAlg",
          representation(
              problem   = "optObj",
@@ -39,34 +11,21 @@ setClass(Class = "sysBiolAlg",
          validity = .validsysBiolAlg
 )
 
-
-#------------------------------------------------------------------------------#
 #                              user constructor                                #
-#------------------------------------------------------------------------------#
-
 sysBiolAlg <- function(model,
                        algorithm = SYBIL_SETTINGS("ALGORITHM"),
                        prefix = "sysBiolAlg", sep = "_",
                        ...) {
-
     stopifnot(is(model, "modelorg"), is(algorithm, "character"))
-
     prob <- tryCatch(new(paste(prefix, algorithm, sep = sep), model, ...),
                      error = function(e) e)
-
     if (is(prob, "simpleError")) {
         stop(prob)
     }
-
     return(prob)
-
 }
 
-
-#------------------------------------------------------------------------------#
 #                            default constructor                               #
-#------------------------------------------------------------------------------#
-
 setMethod(f = "initialize",
           signature = "sysBiolAlg",
           definition = function(.Object,
@@ -102,26 +61,16 @@ setMethod(f = "initialize",
                             is(algPar,    "list"))
 
 
-                  # ---------------------------------------------
                   # build problem object
-                  # ---------------------------------------------
-
                   lp <- optObj(solver = solver, method = method, pType = pType)
                   lp <- initProb(lp, nrows = nRows, ncols = nCols, to = termOut)
 
-                  # ---------------------------------------------
                   # set control parameters
-                  # ---------------------------------------------
-
                   if (!any(is.na(solverParm))) {
                       setSolverParm(lp, solverParm)
                   }
 
-
-                  # ---------------------------------------------
                   # load problem data
-                  # ---------------------------------------------
-
                   loadLPprob(lp,
                              nCols  = nCols,
                              nRows  = nRows,
@@ -138,11 +87,7 @@ setMethod(f = "initialize",
                              rnames = rnames,
                              pname  = pname)
 
-
-                  # ---------------------------------------------
                   # scaling
-                  # ---------------------------------------------
-
                   if (!is.null(scaling)) {
                       scaleProb(lp, scaling)
                   }
@@ -159,25 +104,18 @@ setMethod(f = "initialize",
                       .Object@alg_par <- list(NULL)
                   }
                   validObject(.Object)
-
               }
-
               return(.Object)
           }
 )
 
-
-#------------------------------------------------------------------------------#
 #                            setters and getters                               #
-#------------------------------------------------------------------------------#
-
 # problem
 setMethod("problem", signature(object = "sysBiolAlg"),
           function(object) {
               return(object@problem)
           }
 )
-
 
 # algorithm
 setMethod("algorithm", signature(object = "sysBiolAlg"),
@@ -193,7 +131,6 @@ setReplaceMethod("algorithm", signature(object = "sysBiolAlg"),
                  }
 )
 
-
 # nr
 setMethod("nr", signature(object = "sysBiolAlg"),
           function(object) {
@@ -207,7 +144,6 @@ setReplaceMethod("nr", signature(object = "sysBiolAlg"),
                      return(object)
                  }
 )
-
 
 # nc
 setMethod("nc", signature(object = "sysBiolAlg"),
@@ -223,7 +159,6 @@ setReplaceMethod("nc", signature(object = "sysBiolAlg"),
                  }
 )
 
-
 # fldind
 setMethod("fldind", signature(object = "sysBiolAlg"),
           function(object) {
@@ -237,7 +172,6 @@ setReplaceMethod("fldind", signature(object = "sysBiolAlg"),
                      return(object)
                  }
 )
-
 
 # alg_par
 setMethod("alg_par", signature(object = "sysBiolAlg"),
@@ -253,11 +187,7 @@ setReplaceMethod("alg_par", signature(object = "sysBiolAlg"),
                  }
 )
 
-
-#------------------------------------------------------------------------------#
 #                               other methods                                  #
-#------------------------------------------------------------------------------#
-
 setMethod("show", signature(object = "sysBiolAlg"),
     function(object) {
         cat("Algorithm type: ", algorithm(object), "\n", sep = "")
@@ -267,9 +197,6 @@ setMethod("show", signature(object = "sysBiolAlg"),
         str(fldind(object))
     }
 )
-
-
-#------------------------------------------------------------------------------#
 
 setMethod("optimizeProb", signature(object = "sysBiolAlg"),
     function(object, react = NULL,
@@ -330,11 +257,7 @@ setMethod("optimizeProb", signature(object = "sysBiolAlg"),
             lpdir <- ifelse(lpdir == "max", "max", "min")
         }
 
-
-        # -------------------------------------------------------------- #
         # optimization
-        # -------------------------------------------------------------- #
-    
         # modifications to problem object
         tmp_val <- applyChanges(object, del = del, obj = obj, ld = ld,
                                 react = react, lb = lb, ub = ub,
@@ -366,23 +289,15 @@ setMethod("optimizeProb", signature(object = "sysBiolAlg"),
             resetChanges(object, old_val = tmp_val)
         }
 
-
-        # -------------------------------------------------------------- #
         # store solution
-        # -------------------------------------------------------------- #
-
         return(list(ok = lp_ok,
                     obj = lp_obj,
                     stat = lp_stat,
                     fluxes = lp_fluxes,
                     preP = preP,
                     postP = postP))
-
     }
 )
-
-
-#------------------------------------------------------------------------------#
 
 setMethod("applyChanges", signature(object = "sysBiolAlg"),
     function(object, del, obj, ld,
@@ -413,7 +328,6 @@ setMethod("applyChanges", signature(object = "sysBiolAlg"),
             # store default lower and upper bounds
             tmp_val[["lb"]] <- getColsLowBnds(lpmod, fi)
             tmp_val[["ub"]] <- getColsUppBnds(lpmod, fi)
-    
             # change bounds of fluxes in react
             check <- changeColsBnds(lpmod, fi, lb, ub)
         }
@@ -421,7 +335,6 @@ setMethod("applyChanges", signature(object = "sysBiolAlg"),
         if (isTRUE(obj)) {
             # store default objective function
             tmp_val[["obj_coef"]] <- getObjCoefs(lpmod, fi)
-            
             # change objective function
             check <- changeObjCoefs(lpmod, fi, obj_coef)
         }
@@ -429,7 +342,6 @@ setMethod("applyChanges", signature(object = "sysBiolAlg"),
         if (isTRUE(ld)) {
             # store default optimization direction
             tmp_val[["lpdir"]] <- getObjDir(lpmod)
-            
             # change objective function
             check <- setObjDir(lpmod, lpdir)
         }
@@ -438,12 +350,8 @@ setMethod("applyChanges", signature(object = "sysBiolAlg"),
     }
 )
 
-
-#------------------------------------------------------------------------------#
-
 setMethod("resetChanges", signature(object = "sysBiolAlg"),
     function(object, old_val) {
-
         lpmod <- problem(object)
 
         if ( (!is.null(old_val[["lb"]])) || (!is.null(old_val[["ub"]])) ) {
@@ -463,7 +371,6 @@ setMethod("resetChanges", signature(object = "sysBiolAlg"),
         if (!is.null(old_val[["lpdir"]])) {
             check <- setObjDir(lpmod, old_val[["lpdir"]])
         }
-
         return(invisible(TRUE))
     }
 )

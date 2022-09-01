@@ -1,37 +1,9 @@
-#  optObj_lpSolveAPIClass.R
-#  FBA and friends with R.
-#
-#  Copyright (C) 2010-2014 Gabriel Gelius-Dietrich, Dpt. for Bioinformatics,
-#  Institute for Informatics, Heinrich-Heine-University, Duesseldorf, Germany.
-#  All right reserved.
-#  Email: geliudie@uni-duesseldorf.de
-#  
-#  This file is part of sybil.
-#
-#  Sybil is free software: you can redistribute it and/or modify
-#  it under the terms of the GNU General Public License as published by
-#  the Free Software Foundation, either version 3 of the License, or
-#  (at your option) any later version.
-#
-#  Sybil is distributed in the hope that it will be useful,
-#  but WITHOUT ANY WARRANTY; without even the implied warranty of
-#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#  GNU General Public License for more details.
-#
-#  You should have received a copy of the GNU General Public License
-#  along with sybil.  If not, see <http://www.gnu.org/licenses/>.
 
-
-#------------------------------------------------------------------------------#
-#                 definition of the class optObj_lpSolveAPI                    #
-#------------------------------------------------------------------------------#
+#                 definition of the class optObj_lpSolveAPI                    
 
 setClass(Class = "optObj_lpSolveAPI", contains = "optObj")
 
-
-#------------------------------------------------------------------------------#
-#                                  methods                                     #
-#------------------------------------------------------------------------------#
+#                                  methods                                     
 
 setMethod("delProb", signature(lp = "optObj_lpSolveAPI"),
 
@@ -47,8 +19,6 @@ setMethod("delProb", signature(lp = "optObj_lpSolveAPI"),
     }
 )
 
-
-#------------------------------------------------------------------------------#
 
 setMethod("initProb", signature(lp = "optObj_lpSolveAPI"),
 
@@ -68,8 +38,6 @@ setMethod("initProb", signature(lp = "optObj_lpSolveAPI"),
     }
 )
 
-
-#------------------------------------------------------------------------------#
 
 setMethod("backupProb", signature(lp = "optObj_lpSolveAPI"),
 
@@ -99,8 +67,6 @@ setMethod("backupProb", signature(lp = "optObj_lpSolveAPI"),
 )
 
 
-#------------------------------------------------------------------------------#
-
 setMethod("setSolverParm", signature(lp = "optObj_lpSolveAPI"),
 
     function(lp, solverParm) {
@@ -126,8 +92,6 @@ setMethod("setSolverParm", signature(lp = "optObj_lpSolveAPI"),
 )
 
 
-#------------------------------------------------------------------------------#
-
 setMethod("getSolverParm", signature(lp = "optObj_lpSolveAPI"),
 
     function(lp) {
@@ -137,8 +101,6 @@ setMethod("getSolverParm", signature(lp = "optObj_lpSolveAPI"),
     }
 )
 
-
-#------------------------------------------------------------------------------#
 
 setMethod("setObjDir", signature(lp = "optObj_lpSolveAPI", lpdir = "character"),
 
@@ -150,8 +112,6 @@ setMethod("setObjDir", signature(lp = "optObj_lpSolveAPI", lpdir = "character"),
 )
 
 
-#------------------------------------------------------------------------------#
-
 setMethod("setObjDir", signature(lp = "optObj_lpSolveAPI", lpdir = "numeric"),
 
     function(lp, lpdir) {
@@ -161,8 +121,6 @@ setMethod("setObjDir", signature(lp = "optObj_lpSolveAPI", lpdir = "numeric"),
 
     }
 )
-
-#------------------------------------------------------------------------------#
 
 setMethod("getObjDir", signature(lp = "optObj_lpSolveAPI"),
 
@@ -176,8 +134,6 @@ setMethod("getObjDir", signature(lp = "optObj_lpSolveAPI"),
 )
 
 
-#------------------------------------------------------------------------------#
-
 setMethod("addRows", signature(lp = "optObj_lpSolveAPI", nrows = "numeric"),
 
     function(lp, nrows) {
@@ -189,8 +145,6 @@ setMethod("addRows", signature(lp = "optObj_lpSolveAPI", nrows = "numeric"),
     }
 )
 
-
-#------------------------------------------------------------------------------#
 
 setMethod("addCols", signature(lp = "optObj_lpSolveAPI", ncols = "numeric"),
 
@@ -204,8 +158,6 @@ setMethod("addCols", signature(lp = "optObj_lpSolveAPI", ncols = "numeric"),
 )
 
 
-#------------------------------------------------------------------------------#
-
 setMethod("addRowsCols", signature(lp = "optObj_lpSolveAPI",
                                    nrows = "numeric", ncols = "numeric"),
 
@@ -218,8 +170,6 @@ setMethod("addRowsCols", signature(lp = "optObj_lpSolveAPI",
 )
 
 
-#------------------------------------------------------------------------------#
-
 setMethod("getNumRows", signature(lp = "optObj_lpSolveAPI"),
 
     function(lp) {
@@ -231,8 +181,6 @@ setMethod("getNumRows", signature(lp = "optObj_lpSolveAPI"),
 )
 
 
-#------------------------------------------------------------------------------#
-
 setMethod("getNumCols", signature(lp = "optObj_lpSolveAPI"),
 
     function(lp) {
@@ -243,8 +191,6 @@ setMethod("getNumCols", signature(lp = "optObj_lpSolveAPI"),
     }
 )
 
-
-#------------------------------------------------------------------------------#
 
 setMethod("addColsToProb", signature(lp = "optObj_lpSolveAPI"),
 
@@ -270,8 +216,6 @@ setMethod("addColsToProb", signature(lp = "optObj_lpSolveAPI"),
     }
 )
 
-
-#------------------------------------------------------------------------------#
 
 setMethod("addRowsToProb", signature(lp = "optObj_lpSolveAPI"),
 
@@ -324,8 +268,6 @@ setMethod("addRowsToProb", signature(lp = "optObj_lpSolveAPI"),
 )
 
 
-#------------------------------------------------------------------------------#
-
 setMethod("changeColsBnds", signature(lp = "optObj_lpSolveAPI"),
 
     function(lp, j, lb, ub) {
@@ -336,8 +278,6 @@ setMethod("changeColsBnds", signature(lp = "optObj_lpSolveAPI"),
     }
 )
 
-
-#------------------------------------------------------------------------------#
 
 setMethod("changeColsBndsObjCoefs", signature(lp = "optObj_lpSolveAPI"),
 
@@ -352,8 +292,6 @@ setMethod("changeColsBndsObjCoefs", signature(lp = "optObj_lpSolveAPI"),
 )
 
 
-#------------------------------------------------------------------------------#
-
 setMethod("getColsLowBnds", signature(lp = "optObj_lpSolveAPI", j = "numeric"),
 
     function(lp, j) {
@@ -364,8 +302,6 @@ setMethod("getColsLowBnds", signature(lp = "optObj_lpSolveAPI", j = "numeric"),
     }
 )
 
-
-#------------------------------------------------------------------------------#
 
 setMethod("getColsUppBnds", signature(lp = "optObj_lpSolveAPI", j = "numeric"),
 
@@ -378,8 +314,6 @@ setMethod("getColsUppBnds", signature(lp = "optObj_lpSolveAPI", j = "numeric"),
 )
 
 
-#------------------------------------------------------------------------------#
-
 setMethod("changeRowsBnds", signature(lp = "optObj_lpSolveAPI"),
 
     function(lp, i, lb, ub) {
@@ -390,8 +324,6 @@ setMethod("changeRowsBnds", signature(lp = "optObj_lpSolveAPI"),
     }
 )
 
-
-#------------------------------------------------------------------------------#
 
 setMethod("setRhsZero", signature(lp = "optObj_lpSolveAPI"),
 
@@ -411,8 +343,6 @@ setMethod("setRhsZero", signature(lp = "optObj_lpSolveAPI"),
 )
 
 
-#------------------------------------------------------------------------------#
-
 setMethod("getRowsLowBnds", signature(lp = "optObj_lpSolveAPI", i = "numeric"),
 
     function(lp, i) {
@@ -424,8 +354,6 @@ setMethod("getRowsLowBnds", signature(lp = "optObj_lpSolveAPI", i = "numeric"),
     }
 )
 
-
-#------------------------------------------------------------------------------#
 
 setMethod("getRowsUppBnds", signature(lp = "optObj_lpSolveAPI", i = "numeric"),
 
@@ -439,8 +367,6 @@ setMethod("getRowsUppBnds", signature(lp = "optObj_lpSolveAPI", i = "numeric"),
 )
 
 
-#------------------------------------------------------------------------------#
-
 setMethod("changeObjCoefs", signature(lp = "optObj_lpSolveAPI"),
 
     function(lp, j, obj_coef) {
@@ -451,8 +377,6 @@ setMethod("changeObjCoefs", signature(lp = "optObj_lpSolveAPI"),
     }
 )
 
-
-#------------------------------------------------------------------------------#
 
 setMethod("getObjCoefs", signature(lp = "optObj_lpSolveAPI", j = "numeric"),
 
@@ -469,8 +393,6 @@ setMethod("getObjCoefs", signature(lp = "optObj_lpSolveAPI", j = "numeric"),
 )
 
 
-#------------------------------------------------------------------------------#
-
 setMethod("changeMatrixRow", signature(lp = "optObj_lpSolveAPI"),
 
     function(lp, i, j, val) {
@@ -480,8 +402,6 @@ setMethod("changeMatrixRow", signature(lp = "optObj_lpSolveAPI"),
     }
 )
 
-
-#------------------------------------------------------------------------------#
 
 setMethod("loadLPprob", signature(lp = "optObj_lpSolveAPI"),
 
@@ -604,8 +524,6 @@ setMethod("loadLPprob", signature(lp = "optObj_lpSolveAPI"),
 )
 
 
-#------------------------------------------------------------------------------#
-
 setMethod("scaleProb", signature(lp = "optObj_lpSolveAPI"),
 
     function(lp, opt) {
@@ -615,8 +533,6 @@ setMethod("scaleProb", signature(lp = "optObj_lpSolveAPI"),
     }
 )
 
-
-#------------------------------------------------------------------------------#
 
 setMethod("solveLp", signature(lp = "optObj_lpSolveAPI"),
 
@@ -629,8 +545,6 @@ setMethod("solveLp", signature(lp = "optObj_lpSolveAPI"),
 )
 
 
-#------------------------------------------------------------------------------#
-
 setMethod("getObjVal", signature(lp = "optObj_lpSolveAPI"),
 
     function(lp) {
@@ -642,8 +556,6 @@ setMethod("getObjVal", signature(lp = "optObj_lpSolveAPI"),
 )
 
 
-#------------------------------------------------------------------------------#
-
 setMethod("getRedCosts", signature(lp = "optObj_lpSolveAPI"),
 
     function(lp) {
@@ -654,8 +566,6 @@ setMethod("getRedCosts", signature(lp = "optObj_lpSolveAPI"),
     }
 )
 
-
-#------------------------------------------------------------------------------#
 
 setMethod("getSolStat", signature(lp = "optObj_lpSolveAPI"),
 
@@ -670,8 +580,6 @@ setMethod("getSolStat", signature(lp = "optObj_lpSolveAPI"),
 )
 
 
-#------------------------------------------------------------------------------#
-
 setMethod("getFluxDist", signature(lp = "optObj_lpSolveAPI"),
 
     function(lp) {
@@ -682,8 +590,6 @@ setMethod("getFluxDist", signature(lp = "optObj_lpSolveAPI"),
     }
 )
 
-
-#------------------------------------------------------------------------------#
 
 setMethod("getColPrim", signature(lp = "optObj_lpSolveAPI", j = "numeric"),
 
@@ -696,8 +602,6 @@ setMethod("getColPrim", signature(lp = "optObj_lpSolveAPI", j = "numeric"),
 )
 
 
-#------------------------------------------------------------------------------#
-
 setMethod("writeProb", signature(lp = "optObj_lpSolveAPI", fname = "character"),
 
     function(lp, fname, ff = "lp", ...) {
@@ -708,8 +612,6 @@ setMethod("writeProb", signature(lp = "optObj_lpSolveAPI", fname = "character"),
     }
 )
 
-
-#------------------------------------------------------------------------------#
 
 setMethod("readProb", signature(lp = "optObj_lpSolveAPI", fname = "character"),
 
@@ -722,8 +624,6 @@ setMethod("readProb", signature(lp = "optObj_lpSolveAPI", fname = "character"),
 )
 
 
-#------------------------------------------------------------------------------#
-
 setMethod("setRowsNames", signature(lp = "optObj_lpSolveAPI",
                                     i = "numeric", names = "character"),
 
@@ -734,8 +634,6 @@ setMethod("setRowsNames", signature(lp = "optObj_lpSolveAPI",
     }
 )
 
-
-#------------------------------------------------------------------------------#
 
 setMethod("setColsNames", signature(lp = "optObj_lpSolveAPI",
                                     j = "numeric", names = "character"),
@@ -748,8 +646,6 @@ setMethod("setColsNames", signature(lp = "optObj_lpSolveAPI",
 )
 
 
-#------------------------------------------------------------------------------#
-
 setMethod("getRowsNames", signature(lp = "optObj_lpSolveAPI", i = "numeric"),
 
     function(lp, i) {
@@ -761,8 +657,6 @@ setMethod("getRowsNames", signature(lp = "optObj_lpSolveAPI", i = "numeric"),
 )
 
 
-#------------------------------------------------------------------------------#
-
 setMethod("getColsNames", signature(lp = "optObj_lpSolveAPI", j = "numeric"),
 
     function(lp, j) {
@@ -773,7 +667,5 @@ setMethod("getColsNames", signature(lp = "optObj_lpSolveAPI", j = "numeric"),
     }
 )
 
-
-#------------------------------------------------------------------------------#
 
 

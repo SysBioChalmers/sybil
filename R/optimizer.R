@@ -1,34 +1,3 @@
-#  optimizer.R
-#  FBA and friends with R.
-#
-#  Copyright (C) 2010-2014 Gabriel Gelius-Dietrich, Dpt. for Bioinformatics,
-#  Institute for Informatics, Heinrich-Heine-University, Duesseldorf, Germany.
-#  All right reserved.
-#  Email: geliudie@uni-duesseldorf.de
-#
-#  This file is part of sybil.
-#
-#  Sybil is free software: you can redistribute it and/or modify
-#  it under the terms of the GNU General Public License as published by
-#  the Free Software Foundation, either version 3 of the License, or
-#  (at your option) any later version.
-#
-#  Sybil is distributed in the hope that it will be useful,
-#  but WITHOUT ANY WARRANTY; without even the implied warranty of
-#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#  GNU General Public License for more details.
-#
-#  You should have received a copy of the GNU General Public License
-#  along with sybil.  If not, see <http://www.gnu.org/licenses/>.
-
-
-################################################
-# Function: optimizer
-#
-#
-#
-
-
 optimizer <- function(model, react,
                       lb = NULL,
                       ub = NULL,
@@ -47,9 +16,6 @@ optimizer <- function(model, react,
 
     stopifnot(length(fld) == 1)
 
-    #--------------------------------------------------------------------------#
-    # verboseMode
-
     on.exit(expr = {
         if (exists("logObj")) {
             logClose(logObj) <- NA
@@ -62,9 +28,7 @@ optimizer <- function(model, react,
                        verblevel = verboseMode)
 
 
-    #--------------------------------------------------------------------------#
     # check arguments
-
     if (!is(model, "modelorg")) {
         stop("needs an object of class modelorg")
     }
@@ -106,10 +70,7 @@ optimizer <- function(model, react,
         fdist <- fld
     }
 
-
-    #--------------------------------------------------------------------------#
     # convenient function
-
     gEl <- function(el, num, pos) {
 
         if (is.null(el)) {
@@ -132,31 +93,8 @@ optimizer <- function(model, react,
         return(ret)
     
     } 
-#    gEl <- function(el, num) {
-#    
-#        if (is.null(el)) {
-#            return(el)
-#        }
-#        
-#        stopifnot(length(el) == 1)
-#
-#        if (is.list(el)) {
-#            ret <- unlist(el)
-#            stopifnot(length(el) == num)
-#        }
-#        else {
-#            ret <- rep(el, num)
-#        }
-#    
-#        return(ret)
-#    
-#    } 
 
-
-    #--------------------------------------------------------------------------#
     # prepare problem object
-    #--------------------------------------------------------------------------#
-
     if (algorithm == "mtf") {
         if (fdist == "none") {
             fdist <- "fluxes" 
@@ -177,11 +115,7 @@ optimizer <- function(model, react,
     # check, if we use an algorithm performing genetic perturbations
     pert <- checkAlgorithm(algorithm, "pert")
 
-
-    #--------------------------------------------------------------------------#
     # data structures for simulation results
-    #--------------------------------------------------------------------------#
-
     obj   <- numeric(nObj)
     mobj  <- numeric(nObj)
     ok    <- integer(nObj)
@@ -198,10 +132,7 @@ optimizer <- function(model, react,
         }
     )
 
-
-    #--------------------------------------------------------------------------#
     # pre and post processing
-
     runPrPl  <- logical(nObj)
     runPoPl  <- logical(nObj)
     runPrPcn <- 1
@@ -228,11 +159,7 @@ optimizer <- function(model, react,
         do_po <- FALSE
     }
 
-
-#------------------------------------------------------------------------------#
 #                             optimizations                                    #
-#------------------------------------------------------------------------------#
-
     message("calculating ", nObj, " optimizations ... ", appendLF = FALSE)
     if (verboseMode > 1) { cat("\n") }
     if (verboseMode == 2) {
@@ -242,10 +169,8 @@ optimizer <- function(model, react,
 
     logOptimizationTH(logObj)
 
-
     fi <- fldind(lpmod)
     objcTMP <- integer(react_num(model))
-
 
     for (i in 1:nObj) {
 
@@ -370,11 +295,7 @@ optimizer <- function(model, react,
 
     message("OK")
 
-
-#------------------------------------------------------------------------------#
 #                               save the results                               #
-#------------------------------------------------------------------------------#
-
     # slot fldind
     if (fdist == "fluxes") {
         fli <- 1:length(fi)
@@ -421,9 +342,6 @@ optimizer <- function(model, react,
                    poAna        = poAna,
                    alg_par      = alg_par(lpmod))
 
-
-#------------------------------------------------------------------------------#
-
     if (isTRUE(setToZero)) {
         do_again <- checkSolStat(stat, solver(problem(lpmod)))
         num_new  <- length(do_again)
@@ -440,20 +358,10 @@ optimizer <- function(model, react,
         }
     }
 
-
-#------------------------------------------------------------------------------#
 #                           return solution object                             #
-#------------------------------------------------------------------------------#
-
     delProb(problem(lpmod))
     remove(lpmod)
-
     logFoot(logObj)  <- TRUE
     logClose(logObj) <- NA
-
     return(optsol)
-
 }
-
-
-

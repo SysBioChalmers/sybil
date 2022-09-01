@@ -1,34 +1,3 @@
-#  modelorgClass.R
-#  FBA and friends with R.
-#
-#  Copyright (C) 2010-2014 Gabriel Gelius-Dietrich, Dpt. for Bioinformatics,
-#  Institute for Informatics, Heinrich-Heine-University, Duesseldorf, Germany.
-#  All right reserved.
-#  Email: geliudie@uni-duesseldorf.de
-#
-#  This file is part of sybil.
-#
-#  Sybil is free software: you can redistribute it and/or modify
-#  it under the terms of the GNU General Public License as published by
-#  the Free Software Foundation, either version 3 of the License, or
-#  (at your option) any later version.
-#
-#  Sybil is distributed in the hope that it will be useful,
-#  but WITHOUT ANY WARRANTY; without even the implied warranty of
-#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#  GNU General Public License for more details.
-#
-#  You should have received a copy of the GNU General Public License
-#  along with sybil.  If not, see <http://www.gnu.org/licenses/>.
-
-
-# modelorgClass
-
-
-#------------------------------------------------------------------------------#
-#                      definition of the class modelorg                        #
-#------------------------------------------------------------------------------#
-
 # The class modelorg (the data part) is inspired by the data structure used
 # in the COBRA Toolbox for the same purpose.
 
@@ -71,11 +40,7 @@ setClass("modelorg",
     validity = .validmodelorg
 )
 
-
-#------------------------------------------------------------------------------#
 #                              user constructor                                #
-#------------------------------------------------------------------------------#
-
 modelorg <- function(id, name, subSys = NULL, compartment = NULL) {
     if (missing(id) || missing(name)) {
         stop("Creating an object of class model needs name and id!")
@@ -100,10 +65,7 @@ modelorg <- function(id, name, subSys = NULL, compartment = NULL) {
 }
 
 
-#------------------------------------------------------------------------------#
 #                            default constructor                               #
-#------------------------------------------------------------------------------#
-
 setMethod(f = "initialize",
           signature("modelorg"),
           definition = function(.Object, id, name,
@@ -135,11 +97,7 @@ setMethod(f = "initialize",
           }
 )
 
-
-#------------------------------------------------------------------------------#
 #                            setters and getters                               #
-#------------------------------------------------------------------------------#
-
 # model id
 setMethod("mod_id", signature(object = "modelorg"),
           function(object) {
@@ -153,7 +111,6 @@ setReplaceMethod("mod_id", signature(object = "modelorg"),
                      return(object)
                  }
 )
-
 
 # model key
 setMethod("mod_key", signature(object = "modelorg"),
@@ -169,7 +126,6 @@ setReplaceMethod("mod_key", signature(object = "modelorg"),
                  }
 )
 
-
 # model name
 setMethod("mod_name", signature(object = "modelorg"),
           function(object) {
@@ -184,7 +140,6 @@ setReplaceMethod("mod_name", signature(object = "modelorg"),
                  }
 )
 
-
 # model description
 setMethod("mod_desc", signature(object = "modelorg"),
           function(object) {
@@ -198,7 +153,6 @@ setReplaceMethod("mod_desc", signature(object = "modelorg"),
                      return(object)
                  }
 )
-
 
 # model compartments
 setMethod("mod_compart", signature(object = "modelorg"),
@@ -227,7 +181,6 @@ setReplaceMethod("met_num", signature(object = "modelorg"),
               return(object)
           }
 )
-
 
 # metabolite id's
 setMethod("met_id", signature(object = "modelorg"),
@@ -273,7 +226,6 @@ setReplaceMethod("met_comp", signature(object = "modelorg"),
           }
 )
 
-
 # singletons
 setMethod("met_single", signature(object = "modelorg"),
           function(object) {
@@ -287,7 +239,6 @@ setReplaceMethod("met_single", signature(object = "modelorg"),
               return(object)
           }
 )
-
 
 # dead ends
 setMethod("met_de", signature(object = "modelorg"),
@@ -303,7 +254,6 @@ setReplaceMethod("met_de", signature(object = "modelorg"),
           }
 )
 
-
 # number of reactions
 setMethod("react_num", signature(object = "modelorg"),
           function(object) {
@@ -317,7 +267,6 @@ setReplaceMethod("react_num", signature(object = "modelorg"),
               return(object)
           }
 )
-
 
 # reversibilities
 setMethod("react_rev", signature(object = "modelorg"),
@@ -333,7 +282,6 @@ setReplaceMethod("react_rev", signature(object = "modelorg"),
           }
 )
 
-
 # reaction id's
 setMethod("react_id", signature(object = "modelorg"),
           function(object) {
@@ -347,7 +295,6 @@ setReplaceMethod("react_id", signature(object = "modelorg"),
               return(object)
           }
 )
-
 
 # reaction names
 setMethod("react_name", signature(object = "modelorg"),
@@ -363,7 +310,6 @@ setReplaceMethod("react_name", signature(object = "modelorg"),
           }
 )
 
-
 # singletons
 setMethod("react_single", signature(object = "modelorg"),
           function(object) {
@@ -378,7 +324,6 @@ setReplaceMethod("react_single", signature(object = "modelorg"),
           }
 )
 
-
 # dead ends
 setMethod("react_de", signature(object = "modelorg"),
           function(object) {
@@ -392,7 +337,6 @@ setReplaceMethod("react_de", signature(object = "modelorg"),
               return(object)
           }
 )
-
 
 # stoichiometric matrix
 setMethod("S", signature(object = "modelorg"),
@@ -422,7 +366,6 @@ setMethod("dim", signature(x = "modelorg"),
           }
 )
 
-
 # lower bounds
 setMethod("lowbnd", signature(object = "modelorg"),
           function(object) {
@@ -436,7 +379,6 @@ setReplaceMethod("lowbnd", signature(object = "modelorg"),
               return(object)
           }
 )
-
 
 # upper bounds
 setMethod("uppbnd", signature(object = "modelorg"),
@@ -452,7 +394,6 @@ setReplaceMethod("uppbnd", signature(object = "modelorg"),
           }
 )
 
-
 # objective coefficient
 setMethod("obj_coef", signature(object = "modelorg"),
           function(object) {
@@ -466,7 +407,6 @@ setReplaceMethod("obj_coef", signature(object = "modelorg"),
               return(object)
           }
 )
-
 
 # gprRules
 setMethod("gprRules", signature(object = "modelorg"),
@@ -482,7 +422,6 @@ setReplaceMethod("gprRules", signature(object = "modelorg"),
           }
 )
 
-
 # genes
 setMethod("genes", signature(object = "modelorg"),
           function(object) {
@@ -496,7 +435,6 @@ setReplaceMethod("genes", signature(object = "modelorg"),
               return(object)
           }
 )
-
 
 # gpr associations
 setMethod("gpr", signature(object = "modelorg"),
@@ -512,7 +450,6 @@ setReplaceMethod("gpr", signature(object = "modelorg"),
           }
 )
 
-
 # list of all genes
 setMethod("allGenes", signature(object = "modelorg"),
           function(object) {
@@ -527,7 +464,6 @@ setReplaceMethod("allGenes", signature(object = "modelorg"),
           }
 )
 
-
 # reaction to gene mapping
 setMethod("rxnGeneMat", signature(object = "modelorg"),
           function(object) {
@@ -541,7 +477,6 @@ setReplaceMethod("rxnGeneMat", signature(object = "modelorg"),
               return(object)
           }
 )
-
 
 # reaction sub systems
 setMethod("subSys", signature(object = "modelorg"),
@@ -628,13 +563,6 @@ setReplaceMethod("mod_attr", signature(object = "modelorg"),
           }
 )
 
-
-
-
-#------------------------------------------------------------------------------#
-#                               other methods                                  #
-#------------------------------------------------------------------------------#
-
 setMethod("show", signature(object = "modelorg"),
     function(object) {
         cat("model name:            ", mod_name(object), "\n")
@@ -650,9 +578,6 @@ setMethod("show", signature(object = "modelorg"),
         cat("objective function:    ", printObjFunc(object), "\n")
     }
 )
-
-
-#------------------------------------------------------------------------------#
 
 setMethod("optimizeProb", signature(object = "modelorg"),
     function(object, 
@@ -701,11 +626,7 @@ setMethod("optimizeProb", signature(object = "modelorg"),
             }
         }
 
-
-        # -------------------------------------------------------------- #
         # run optimization
-        # -------------------------------------------------------------- #
-
         if (algorithm == "mtf") {
             if (is.null(mtfobj)) {
                 lpmod <- sysBiolAlg(model = object, algorithm = "mtf",
@@ -738,10 +659,7 @@ setMethod("optimizeProb", signature(object = "modelorg"),
                             prCil = prCil, poCil = poCil)
 
 
-        # -------------------------------------------------------------- #
         # store solution
-        # -------------------------------------------------------------- #
-
         if (isTRUE(retOptSol)) {
 
             # solution object
@@ -791,14 +709,10 @@ setMethod("optimizeProb", signature(object = "modelorg"),
 
         delProb(problem(lpmod))
         remove(lpmod)
-        
         return(optsol)
-
     }
 )
 
-
-#------------------------------------------------------------------------------#
 
 # print objective function
 setMethod("printObjFunc", signature(object = "modelorg"),
@@ -820,8 +734,6 @@ setMethod("printObjFunc", signature(object = "modelorg"),
           }
 )
 
-
-#------------------------------------------------------------------------------#
 
 # print reactions
 setMethod("printReaction", signature(object = "modelorg"),
@@ -878,8 +790,6 @@ setMethod("printReaction", signature(object = "modelorg"),
     }
 )
 
-
-#------------------------------------------------------------------------------#
 
 # print metabolites
 setMethod("printMetabolite", signature(object = "modelorg"),
@@ -965,7 +875,6 @@ setMethod("printMetabolite", signature(object = "modelorg"),
 
     }
 )
-#------------------------------------------------------------------------------#
 
 setMethod("getReaction", signature(X = "modelorg"),
 	function(X, j = NULL, drop=T, tol = SYBIL_SETTINGS("TOLERANCE")) {
@@ -1027,8 +936,6 @@ setMethod("getReaction", signature(X = "modelorg"),
 		return(rl)
 	}
 )
-
-#------------------------------------------------------------------------------#
 
 setMethod("shrinkMatrix", signature(X = "modelorg"),
     function(X, i = NULL, j = NULL, tol = SYBIL_SETTINGS("TOLERANCE")) {
@@ -1094,9 +1001,6 @@ setMethod("shrinkMatrix", signature(X = "modelorg"),
               
     }
 )
-
-
-#------------------------------------------------------------------------------#
 
 setMethod("changeUptake", signature(object = "modelorg"),
     function(object, off = NULL, on = NULL,
@@ -1174,9 +1078,6 @@ setMethod("changeUptake", signature(object = "modelorg"),
     }
 )
 
-
-#------------------------------------------------------------------------------#
-
 setMethod("deadEndMetabolites", signature(object = "modelorg"),
     function(object, retIds = TRUE) {
 
@@ -1194,8 +1095,6 @@ setMethod("deadEndMetabolites", signature(object = "modelorg"),
               
     }
 )
-
-#------------------------------------------------------------------------------#
 
 setMethod("singletonMetabolites", signature(object = "modelorg"),
     function(object, tol = SYBIL_SETTINGS("TOLERANCE"), retIds = TRUE) {
@@ -1217,10 +1116,6 @@ setMethod("singletonMetabolites", signature(object = "modelorg"),
     }
 )
 
-#------------------------------------------------------------------------------#
-
-
-
 setMethod("checkVersion", signature(object = "modelorg"),
 	function(object) {
 		if(!.hasSlot(object, "version")){
@@ -1233,11 +1128,3 @@ setMethod("checkVersion", signature(object = "modelorg"),
 		return(paste0("modelorg has version ", version(object), ", but you need at least version ", version))
 	}
 )
-
-
-
-
-
-
-
-

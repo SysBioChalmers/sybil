@@ -1,43 +1,7 @@
-#  rmReact.R
-#  FBA and friends with R.
-#
-#  Copyright (C) 2010-2014 Gabriel Gelius-Dietrich, Dpt. for Bioinformatics,
-#  Institute for Informatics, Heinrich-Heine-University, Duesseldorf, Germany.
-#  All right reserved.
-#  Email: geliudie@uni-duesseldorf.de
-#  
-#  This file is part of sybil.
-#
-#  Sybil is free software: you can redistribute it and/or modify
-#  it under the terms of the GNU General Public License as published by
-#  the Free Software Foundation, either version 3 of the License, or
-#  (at your option) any later version.
-#
-#  Sybil is distributed in the hope that it will be useful,
-#  but WITHOUT ANY WARRANTY; without even the implied warranty of
-#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#  GNU General Public License for more details.
-#
-#  You should have received a copy of the GNU General Public License
-#  along with sybil.  If not, see <http://www.gnu.org/licenses/>.
-
-
-################################################
-# Function: rmReact
-#
-#
 # The function rmReact() is inspired by the function
 # removeRxns() contained in the COBRA Toolbox.
 # The algorithm is the same.
-
-
 rmReact <- function(model, react, rm_met = TRUE) {
-
-  
-#------------------------------------------------------------------------------#
-#                           check model and react                              #
-#------------------------------------------------------------------------------#
-
 	if (!is(model, "modelorg")) {
 		stop("needs an object of class modelorg!")
 	}
@@ -64,42 +28,14 @@ rmReact <- function(model, react, rm_met = TRUE) {
 		}
 	}
 
-
-#  if ((is(react, "numeric")) || (is(react, "integer"))) {
-#      if (max(react) > react_num(model)) {
-#          stop("check your reaction Id's!")
-#      }
-#      else {
-#          rmReact <- react
-#      }
-#  }
-
-#  if (is(react, "character")) {
-#      checked_react <- checkReactId(model, react)
-#      if ((is.logical(checked_react)) && (checked_react == FALSE)) {
-#          stop("check your reaction Id's!")
-#      }
-#      else {
-#          rmReact <- react_pos(checked_react)
-#      }
-#  }
-
-  
-#------------------------------------------------------------------------------#
 #                              logical vector                                  #
-#------------------------------------------------------------------------------#
-
   # logical vector: length = number of reactions, positions to be deleted
   # are set to FALSE
   #(numeric(react_num(model)) == 0)
   keepReact          <- rep(react_num(model), x=TRUE)
   keepReact[rmReact] <- FALSE
 
-
-#------------------------------------------------------------------------------#
 #                           construct the new model                            #
-#------------------------------------------------------------------------------#
-  
   if (is(model, "modelorg_irrev")) {
       mod_out <- modelorg_irrev(mod_id(model), mod_name(model))
 
@@ -181,11 +117,7 @@ rmReact <- function(model, react, rm_met = TRUE) {
       #irrev2rev(mod_out)    <- integer(irrev_react_num)
   }
 
-
-#------------------------------------------------------------------------------#
 #                         removed unused metabolites                           #
-#------------------------------------------------------------------------------#
-
   if (rm_met == TRUE) {
 
       # binary matrix of S
@@ -222,4 +154,3 @@ rmReact <- function(model, react, rm_met = TRUE) {
   return(mod_out)
 
 }
-

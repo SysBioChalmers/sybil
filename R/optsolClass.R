@@ -1,33 +1,4 @@
-#  optsolClass.R
-#  FBA and friends with R.
-#
-#  Copyright (C) 2010-2014 Gabriel Gelius-Dietrich, Dpt. for Bioinformatics,
-#  Institute for Informatics, Heinrich-Heine-University, Duesseldorf, Germany.
-#  All right reserved.
-#  Email: geliudie@uni-duesseldorf.de
-#
-#  This file is part of sybil.
-#
-#  Sybil is free software: you can redistribute it and/or modify
-#  it under the terms of the GNU General Public License as published by
-#  the Free Software Foundation, either version 3 of the License, or
-#  (at your option) any later version.
-#
-#  Sybil is distributed in the hope that it will be useful,
-#  but WITHOUT ANY WARRANTY; without even the implied warranty of
-#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#  GNU General Public License for more details.
-#
-#  You should have received a copy of the GNU General Public License
-#  along with sybil.  If not, see <http://www.gnu.org/licenses/>.
-
-
-# optsolClass
-
-
-#------------------------------------------------------------------------------#
 #                            class definitions                                 #
-#------------------------------------------------------------------------------#
 
 setClass("optsol",
     representation(
@@ -53,11 +24,7 @@ setClass("optsol",
     #validity = .validoptsol
 )
 
-
-#------------------------------------------------------------------------------#
 #                              user constructors                               #
-#------------------------------------------------------------------------------#
-
 optsol <- function(solver) {
     if (missing(solver)) {
         stop("Creating an object of class optsol needs a valid solver!")
@@ -66,11 +33,7 @@ optsol <- function(solver) {
     new("optsol", solver = solver)
 }
 
-
-#------------------------------------------------------------------------------#
 #                            setters and getters                               #
-#------------------------------------------------------------------------------#
-
 # mod_id
 setMethod("mod_id", signature(object = "optsol"),
           function(object) {
@@ -85,7 +48,6 @@ setReplaceMethod("mod_id", signature(object = "optsol"),
                  }
 )
 
-
 # mod_key
 setMethod("mod_key", signature(object = "optsol"),
           function(object) {
@@ -99,7 +61,6 @@ setReplaceMethod("mod_key", signature(object = "optsol"),
                      return(object)
                  }
 )
-
 
 # solver
 setMethod("solver", signature(object = "optsol"),
@@ -130,7 +91,6 @@ setReplaceMethod("method", signature(object = "optsol"),
                  }
 )
 
-
 # method
 setMethod("algorithm", signature(object = "optsol"),
           function(object) {
@@ -145,7 +105,6 @@ setReplaceMethod("algorithm", signature(object = "optsol"),
                  }
 )
 
-
 # num_of_prob
 setMethod("num_of_prob", signature(object = "optsol"),
           function(object) {
@@ -159,7 +118,6 @@ setReplaceMethod("num_of_prob", signature(object = "optsol"),
                      return(object)
                  }
 )
-
 
 # lp_num_cols
 setMethod("lp_num_cols", signature(object = "optsol"),
@@ -189,7 +147,6 @@ setReplaceMethod("lp_num_rows", signature(object = "optsol"),
                      return(object)
                  }
 )
-
 
 # lp_dir
 setMethod("lp_dir", signature(object = "optsol"),
@@ -232,7 +189,6 @@ setReplaceMethod("lp_dir", signature(object = "optsol", value = "numeric"),
                  }
 )
 
-
 # lp_obj
 setMethod("lp_obj", signature(object = "optsol"),
           function(object) {
@@ -246,7 +202,6 @@ setReplaceMethod("lp_obj", signature(object = "optsol"),
                      return(object)
                  }
 )
-
 
 # lp_ok
 setMethod("lp_ok", signature(object = "optsol"),
@@ -277,7 +232,6 @@ setReplaceMethod("lp_stat", signature(object = "optsol"),
                  }
 )
 
-
 # objective coefficient
 setMethod("obj_coef", signature(object = "optsol"),
           function(object) {
@@ -291,7 +245,6 @@ setReplaceMethod("obj_coef", signature(object = "optsol"),
               return(object)
           }
 )
-
 
 # objective function
 setMethod("obj_func", signature(object = "optsol"),
@@ -307,7 +260,6 @@ setReplaceMethod("obj_func", signature(object = "optsol"),
           }
 )
 
-
 # fldind
 setMethod("fldind", signature(object = "optsol"),
           function(object) {
@@ -321,7 +273,6 @@ setReplaceMethod("fldind", signature(object = "optsol"),
                      return(object)
                  }
 )
-
 
 # fluxdist
 setMethod("fluxdist", signature(object = "optsol"),
@@ -337,7 +288,6 @@ setReplaceMethod("fluxdist", signature(object = "optsol"),
                  }
 )
 
-
 # fluxes
 setMethod("fluxes", signature(object = "optsol"),
           function(object) {
@@ -351,7 +301,6 @@ setReplaceMethod("fluxes", signature(object = "optsol"),
                      return(object)
                  }
 )
-
 
 # alg_par
 setMethod("alg_par", signature(object = "optsol"),
@@ -367,11 +316,7 @@ setReplaceMethod("alg_par", signature(object = "optsol"),
                  }
 )
 
-
-#------------------------------------------------------------------------------#
 #                               other methods                                  #
-#------------------------------------------------------------------------------#
-
 # mod_obj
 setMethod("mod_obj", signature(object = "optsol"),
           function(object) {
@@ -387,14 +332,12 @@ setMethod("mod_obj", signature(object = "optsol"),
           }
 )
 
-
 # number of fluxes
 setMethod("nfluxes", signature(object = "optsol"),
           function(object) {
               return(num_of_fluxes(object@fluxdist))
           }
 )
-
 
 # check solution status
 setMethod("checkStat", signature(opt = "optsol"),
@@ -403,7 +346,6 @@ setMethod("checkStat", signature(opt = "optsol"),
               return(ng)
           }
 )
-
 
 # get part of the flux distribution
 setMethod("getFluxDist", signature(lp = "optsol"),
@@ -506,14 +448,12 @@ setMethod("show", signature(object = "optsol"),
     }
 )
 
-
 # length of an object of class optsol
 setMethod("length", signature = signature(x = "optsol"),
           function(x) {
               return(num_of_prob(x))
           }
 )
-
 
 # draw a histogramm (package lattice)
 setMethod("plot", signature(x = "optsol", y = "missing"),
@@ -525,7 +465,6 @@ setMethod("plot", signature(x = "optsol", y = "missing"),
               
           }
 )
-
 
 # checkOptSol
 setMethod("checkOptSol", signature(opt = "optsol"),

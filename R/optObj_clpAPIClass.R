@@ -1,37 +1,4 @@
-#  optObj_clpAPIClass.R
-#  FBA and friends with R.
-#
-#  Copyright (C) 2010-2014 Gabriel Gelius-Dietrich, Dpt. for Bioinformatics,
-#  Institute for Informatics, Heinrich-Heine-University, Duesseldorf, Germany.
-#  All right reserved.
-#  Email: geliudie@uni-duesseldorf.de
-#  
-#  This file is part of sybil.
-#
-#  Sybil is free software: you can redistribute it and/or modify
-#  it under the terms of the GNU General Public License as published by
-#  the Free Software Foundation, either version 3 of the License, or
-#  (at your option) any later version.
-#
-#  Sybil is distributed in the hope that it will be useful,
-#  but WITHOUT ANY WARRANTY; without even the implied warranty of
-#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#  GNU General Public License for more details.
-#
-#  You should have received a copy of the GNU General Public License
-#  along with sybil.  If not, see <http://www.gnu.org/licenses/>.
-
-
-#------------------------------------------------------------------------------#
-#                   definition of the class optObj_clpAPI                      #
-#------------------------------------------------------------------------------#
-
 setClass(Class = "optObj_clpAPI", contains = "optObj")
-
-
-#------------------------------------------------------------------------------#
-#                                  methods                                     #
-#------------------------------------------------------------------------------#
 
 setMethod("delProb", signature(lp = "optObj_clpAPI"),
 
@@ -41,9 +8,6 @@ setMethod("delProb", signature(lp = "optObj_clpAPI"),
 
     }
 )
-
-
-#------------------------------------------------------------------------------#
 
 setMethod("initProb", signature(lp = "optObj_clpAPI"),
 
@@ -58,16 +22,11 @@ setMethod("initProb", signature(lp = "optObj_clpAPI"),
             stopifnot(is(to, "numeric"))
             clpAPI::setLogLevelCLP(lp@oobj, to)
         }
-
         return(lp)
     }
 )
 
-
-#------------------------------------------------------------------------------#
-
 setMethod("backupProb", signature(lp = "optObj_clpAPI"),
-
     function(lp) {
 
         out <- FALSE
@@ -95,17 +54,12 @@ setMethod("backupProb", signature(lp = "optObj_clpAPI"),
             out <- new("optObj_clpAPI", lp@solver, lp@method, lp@probType)
             out@oobj <- np
         }
-
         return(out)
     }
 )
 
 
-#------------------------------------------------------------------------------#
-
-
 setMethod("setSolverParm", signature(lp = "optObj_clpAPI"),
-
     function(lp, solverParm) {
         # at the moment, only parameters 'numberIterations', 'maximumIterations', 
         # and 'maximumSeconds' can be set by this function. In clpAPI, 
@@ -150,57 +104,34 @@ setMethod("setSolverParm", signature(lp = "optObj_clpAPI"),
 )
 
 
-#------------------------------------------------------------------------------#
-
 setMethod("getSolverParm", signature(lp = "optObj_clpAPI"),
-
     function(lp) {
-
         out <- FALSE
-
         out <- list(
             "hitMaximumIterations" = clpAPI::getHitMaximumIterationsCLP(lp@oobj),
             "maximumIterations" = clpAPI::getMaximumIterationsCLP(lp@oobj),
             "maximumSeconds" = clpAPI::getMaximumSecondsCLP(lp@oobj)
         )
-        
         return(out)
-        
     }
 )
-
-
-#------------------------------------------------------------------------------#
 
 setMethod("setObjDir", signature(lp = "optObj_clpAPI", lpdir = "character"),
-
     function(lp, lpdir) {
-
         dr <- ifelse(lpdir == "max", -1, 1)
         clpAPI::setObjDirCLP(lp@oobj, dr)
-
     }
 )
-
-
-#------------------------------------------------------------------------------#
 
 setMethod("setObjDir", signature(lp = "optObj_clpAPI", lpdir = "numeric"),
-
     function(lp, lpdir) {
-
         dr <- ifelse(lpdir == -1, -1, 1)
         clpAPI::setObjDirCLP(lp@oobj, dr)
-
     }
 )
 
-#------------------------------------------------------------------------------#
-
 setMethod("getObjDir", signature(lp = "optObj_clpAPI"),
-
     function(lp) {
-
         dr <- clpAPI::getObjDirCLP(lp@oobj)
         if (dr == -1) {
             out <- "max"
@@ -216,103 +147,61 @@ setMethod("getObjDir", signature(lp = "optObj_clpAPI"),
     }
 )
 
-
-#------------------------------------------------------------------------------#
-
 setMethod("addRows", signature(lp = "optObj_clpAPI", nrows = "numeric"),
-
     function(lp, nrows) {
-
         ncols <- clpAPI::getNumColsCLP(lp@oobj)
         out   <- clpAPI::resizeCLP(lp@oobj, nrows, ncols)
-
         return(out)
     }
 )
-
-
-#------------------------------------------------------------------------------#
 
 setMethod("addCols", signature(lp = "optObj_clpAPI", ncols = "numeric"),
-
     function(lp, ncols) {
-
         nrows <- clpAPI::getNumRowsCLP(lp@oobj)
         out   <- clpAPI::resizeCLP(lp@oobj, nrows, ncols)
-
         return(out)
     }
 )
-
-
-#------------------------------------------------------------------------------#
 
 setMethod("addRowsCols", signature(lp = "optObj_clpAPI",
                                    nrows = "numeric", ncols = "numeric"),
-
     function(lp, nrows, ncols) {
-
         out <- clpAPI::resizeCLP(lp@oobj, nrows, ncols)
-
         return(out)
     }
 )
-
-
-#------------------------------------------------------------------------------#
 
 setMethod("getNumRows", signature(lp = "optObj_clpAPI"),
-
     function(lp) {
-
         out <- clpAPI::getNumRowsCLP(lp@oobj)
-
         return(out)
     }
 )
-
-
-#------------------------------------------------------------------------------#
 
 setMethod("getNumCols", signature(lp = "optObj_clpAPI"),
-
     function(lp) {
-
         out <- clpAPI::getNumColsCLP(lp@oobj)
-
         return(out)
     }
 )
 
-
-#------------------------------------------------------------------------------#
-
 setMethod("addColsToProb", signature(lp = "optObj_clpAPI"),
-
     # j: vector containing the new column indices (must be ascending)
     # rind: list, containing the row indices of the new nz elements
     # nzval: list, containing the new nz elements
-    #
     # j, obj, lb, rind and nzval must have the same length
-
     function(lp, j, obj, lb, ub, rind, nzval) {
-
         cst <- c(0, cumsum(unlist(lapply(rind, length))))
         print(cst)
         print(unlist(rind)-1)
         print(unlist(nzval))
         out <- clpAPI::addColsCLP(lp@oobj, length(j), lb, ub, obj,
                                   cst, unlist(rind)-1, unlist(nzval))
-
         return(out)
     }
 )
 
-
-#------------------------------------------------------------------------------#
-
 setMethod("addRowsToProb", signature(lp = "optObj_clpAPI"),
-
     # i: vector containing the new row indices (must be ascending)
     # cind: list, containing the column indices of the new nz elements
     # nzval: list, containing the new nz elements
@@ -325,9 +214,7 @@ setMethod("addRowsToProb", signature(lp = "optObj_clpAPI"),
     # "U" = variable with upper bound    -INF <  x <= ub
     # "D" = double-bounded variable        lb <= x <= ub
     # "E" = fixed variable                 lb  = x  = ub
-
     function(lp, i, type, lb, ub, cind, nzval, rnames = NULL) {
-
         stopifnot(length(lb) == length(ub))
         cub <- ub
         ebc <- type == "E"
@@ -337,41 +224,28 @@ setMethod("addRowsToProb", signature(lp = "optObj_clpAPI"),
 
         out <- clpAPI::addRowsCLP(lp@oobj, length(i), lb, cub,
                                   cst, unlist(cind)-1, unlist(nzval))
-
         #if (!is.null(rnames)) {
         #    for (rind in seq(along = i)) {
         #        clpAPI::rowNameCLP(lp@oobj, i = i[rind], rname = rnames[rind])
         #    }
         #}
-
         return(out)
     }
 )
 
-
-#------------------------------------------------------------------------------#
-
 setMethod("changeColsBnds", signature(lp = "optObj_clpAPI"),
-
     function(lp, j, lb, ub) {
-
         tmp_lb <- clpAPI::getColLowerCLP(lp@oobj)
         tmp_ub <- clpAPI::getColUpperCLP(lp@oobj)
         tmp_lb[j] <- lb
         tmp_ub[j] <- ub
         clpAPI::chgColLowerCLP(lp@oobj, tmp_lb)
         clpAPI::chgColUpperCLP(lp@oobj, tmp_ub)
-
     }
 )
 
-
-#------------------------------------------------------------------------------#
-
 setMethod("changeColsBndsObjCoefs", signature(lp = "optObj_clpAPI"),
-
     function(lp, j, lb, ub, obj_coef) {
-
         # usable only for model creation!
         clpAPI::chgColLowerCLP(lp@oobj, lb)
         clpAPI::chgColUpperCLP(lp@oobj, ub)
@@ -379,39 +253,22 @@ setMethod("changeColsBndsObjCoefs", signature(lp = "optObj_clpAPI"),
     }
 )
 
-
-#------------------------------------------------------------------------------#
-
 setMethod("getColsLowBnds", signature(lp = "optObj_clpAPI", j = "numeric"),
-
     function(lp, j) {
-
         out <- clpAPI::getColLowerCLP(lp@oobj)[j]
-
         return(out)
     }
 )
-
-
-#------------------------------------------------------------------------------#
 
 setMethod("getColsUppBnds", signature(lp = "optObj_clpAPI", j = "numeric"),
-
     function(lp, j) {
-
         out <- clpAPI::getColUpperCLP(lp@oobj)[j]
-
         return(out)
     }
 )
 
-
-#------------------------------------------------------------------------------#
-
 setMethod("changeRowsBnds", signature(lp = "optObj_clpAPI"),
-
     function(lp, i, lb, ub) {
-
         tmp_lb <- clpAPI::getRowLowerCLP(lp@oobj)
         tmp_ub <- clpAPI::getRowUpperCLP(lp@oobj)
         tmp_lb[i] <- lb
@@ -421,13 +278,8 @@ setMethod("changeRowsBnds", signature(lp = "optObj_clpAPI"),
     }
 )
 
-
-#------------------------------------------------------------------------------#
-
 setMethod("setRhsZero", signature(lp = "optObj_clpAPI"),
-
     function(lp) {
-
         nrows <- clpAPI::getNumRowsCLP(lp@oobj)
         zeros <- rep(0, nrows)
         clpAPI::chgRowLowerCLP(lp@oobj, zeros)
@@ -436,64 +288,36 @@ setMethod("setRhsZero", signature(lp = "optObj_clpAPI"),
     }
 )
 
-
-#------------------------------------------------------------------------------#
-
 setMethod("getRowsLowBnds", signature(lp = "optObj_clpAPI", i = "numeric"),
-
     function(lp, i) {
-
         out <- clpAPI::getRowLowerCLP(lp@oobj)[i]
-
         return(out)
     }
 )
-
-
-#------------------------------------------------------------------------------#
 
 setMethod("getRowsUppBnds", signature(lp = "optObj_clpAPI", i = "numeric"),
-
     function(lp, i) {
-
         out <- clpAPI::getRowUpperCLP(lp@oobj)[i]
-
         return(out)
     }
 )
 
-
-#------------------------------------------------------------------------------#
-
 setMethod("changeObjCoefs", signature(lp = "optObj_clpAPI"),
-
     function(lp, j, obj_coef) {
-
         tmp_obj_coef <- clpAPI::getObjCoefsCLP(lp@oobj)
         tmp_obj_coef[j] <- obj_coef
         clpAPI::chgObjCoefsCLP(lp@oobj, tmp_obj_coef)
-
     }
 )
 
-
-#------------------------------------------------------------------------------#
-
 setMethod("getObjCoefs", signature(lp = "optObj_clpAPI", j = "numeric"),
-
     function(lp, j) {
-
         out <- clpAPI::getObjCoefsCLP(lp@oobj)[j]
-
         return(out)
     }
 )
 
-
-#------------------------------------------------------------------------------#
-
 setMethod("loadLPprob", signature(lp = "optObj_clpAPI"),
-
     function(lp, nCols, nRows, mat, ub, lb, obj, rlb, rtype,
              lpdir = "max", rub = NULL, ctype = NULL,
              cnames = NULL, rnames = NULL, pname = NULL,
@@ -563,25 +387,14 @@ setMethod("loadLPprob", signature(lp = "optObj_clpAPI"),
     }
 )
 
-
-#------------------------------------------------------------------------------#
-
 setMethod("scaleProb", signature(lp = "optObj_clpAPI"),
-
     function(lp, opt) {
-
         clpAPI::scaleModelCLP(lp@oobj, opt)
-
     }
 )
 
-
-#------------------------------------------------------------------------------#
-
 setMethod("solveLp", signature(lp = "optObj_clpAPI"),
-
     function(lp) {
-
         out <- FALSE
         switch(lp@method,
             "inidual" = {
@@ -610,13 +423,9 @@ setMethod("solveLp", signature(lp = "optObj_clpAPI"),
                 out <- clpAPI::solveInitialCLP(lp@oobj)
             }
         )
-
         return(out)
     }
 )
-
-
-#------------------------------------------------------------------------------#
 
 setMethod("getObjVal", signature(lp = "optObj_clpAPI"),
 
@@ -628,91 +437,50 @@ setMethod("getObjVal", signature(lp = "optObj_clpAPI"),
     }
 )
 
-
-#------------------------------------------------------------------------------#
-
 setMethod("getRedCosts", signature(lp = "optObj_clpAPI"),
-
     function(lp) {
-
         out <- clpAPI::getColDualCLP(lp@oobj)
-
         return(out)
     }
 )
-
-
-#------------------------------------------------------------------------------#
 
 setMethod("getSolStat", signature(lp = "optObj_clpAPI"),
-
     function(lp) {
-
         out <- clpAPI::getSolStatusCLP(lp@oobj)
-
         return(out)
     }
 )
-
-
-#------------------------------------------------------------------------------#
 
 setMethod("getFluxDist", signature(lp = "optObj_clpAPI"),
-
     function(lp) {
-
         out <- clpAPI::getColPrimCLP(lp@oobj)
-
         return(out)
     }
 )
-
-
-#------------------------------------------------------------------------------#
 
 setMethod("getColPrim", signature(lp = "optObj_clpAPI", j = "numeric"),
-
     function(lp, j) {
-
         out <- clpAPI::getColPrimCLP(lp@oobj)[j]
-
         return(out)
     }
 )
-
-
-#------------------------------------------------------------------------------#
 
 setMethod("getNumNnz", signature(lp = "optObj_clpAPI"),
-
     function(lp) {
-
         out <- clpAPI::getNumNnzCLP(lp@oobj)
-
         return(out)
     }
 )
-
-
-#------------------------------------------------------------------------------#
 
 setMethod("writeProb", signature(lp = "optObj_clpAPI", fname = "character"),
-
     function(lp, fname, ff = "lp") {
-
         out <- clpAPI::saveModelCLP(lp@oobj, fname = fname)
-
         return(out)
     }
 )
 
-
-#------------------------------------------------------------------------------#
-
 setMethod("readProb", signature(lp = "optObj_clpAPI", fname = "character"),
-
     function(lp, fname, ff = "mps", ...) {
-
         switch(ff,
             "mps" = {
                 fl <- clpAPI::readMPSCLP(lp@oobj, fname = fname, ...)
@@ -726,11 +494,6 @@ setMethod("readProb", signature(lp = "optObj_clpAPI", fname = "character"),
             }
         )
         out <- ifelse(fl == 0, TRUE, fl)
-        
         return(out)
     }
 )
-
-
-#------------------------------------------------------------------------------#
-

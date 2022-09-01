@@ -1,34 +1,4 @@
-#  reactClass.R
-#  FBA and friends with R.
-#
-#  Copyright (C) 2010-2017 Claus Jonathan Fritzemeier, Dpt. for Computational Cell Biology,
-#  Institute for Informatics, Heinrich-Heine-University, Duesseldorf, Germany.
-#  All right reserved.
-#  Email: clausjonathan.fritzemeier@uni-duesseldorf.de
-#
-#  This file is part of sybil.
-#
-#  Sybil is free software: you can redistribute it and/or modify
-#  it under the terms of the GNU General Public License as published by
-#  the Free Software Foundation, either version 3 of the License, or
-#  (at your option) any later version.
-#
-#  Sybil is distributed in the hope that it will be useful,
-#  but WITHOUT ANY WARRANTY; without even the implied warranty of
-#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.	 See the
-#  GNU General Public License for more details.
-#
-#  You should have received a copy of the GNU General Public License
-#  along with sybil.  If not, see <http://www.gnu.org/licenses/>.
-
-
-# reactClass
-
-
-#------------------------------------------------------------------------------#
 #					   definition of the class react						#
-#------------------------------------------------------------------------------#
-
 setClass("react",
 	representation(
 		 react_rev	  = "logical",	   # vector reversibilities
@@ -55,11 +25,7 @@ setClass("react",
 	validity = .validreact
 )
 
-
-#------------------------------------------------------------------------------#
 #							 default constructor							   #
-#------------------------------------------------------------------------------#
-
 setMethod(f = "initialize",
 			signature = "react",
 			definition = function(.Object, 
@@ -111,11 +77,7 @@ setMethod(f = "initialize",
 		  }
 )
 
-
-#------------------------------------------------------------------------------#
 #							 setters and getters							   #
-#------------------------------------------------------------------------------#
-
 # metabolite id's
 setMethod("met_id", signature(object = "react"),
 		  function(object) {
@@ -129,7 +91,6 @@ setReplaceMethod("met_id", signature(object = "react"),
 			  return(object)
 		  }
 )
-
 
 # metabolite names
 setMethod("met_name", signature(object = "react"),
@@ -145,7 +106,6 @@ setReplaceMethod("met_name", signature(object = "react"),
 		  }
 )
 
-
 # metabolites compartments
 setMethod("met_comp", signature(object = "react"),
 		  function(object) {
@@ -159,7 +119,6 @@ setReplaceMethod("met_comp", signature(object = "react"),
 			  return(object)
 		  }
 )
-
 
 # reversibilities
 setMethod("react_rev", signature(object = "react"),
@@ -175,7 +134,6 @@ setReplaceMethod("react_rev", signature(object = "react"),
 		  }
 )
 
-
 # reaction id's
 setMethod("react_id", signature(object = "react"),
 		  function(object) {
@@ -190,7 +148,6 @@ setReplaceMethod("react_id", signature(object = "react"),
 		  }
 )
 
-
 # reaction names
 setMethod("react_name", signature(object = "react"),
 		  function(object) {
@@ -204,7 +161,6 @@ setReplaceMethod("react_name", signature(object = "react"),
 			  return(object)
 		  }
 )
-
 
 # singletons
 setMethod("react_single", signature(object = "react"),
@@ -234,7 +190,6 @@ setReplaceMethod("react_de", signature(object = "react"),
 			  return(object)
 		  }
 )
-
 
 # stoichiometric matrix
 setMethod("s", signature(object = "react"),
@@ -308,7 +263,6 @@ setReplaceMethod("gprRule", signature(object = "react"),
 		  }
 )
 
-
 # genes
 setMethod("genes", signature(object = "react"),
 		  function(object) {
@@ -338,7 +292,6 @@ setReplaceMethod("gpr", signature(object = "react"),
 		  }
 )
 
-
 # reaction sub systems
 setMethod("subSys", signature(object = "react"),
 		  function(object) {
@@ -352,7 +305,6 @@ setReplaceMethod("subSys", signature(object = "react"),
 			  return(object)
 		  }
 )
-
 
 # metabolites attributes
 setMethod("met_attr", signature(object = "react"),
@@ -410,12 +362,6 @@ setReplaceMethod("mod_attr", signature(object = "react"),
           }
 )
 
-
-
-#------------------------------------------------------------------------------#
-#								other methods								   #
-#------------------------------------------------------------------------------#
-
 setMethod("show", signature(object = "react"),
 	function(object) {
 		cat("react id:              ", react_id(object), "\n")
@@ -428,10 +374,6 @@ setMethod("show", signature(object = "react"),
 	}
 )
 
-
-#------------------------------------------------------------------------------#
-
-# print reactions
 setMethod("printReaction", signature(object = "react"),
 	function(object, printOut = TRUE, ...) {
 	
@@ -469,9 +411,7 @@ setMethod("printReaction", signature(object = "react"),
 		if (isTRUE(printOut)) {
 		   cat("abbreviation\tequation", reaction, sep = "\n", ...)
 		}
-		
 		return(invisible(reaction))
-
 	}
 )
 

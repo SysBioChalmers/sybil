@@ -1,38 +1,8 @@
-#  mod2irrev.R
-#  FBA and friends with R.
-#
-#  Copyright (C) 2010-2014 Gabriel Gelius-Dietrich, Dpt. for Bioinformatics,
-#  Institute for Informatics, Heinrich-Heine-University, Duesseldorf, Germany.
-#  All right reserved.
-#  Email: geliudie@uni-duesseldorf.de
-#
-#  This file is part of sybil.
-#
-#  Sybil is free software: you can redistribute it and/or modify
-#  it under the terms of the GNU General Public License as published by
-#  the Free Software Foundation, either version 3 of the License, or
-#  (at your option) any later version.
-#
-#  Sybil is distributed in the hope that it will be useful,
-#  but WITHOUT ANY WARRANTY; without even the implied warranty of
-#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#  GNU General Public License for more details.
-#
-#  You should have received a copy of the GNU General Public License
-#  along with sybil.  If not, see <http://www.gnu.org/licenses/>.
-
-
-################################################
-# Function: mod2irrev
-#
-#
 # The function mod2irrev() is inspired by the function
 # convertToIrreversible() contained in the COBRA Toolbox.
 # The algorithm is the same.
 
-
 mod2irrev <- function(model, exex = FALSE) {
-
   if (!is(model, "modelorg")) {
       stop("needs an object of class modelorg!")
   }
@@ -47,11 +17,6 @@ mod2irrev <- function(model, exex = FALSE) {
       ex <- react_pos(exch)
       react_rev(model)[ex] <- FALSE
   }
-
-
-#------------------------------------------------------------------------------#
-#                           data structures                                    #
-#------------------------------------------------------------------------------#
 
   modelIr <- modelorg_irrev(mod_id(model), mod_name(model))
 
@@ -97,11 +62,6 @@ mod2irrev <- function(model, exex = FALSE) {
                        nrow = met_num(model),
                        ncol = irrev_react_num,
                        sparse = TRUE)
-  #print(dim(Si))
-
-#------------------------------------------------------------------------------#
-#                          build the new model                                 #
-#------------------------------------------------------------------------------#
 
   # counter for the reactions in the irrev model
 
@@ -150,8 +110,6 @@ mod2irrev <- function(model, exex = FALSE) {
 
       # Reaction is in positive direction in rev model
       else {
-
-
           # the contraints
           uppbnd(modelIr)[counti]     <- uppbnd(model)[i]
           if (lowbnd(model)[i] < 0) {
@@ -252,7 +210,6 @@ mod2irrev <- function(model, exex = FALSE) {
       #modeli@rxnGeneMat <- model@rxnGeneMat[modeli@irrev2rev,]
   }
 
-
   if (irrev_react_num > counti) {
       react_num(modelIr)    <- as.integer(counti)
       react_rev(modelIr)    <- react_rev(modelIr)[1:counti]
@@ -275,13 +232,9 @@ mod2irrev <- function(model, exex = FALSE) {
       react_rev(modelIr)[ex_new] <- TRUE
   }
 
-
   check <- validObject(modelIr, test = TRUE)
-
   if (check != TRUE) {
       warning(paste("Validity check failed:", check, sep = "\n    "), call. = FALSE)
   }
-
   return(modelIr)
-
 }

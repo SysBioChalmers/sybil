@@ -1,34 +1,3 @@
-#  reactIdClass.R
-#  FBA and friends with R.
-#
-#  Copyright (C) 2010-2014 Gabriel Gelius-Dietrich, Dpt. for Bioinformatics,
-#  Institute for Informatics, Heinrich-Heine-University, Duesseldorf, Germany.
-#  All right reserved.
-#  Email: geliudie@uni-duesseldorf.de
-#  
-#  This file is part of sybil.
-#
-#  Sybil is free software: you can redistribute it and/or modify
-#  it under the terms of the GNU General Public License as published by
-#  the Free Software Foundation, either version 3 of the License, or
-#  (at your option) any later version.
-#
-#  Sybil is distributed in the hope that it will be useful,
-#  but WITHOUT ANY WARRANTY; without even the implied warranty of
-#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#  GNU General Public License for more details.
-#
-#  You should have received a copy of the GNU General Public License
-#  along with sybil.  If not, see <http://www.gnu.org/licenses/>.
-
-
-# reactIdClass
-
-
-#------------------------------------------------------------------------------#
-#                     definition of the class reactId                          #
-#------------------------------------------------------------------------------#
-
 setClass("reactId",
          representation(
               mod_id    = "character",
@@ -40,11 +9,7 @@ setClass("reactId",
          validity = .validreactId
 )
 
-
-#------------------------------------------------------------------------------#
 #                            default constructor                               #
-#------------------------------------------------------------------------------#
-
 setMethod(f = "initialize",
           signature = "reactId",
           definition = function(.Object, mod_id, pnt, id = NULL, mod_key = "") {
@@ -66,10 +31,7 @@ setMethod(f = "initialize",
 )
 
 
-#------------------------------------------------------------------------------#
 #                            setters and getters                               #
-#------------------------------------------------------------------------------#
-
 # mod_id
 setMethod("mod_id", signature(object = "reactId"),
           function(object) {
@@ -83,7 +45,6 @@ setReplaceMethod("mod_id", signature(object = "reactId"),
                      return(object)
                  }
 )
-
 
 # mod_key
 setMethod("mod_key", signature(object = "reactId"),
@@ -99,7 +60,6 @@ setReplaceMethod("mod_key", signature(object = "reactId"),
                  }
 )
 
-
 # position
 setMethod("react_pos", signature(object = "reactId"),
           function(object) {
@@ -113,7 +73,6 @@ setReplaceMethod("react_pos", signature(object = "reactId"),
                      return(object)
                  }
 )
-
 
 # react_id
 setMethod("react_id", signature(object = "reactId"),
@@ -129,11 +88,7 @@ setReplaceMethod("react_id", signature(object = "reactId"),
                  }
 )
 
-
-#------------------------------------------------------------------------------#
 #                               other methods                                  #
-#------------------------------------------------------------------------------#
-
 setMethod("show", signature(object = "reactId"),
     function(object) {
         wcn <- trunc(log10(length(object))) + 3
@@ -154,8 +109,6 @@ setMethod("length", signature(x = "reactId"),
           }
 )
 
-
-# [
 setMethod("[", signature(x = "reactId"),
     function(x, i, j, ..., drop = FALSE) {
 
@@ -176,14 +129,12 @@ setMethod("[", signature(x = "reactId"),
         if (max(ind, na.rm = TRUE) > length(x)) {
             stop("subscript out of bounds")
         }
-
         newRI <- new("reactId",
                      mod_id = x@mod_id,
                      pnt    = x@react_pos[ind],
                      id     = x@react_id[ind])
 
         return(newRI)
-
     }
 )
 

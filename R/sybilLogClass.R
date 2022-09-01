@@ -1,33 +1,4 @@
-#  sybilLogClass.R
-#  FBA and friends with R.
-#
-#  Copyright (C) 2010-2014 Gabriel Gelius-Dietrich, Dpt. for Bioinformatics,
-#  Institute for Informatics, Heinrich-Heine-University, Duesseldorf, Germany.
-#  All right reserved.
-#  Email: geliudie@uni-duesseldorf.de
-#
-#  This file is part of sybil.
-#
-#  Sybil is free software: you can redistribute it and/or modify
-#  it under the terms of the GNU General Public License as published by
-#  the Free Software Foundation, either version 3 of the License, or
-#  (at your option) any later version.
-#
-#  Sybil is distributed in the hope that it will be useful,
-#  but WITHOUT ANY WARRANTY; without even the implied warranty of
-#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#  GNU General Public License for more details.
-#
-#  You should have received a copy of the GNU General Public License
-#  along with sybil.  If not, see <http://www.gnu.org/licenses/>.
-
-# sybilLogClass
-
-
-#------------------------------------------------------------------------------#
 #                      definition of the class sybilLog                        #
-#------------------------------------------------------------------------------#
-
 setOldClass("file")
 
 setClass(Class = "sybilLog",
@@ -47,19 +18,7 @@ setClass(Class = "sybilLog",
 # derivatives
 #setClass(Class = "sybilLog_MODEL", contains = "sybilLog")
 
-
-#------------------------------------------------------------------------------#
 #                              user constructor                                #
-#------------------------------------------------------------------------------#
-
-# sybilLog <- function(loglevel, verblevel) {
-#     if ( (missing(fluxes)) || (missing(verblevel)) ) {
-#         stop("creating instance of class sybilLog needs loglevel and verblevel!")
-#     }
-#
-#     new("sybilLog", loglevel = loglevel, verblevel = verblevel)
-# }
-
 
 sybilLog <- function(filename = NA,
                      filepath = ".",
@@ -78,11 +37,7 @@ sybilLog <- function(filename = NA,
     )
 }
 
-
-#------------------------------------------------------------------------------#
 #                            default constructor                               #
-#------------------------------------------------------------------------------#
-
 setMethod(f = "initialize",
           signature = "sybilLog",
           definition = function(.Object,
@@ -176,7 +131,6 @@ setReplaceMethod(f = "fh",
                  }
 )
 
-
 # fname
 setMethod(f = "fname",
           signature = "sybilLog",
@@ -227,7 +181,6 @@ setReplaceMethod(f = "fenc",
                  }
 )
 
-
 # loglevel
 setMethod(f = "loglevel",
                  signature = "sybilLog",
@@ -243,7 +196,6 @@ setReplaceMethod(f = "loglevel",
                      return(object)
                  }
 )
-
 
 # verblevel
 setMethod(f = "verblevel",
@@ -261,7 +213,6 @@ setReplaceMethod(f = "verblevel",
                  }
 )
 
-
 # lstname
 setMethod(f = "lstname",
           signature = "sybilLog",
@@ -269,7 +220,6 @@ setMethod(f = "lstname",
               return(object@lstname)
           }
 )
-
 
 # didFoot
 setMethod(f = "didFoot",
@@ -287,38 +237,28 @@ setReplaceMethod(f = "didFoot",
                  }
 )
 
-
-# ---------------------------------------------------------------------------- #
 # start/stop logging methods
-# ---------------------------------------------------------------------------- #
-
 # close log file
 setReplaceMethod(f = "logClose",
                  signature = "sybilLog",
                  definition = function(object, value) {
-
     if (is(object@fh, "file")) {
 
         if (!isTRUE(didFoot(object))) {
             lc <- .printLogComment("end unexpected:")
             cat("\n", lc, sep = "", file = object@fh, append = TRUE)
         }
-
         check <- try(isOpen(object@fh), silent = TRUE)
         if ( ! is(check, "try-error")) {
             close(object@fh)
         }
     }
-
     if (stexists(object@lstname)) {
         stclear(object@lstname)
     }
-
     return(object)
-
 }
 )
-
 
 # log file header
 setMethod(f = "logHead",
@@ -335,7 +275,6 @@ setMethod(f = "logHead",
     return(TRUE)
 }
 )
-
 
 # log file footer
 setReplaceMethod(f = "logFoot",
@@ -359,11 +298,7 @@ setReplaceMethod(f = "logFoot",
 }
 )
 
-
-# ---------------------------------------------------------------------------- #
 # errors, warnings and messages
-# ---------------------------------------------------------------------------- #
-
 # error message
 setMethod(f = "logError",
           signature = "sybilLog",
@@ -400,7 +335,6 @@ setMethod(f = "logError",
 }
 )
 
-
 # warning
 setMethod(f = "logWarning",
           signature = "sybilLog",
@@ -424,7 +358,6 @@ setMethod(f = "logWarning",
     return(TRUE)
 }
 )
-
 
 # message
 setMethod(f = "logMessage",
@@ -452,11 +385,7 @@ setMethod(f = "logMessage",
 }
 )
 
-
-# ---------------------------------------------------------------------------- #
 # other logging methods
-# ---------------------------------------------------------------------------- #
-
 # return TRUE if object@fh is a connection (file)
 setMethod(f = "logFH",
           signature = "sybilLog",
@@ -467,7 +396,6 @@ setMethod(f = "logFH",
     return(out)
 }
 )
-
 
 # comments to the logfile
 setMethod(f = "logComment",
@@ -495,7 +423,6 @@ setMethod(f = "logComment",
 }
 )
 
-
 # results of optimization
 setMethod(f = "logOptimizationTH",
           signature = "sybilLog",
@@ -516,7 +443,6 @@ setMethod(f = "logOptimizationTH",
     return(TRUE)
 }
 )
-
 
 # results of optimization
 setMethod(f = "logOptimization",
@@ -558,7 +484,6 @@ setMethod(f = "logOptimization",
     return(invisible(TRUE))
 }
 )
-
 
 # performing step foo
 setReplaceMethod(f = "logStep",
@@ -606,7 +531,6 @@ setReplaceMethod(f = "logStep",
 }
 )
 
-
 # log function call
 setMethod(f = "logCall",
           signature = "sybilLog",
@@ -632,45 +556,3 @@ setMethod(f = "logCall",
       return(TRUE)
 }
 )
-
-
-# setMethod("logCall", signature(object = "sybilLog"),
-#           function(object, func, fargl, thdargs) {
-#               if (object@loglevel > 2) {
-#                   if (is(object@fh, "file")) {
-#                       fc <- as.character(func)
-#                       cat("# formal arguments to ", fc, "()\n",
-#                           sep = "", file = object@fh, append = TRUE)
-#                       .printNamedList(fargl, file = object@fh, append = TRUE)
-#
-#                       if ( (length(thdargs) > 0) && (!is.na(thdargs)) ) {
-#                           cat("# further arguments to", fc, "(...)\n",
-#                               file = object@fh, append = TRUE)
-#                           if (length(thdargs) > 0) {
-#                               .printNamedList(thdargs,
-#                                                       file = object@fh, append = TRUE)
-#                           }
-#                           else {
-#                               cat("none\n", file = object@fh, append = TRUE)
-#                           }
-#                       }
-#                   }
-#               }
-#
-#               return(TRUE)
-#           }
-# )
-
-## !! required for the above method !! ##
-#     # log function call
-#     if (loglevel > 2) {
-#         fargs <- formals()
-#         for (na in names(fargs)) {
-#             val <- try(eval(parse(text=na)), silent = TRUE)
-#             if (!is(val, "try-error")) {
-#                 fargs[na] <- val
-#             }
-#         }
-#         print(match.call())
-#         logCall(logObj, sys.call(), fargs, list(...))
-#     }

@@ -1,37 +1,8 @@
-#  optObj_glpkAPIClass.R
-#  FBA and friends with R.
-#
-#  Copyright (C) 2010-2014 Gabriel Gelius-Dietrich, Dpt. for Bioinformatics,
-#  Institute for Informatics, Heinrich-Heine-University, Duesseldorf, Germany.
-#  All right reserved.
-#  Email: geliudie@uni-duesseldorf.de
-#  
-#  This file is part of sybil.
-#
-#  Sybil is free software: you can redistribute it and/or modify
-#  it under the terms of the GNU General Public License as published by
-#  the Free Software Foundation, either version 3 of the License, or
-#  (at your option) any later version.
-#
-#  Sybil is distributed in the hope that it will be useful,
-#  but WITHOUT ANY WARRANTY; without even the implied warranty of
-#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#  GNU General Public License for more details.
-#
-#  You should have received a copy of the GNU General Public License
-#  along with sybil.  If not, see <http://www.gnu.org/licenses/>.
 
-
-#------------------------------------------------------------------------------#
-#                  definition of the class optObj_glpkAPI                      #
-#------------------------------------------------------------------------------#
+#                  definition of the class optObj_glpkAPI                     
 
 setClass(Class = "optObj_glpkAPI", contains = "optObj")
-
-
-#------------------------------------------------------------------------------#
-#                                  methods                                     #
-#------------------------------------------------------------------------------#
+#                                  methods                                    
 
 setMethod("delProb", signature(lp = "optObj_glpkAPI"),
 
@@ -41,9 +12,6 @@ setMethod("delProb", signature(lp = "optObj_glpkAPI"),
 
     }
 )
-
-
-#------------------------------------------------------------------------------#
 
 setMethod("initProb", signature(lp = "optObj_glpkAPI"),
 
@@ -69,9 +37,6 @@ setMethod("initProb", signature(lp = "optObj_glpkAPI"),
     }
 )
 
-
-#------------------------------------------------------------------------------#
-
 setMethod("backupProb", signature(lp = "optObj_glpkAPI"),
 
     function(lp) {
@@ -93,9 +58,6 @@ setMethod("backupProb", signature(lp = "optObj_glpkAPI"),
         return(out)
     }
 )
-
-
-#------------------------------------------------------------------------------#
 
 setMethod("setSolverParm", signature(lp = "optObj_glpkAPI"),
 
@@ -126,9 +88,6 @@ setMethod("setSolverParm", signature(lp = "optObj_glpkAPI"),
     }
 )
 
-
-#------------------------------------------------------------------------------#
-
 setMethod("getSolverParm", signature(lp = "optObj_glpkAPI"),
 
     function(lp) {
@@ -151,9 +110,6 @@ setMethod("getSolverParm", signature(lp = "optObj_glpkAPI"),
     }
 )
 
-
-#------------------------------------------------------------------------------#
-
 setMethod("setObjDir", signature(lp = "optObj_glpkAPI", lpdir = "character"),
 
     function(lp, lpdir) {
@@ -162,9 +118,6 @@ setMethod("setObjDir", signature(lp = "optObj_glpkAPI", lpdir = "character"),
         glpkAPI::setObjDirGLPK(lp@oobj, dr)
     }
 )
-
-
-#------------------------------------------------------------------------------#
 
 setMethod("setObjDir", signature(lp = "optObj_glpkAPI", lpdir = "integer"),
 
@@ -177,9 +130,6 @@ setMethod("setObjDir", signature(lp = "optObj_glpkAPI", lpdir = "integer"),
     }
 )
 
-
-#------------------------------------------------------------------------------#
-
 setMethod("setObjDir", signature(lp = "optObj_glpkAPI", lpdir = "numeric"),
 
     function(lp, lpdir) {
@@ -189,9 +139,7 @@ setMethod("setObjDir", signature(lp = "optObj_glpkAPI", lpdir = "numeric"),
                      glpkAPI::GLP_MIN)
         glpkAPI::setObjDirGLPK(lp@oobj, dr)
     }
-)
 
-#------------------------------------------------------------------------------#
 
 setMethod("getObjDir", signature(lp = "optObj_glpkAPI"),
 
@@ -212,9 +160,6 @@ setMethod("getObjDir", signature(lp = "optObj_glpkAPI"),
     }
 )
 
-
-#------------------------------------------------------------------------------#
-
 setMethod("addRows", signature(lp = "optObj_glpkAPI", nrows = "numeric"),
 
     function(lp, nrows) {
@@ -225,9 +170,6 @@ setMethod("addRows", signature(lp = "optObj_glpkAPI", nrows = "numeric"),
     }
 )
 
-
-#------------------------------------------------------------------------------#
-
 setMethod("addCols", signature(lp = "optObj_glpkAPI", ncols = "numeric"),
 
     function(lp, ncols) {
@@ -237,9 +179,6 @@ setMethod("addCols", signature(lp = "optObj_glpkAPI", ncols = "numeric"),
         return(out)
     }
 )
-
-
-#------------------------------------------------------------------------------#
 
 setMethod("addRowsCols", signature(lp = "optObj_glpkAPI",
                                    nrows = "numeric", ncols = "numeric"),
@@ -254,9 +193,6 @@ setMethod("addRowsCols", signature(lp = "optObj_glpkAPI",
     }
 )
 
-
-#------------------------------------------------------------------------------#
-
 setMethod("getNumRows", signature(lp = "optObj_glpkAPI"),
 
     function(lp) {
@@ -267,9 +203,6 @@ setMethod("getNumRows", signature(lp = "optObj_glpkAPI"),
     }
 )
 
-
-#------------------------------------------------------------------------------#
-
 setMethod("getNumCols", signature(lp = "optObj_glpkAPI"),
 
     function(lp) {
@@ -279,9 +212,6 @@ setMethod("getNumCols", signature(lp = "optObj_glpkAPI"),
         return(out)
     }
 )
-
-
-#------------------------------------------------------------------------------#
 
 setMethod("addColsToProb", signature(lp = "optObj_glpkAPI"),
 
@@ -305,9 +235,6 @@ setMethod("addColsToProb", signature(lp = "optObj_glpkAPI"),
         return(out)
     }
 )
-
-
-#------------------------------------------------------------------------------#
 
 setMethod("addRowsToProb", signature(lp = "optObj_glpkAPI"),
 
@@ -353,9 +280,6 @@ setMethod("addRowsToProb", signature(lp = "optObj_glpkAPI"),
     }
 )
 
-
-#------------------------------------------------------------------------------#
-
 setMethod("changeColsBnds", signature(lp = "optObj_glpkAPI"),
 
     function(lp, j, lb, ub) {
@@ -365,9 +289,6 @@ setMethod("changeColsBnds", signature(lp = "optObj_glpkAPI"),
     }
 )
 
-
-#------------------------------------------------------------------------------#
-
 setMethod("changeColsBndsObjCoefs", signature(lp = "optObj_glpkAPI"),
 
     function(lp, j, lb, ub, obj_coef) {
@@ -375,9 +296,6 @@ setMethod("changeColsBndsObjCoefs", signature(lp = "optObj_glpkAPI"),
         glpkAPI::setColsBndsObjCoefsGLPK(lp@oobj, j, lb, ub, obj_coef)
     }
 )
-
-
-#------------------------------------------------------------------------------#
 
 setMethod("getColsLowBnds", signature(lp = "optObj_glpkAPI", j = "numeric"),
 
@@ -387,9 +305,6 @@ setMethod("getColsLowBnds", signature(lp = "optObj_glpkAPI", j = "numeric"),
         return(out)
     }
 )
-
-
-#------------------------------------------------------------------------------#
 
 setMethod("getColsUppBnds", signature(lp = "optObj_glpkAPI", j = "numeric"),
 
@@ -401,9 +316,6 @@ setMethod("getColsUppBnds", signature(lp = "optObj_glpkAPI", j = "numeric"),
     }
 )
 
-
-#------------------------------------------------------------------------------#
-
 setMethod("changeRowsBnds", signature(lp = "optObj_glpkAPI"),
 
     function(lp, i, lb, ub) {
@@ -414,9 +326,6 @@ setMethod("changeRowsBnds", signature(lp = "optObj_glpkAPI"),
     }
 )
 
-
-#------------------------------------------------------------------------------#
-
 setMethod("setRhsZero", signature(lp = "optObj_glpkAPI"),
 
     function(lp) {
@@ -424,9 +333,6 @@ setMethod("setRhsZero", signature(lp = "optObj_glpkAPI"),
         glpkAPI::setRhsZeroGLPK(lp@oobj)
     }
 )
-
-
-#------------------------------------------------------------------------------#
 
 setMethod("getRowsLowBnds", signature(lp = "optObj_glpkAPI", i = "numeric"),
 
@@ -438,9 +344,6 @@ setMethod("getRowsLowBnds", signature(lp = "optObj_glpkAPI", i = "numeric"),
     }
 )
 
-
-#------------------------------------------------------------------------------#
-
 setMethod("getRowsUppBnds", signature(lp = "optObj_glpkAPI", i = "numeric"),
 
     function(lp, i) {
@@ -451,9 +354,6 @@ setMethod("getRowsUppBnds", signature(lp = "optObj_glpkAPI", i = "numeric"),
     }
 )
 
-
-#------------------------------------------------------------------------------#
-
 setMethod("changeObjCoefs", signature(lp = "optObj_glpkAPI"),
 
     function(lp, j, obj_coef) {
@@ -461,9 +361,6 @@ setMethod("changeObjCoefs", signature(lp = "optObj_glpkAPI"),
         glpkAPI::setObjCoefsGLPK(lp@oobj, j, obj_coef)
     }
 )
-
-
-#------------------------------------------------------------------------------#
 
 setMethod("getObjCoefs", signature(lp = "optObj_glpkAPI", j = "numeric"),
 
@@ -475,9 +372,6 @@ setMethod("getObjCoefs", signature(lp = "optObj_glpkAPI", j = "numeric"),
     }
 )
 
-
-#------------------------------------------------------------------------------#
-
 setMethod("changeMatrixRow", signature(lp = "optObj_glpkAPI"),
 
     function(lp, i, j, val) {
@@ -486,9 +380,6 @@ setMethod("changeMatrixRow", signature(lp = "optObj_glpkAPI"),
 
     }
 )
-
-
-#------------------------------------------------------------------------------#
 
 #setMethod("loadLPprob", signature(lp = "optObj_glpkAPI"),
 #
@@ -563,9 +454,6 @@ setMethod("changeMatrixRow", signature(lp = "optObj_glpkAPI"),
 #        }
 #    }
 #)
-
-
-#------------------------------------------------------------------------------#
 
 setMethod("loadLPprob", signature(lp = "optObj_glpkAPI"),
 
@@ -662,9 +550,6 @@ setMethod("loadLPprob", signature(lp = "optObj_glpkAPI"),
     }
 )
 
-
-#------------------------------------------------------------------------------#
-
 setMethod("scaleProb", signature(lp = "optObj_glpkAPI"),
 
     function(lp, opt) {
@@ -674,9 +559,6 @@ setMethod("scaleProb", signature(lp = "optObj_glpkAPI"),
 
     }
 )
-
-
-#------------------------------------------------------------------------------#
 
 setMethod("solveLp", signature(lp = "optObj_glpkAPI"),
 
@@ -708,9 +590,6 @@ setMethod("solveLp", signature(lp = "optObj_glpkAPI"),
     }
 )
 
-
-#------------------------------------------------------------------------------#
-
 setMethod("getObjVal", signature(lp = "optObj_glpkAPI"),
 
     function(lp) {
@@ -731,9 +610,6 @@ setMethod("getObjVal", signature(lp = "optObj_glpkAPI"),
     }
 )
 
-
-#------------------------------------------------------------------------------#
-
 setMethod("getRedCosts", signature(lp = "optObj_glpkAPI"),
 
     function(lp) {
@@ -748,9 +624,6 @@ setMethod("getRedCosts", signature(lp = "optObj_glpkAPI"),
         return(out)
     }
 )
-
-
-#------------------------------------------------------------------------------#
 
 setMethod("getSolStat", signature(lp = "optObj_glpkAPI"),
 
@@ -772,9 +645,6 @@ setMethod("getSolStat", signature(lp = "optObj_glpkAPI"),
     }
 )
 
-
-#------------------------------------------------------------------------------#
-
 setMethod("getFluxDist", signature(lp = "optObj_glpkAPI"),
 
     function(lp) {
@@ -794,9 +664,6 @@ setMethod("getFluxDist", signature(lp = "optObj_glpkAPI"),
         return(out)
     }
 )
-
-
-#------------------------------------------------------------------------------#
 
 setMethod("getColPrim", signature(lp = "optObj_glpkAPI", j = "numeric"),
 
@@ -818,9 +685,6 @@ setMethod("getColPrim", signature(lp = "optObj_glpkAPI", j = "numeric"),
     }
 )
 
-
-#------------------------------------------------------------------------------#
-
 setMethod("getNumNnz", signature(lp = "optObj_glpkAPI"),
 
     function(lp) {
@@ -830,9 +694,6 @@ setMethod("getNumNnz", signature(lp = "optObj_glpkAPI"),
         return(out)
     }
 )
-
-
-#------------------------------------------------------------------------------#
 
 setMethod("writeProb", signature(lp = "optObj_glpkAPI", fname = "character"),
 
@@ -859,9 +720,6 @@ setMethod("writeProb", signature(lp = "optObj_glpkAPI", fname = "character"),
     }
 )
 
-
-#------------------------------------------------------------------------------#
-
 setMethod("readProb", signature(lp = "optObj_glpkAPI", fname = "character"),
 
     function(lp, fname, ff = "lp", ...) {
@@ -887,9 +745,6 @@ setMethod("readProb", signature(lp = "optObj_glpkAPI", fname = "character"),
     }
 )
 
-
-#------------------------------------------------------------------------------#
-
 setMethod("sensitivityAnalysis", signature(lp = "optObj_glpkAPI"),
 
     function(lp, ...) {
@@ -904,9 +759,7 @@ setMethod("sensitivityAnalysis", signature(lp = "optObj_glpkAPI"),
 
         return(out)
     }
-)
 
-#------------------------------------------------------------------------------#
 
 
 setMethod("setRowsNames", signature(lp = "optObj_glpkAPI",
@@ -919,9 +772,6 @@ setMethod("setRowsNames", signature(lp = "optObj_glpkAPI",
     }
 )
 
-
-#------------------------------------------------------------------------------#
-
 setMethod("setColsNames", signature(lp = "optObj_glpkAPI",
                                     j = "numeric", names = "character"),
 
@@ -931,9 +781,6 @@ setMethod("setColsNames", signature(lp = "optObj_glpkAPI",
 
     }
 )
-
-
-#------------------------------------------------------------------------------#
 
 setMethod("getRowsNames", signature(lp = "optObj_glpkAPI", i = "numeric"),
 
@@ -946,9 +793,6 @@ setMethod("getRowsNames", signature(lp = "optObj_glpkAPI", i = "numeric"),
     }
 )
 
-
-#------------------------------------------------------------------------------#
-
 setMethod("getColsNames", signature(lp = "optObj_glpkAPI", j = "numeric"),
 
     function(lp, j) {
@@ -959,7 +803,3 @@ setMethod("getColsNames", signature(lp = "optObj_glpkAPI", j = "numeric"),
 
     }
 )
-
-
-#------------------------------------------------------------------------------#
-
