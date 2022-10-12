@@ -3,4 +3,4 @@
 checking package dependencies ... NOTE
 Packages suggested but not available for checking: 'cplexAPI', 'clpAPI'
 
-Action: remove the suggested packages until the new versions of these packages are available on CRAN.
+Action: see https://github.com/SysBioChalmers/sybil/pull/5
