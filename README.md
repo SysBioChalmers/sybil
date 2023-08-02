@@ -7,7 +7,8 @@ The package `sybil` is a Systems Biology Library for R, implementing algorithms 
 For various reasons, `sybil` is temporarily not available on CRAN anymore. Until then, use the following commands in the R console to install this package:
 
 ```R
- remotes::install_github("SysBioChalmers/sybil")
+install.packages("remotes")
+remotes::install_github("SysBioChalmers/sybil")
 ```
 
 ### Cite us
